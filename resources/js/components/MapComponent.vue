@@ -16,11 +16,10 @@
 </template>
 
 <script>
-    import { gmapApi } from 'vue2-google-maps'
+    import { gmapApi } from 'vue2-google-maps';
 
     export default {
         mounted() {
-            console.log('Component mounted.')
         },
         computed: {
             google: gmapApi,
