@@ -4,22 +4,19 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Vue from 'vue';
+import * as VueGoogleMaps from 'vue2-google-maps';
+
 require('./bootstrap');
 
-window.Vue = require('vue').default;
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: process.env.MIX_GOOGLE_MAPS_API_KEY,
+    },
+    installComponents: true,
+});
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('map-component', require('./components/MapComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
