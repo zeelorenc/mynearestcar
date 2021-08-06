@@ -1,0 +1,5 @@
+.col-form-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    @extend .text-muted;
+}
