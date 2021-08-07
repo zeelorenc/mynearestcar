@@ -2,14 +2,17 @@
 
 namespace Tests\Feature;
 
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 use App\Models\User;
 
 class AdminControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -21,16 +24,9 @@ class AdminControllerTest extends TestCase
      *
      * @return void
      */
-    public function it_can_redirect_to_admin_when_logging_in_as_admin()
+    public function it_can_redirect_to_admin_when_logging_in_as_admin(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-            'admin_redirect' => 'yes',
-            '_token' => csrf_token(),
-        ]);
-
+        $response = $this->postUserLogin(['role' => 'admin']);
         $response->assertRedirect(route('admin.index'));
     }
 
@@ -39,16 +35,26 @@ class AdminControllerTest extends TestCase
      *
      * @return void
      */
-    public function it_can_redirect_to_back_when_logging_into_admin_as_guest()
+    public function it_can_redirect_to_home_when_logging_into_admin_as_guest(): void
     {
-        $user = User::factory()->create(['role' => 'client']);
-        $response = $this->post('/login', [
+        $response = $this->postUserLogin(['role' => 'client']);
+        $response->assertRedirect(route('home'));
+    }
+
+    /**
+     * Perform a post to login using a particular user
+     *
+     * @param array $userAttributes
+     * @return TestResponse
+     */
+    private function postUserLogin(array $userAttributes = []): TestResponse
+    {
+        $user = User::factory()->create($userAttributes);
+        return $this->post('/login', [
             'email' => $user->email,
-            'password' => 'password',
+            'password' => UserFactory::DEFAULT_PASSWORD,
             'admin_redirect' => 'yes',
             '_token' => csrf_token(),
         ]);
-
-        $response->assertRedirect(route('home'));
     }
 }

@@ -17,6 +17,13 @@ class UserFactory extends Factory
     protected $model = User::class;
 
     /**
+     * Default password of a factory user
+     *
+     * @var string
+     */
+    public const DEFAULT_PASSWORD = 'test';
+
+    /**
      * Define the model's default state.
      *
      * @return array
@@ -28,7 +35,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'role' => collect(['client','admin'])->random(),
             'email_verified_at' => now(),
-            'password' => Hash::make('test'),
+            'password' => Hash::make(self::DEFAULT_PASSWORD),
             'remember_token' => Str::random(10),
         ];
     }
