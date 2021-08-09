@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\AdminController;
+use \App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,14 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
+    Route::put('/', [UserController::class, 'update'])
+        ->name('profile.update');
+    Route::get('edit', [UserController::class, 'edit'])
+        ->name('profile.edit');
+});
+
+
 Route::group(['prefix' => 'admin'], function()
 {
     Route::get('/', [AdminController::class, 'index'])
@@ -27,8 +36,4 @@ Route::group(['prefix' => 'admin'], function()
         ->name('admin.index');
     Route::get('login', [AdminController::class, 'login'])
         ->name('admin.login');
-    Route::get('profile', function () {})
-        ->middleware('auth.admin');
 });
-
-
