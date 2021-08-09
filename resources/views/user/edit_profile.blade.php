@@ -12,7 +12,7 @@
                 <div class="card-header text-white text-center bg-primary">{{ __('Edit My Profile') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('update.profile') }}">
+                    <form method="POST" action="{{ route('profile.update') }}">
                         @csrf
                         {{ method_field('put') }}
 

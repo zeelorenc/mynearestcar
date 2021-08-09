@@ -21,12 +21,12 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('profile/edit', [UserController::class, 'editProfile'])
-    ->middleware('auth')
-    ->name('edit.profile');
-Route::put('profile/update', [UserController::class, 'updateProfile'])
-    ->middleware('auth')
-    ->name('update.profile');
+Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
+    Route::put('/', [UserController::class, 'update'])
+        ->name('profile.update');
+    Route::get('edit', [UserController::class, 'edit'])
+        ->name('profile.edit');
+});
 
 
 Route::group(['prefix' => 'admin'], function()
@@ -37,5 +37,3 @@ Route::group(['prefix' => 'admin'], function()
     Route::get('login', [AdminController::class, 'login'])
         ->name('admin.login');
 });
-
-
