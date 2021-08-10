@@ -63,6 +63,9 @@
                                         {{ __('Edit Profile') }}
                                     </a>
                                     @else
+                                    <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                                        {{ __('View Profile') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
                                         {{ __('Edit Profile') }}
                                     </a>
