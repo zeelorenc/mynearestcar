@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminProfileController extends Controller
 {
-    public function index()
+    public function index(User $user)
     {
-        return view('admin.profile.index');
+        return view('admin.profile.index')
+            ->with('user', $user);
     }
 
-    public function edit()
+    public function edit(User $user)
     {
         return view('admin.profile.edit')
-            ->with('user', auth()->user());
+            ->with('user', $user);
     }
 
-    public function update(Request $request)
+    public function update(User $user, Request $request)
     {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
         ]);
 
-        $user = auth()->user();
         $user->name = $request->get('name');
         $user->email = $request->get('email') ?: $user->email;
         $user->save();

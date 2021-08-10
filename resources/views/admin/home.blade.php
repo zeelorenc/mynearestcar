@@ -4,7 +4,11 @@
 
     <div class="container">
         <h1>Admin Dashboard</h1>
-    </div>
 
+        <!-- edit my profile link -->
+        <a href="{{ route('admin.profile.edit', $currentUser->id) }}" class="btn btn-primary">
+            Update My Profile
+        </a>
+    </div>
 
 @endsection
