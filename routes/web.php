@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\AdminController;
+use \App\Http\Controllers\AdminProfileController;
 use \App\Http\Controllers\UserController;
 
 /*
@@ -28,12 +29,20 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
         ->name('profile.edit');
 });
 
+Route::get('admin/login', [AdminController::class, 'login'])
+    ->name('admin.login');
 
-Route::group(['prefix' => 'admin'], function()
-{
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
     Route::get('/', [AdminController::class, 'index'])
-        ->middleware('auth.admin')
         ->name('admin.index');
-    Route::get('login', [AdminController::class, 'login'])
-        ->name('admin.login');
+
+    // admin user profile editing
+    Route::group(['prefix' => 'profile/{user}'], function() {
+        Route::get('/', [AdminProfileController::class, 'index'])
+            ->name('admin.profile');
+        Route::get('edit', [AdminProfileController::class, 'edit'])
+            ->name('admin.profile.edit');
+        Route::put('update', [AdminProfileController::class, 'update'])
+            ->name('admin.profile.update');
+    });
 });
