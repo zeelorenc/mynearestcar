@@ -2,21 +2,17 @@
 
 @section('content')
 
-    <div class="container py-3">
-        <br>
-        <h1 class="display4">Profile Page</h1>
-        
-        <ul class="list-group">
-            <li class="list-group-item">{{ __('Name') }}: {{ $user->name }}</li>
-            <li class="list-group-item">{{ __('E-Mail Address') }}: {{ $user->email }}</li>
-        </ul>
+    <div class="container">
+        <h1>Profile of "{{ $user->name }}"</h1>
+        <a href="{{ route('admin.profile.edit', $user->id) }}" class="btn btn-primary">
+            Update Profile
+        </a>
     </div>
 
-    <!--
-        TODO:
-
-        show all admin profile details here
-    -->
+    <ul class="list-group">
+        <li class="list-group-item">{{ __('Name') }}: {{ $user->name }}</li>
+        <li class="list-group-item">{{ __('E-Mail Address') }}: {{ $user->email }}</li>
+    </ul>
 
 
 @endsection

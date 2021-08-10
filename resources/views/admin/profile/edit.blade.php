@@ -9,10 +9,12 @@
                 @endif
 
                 <div class="card border-dark">
-                    <div class="card-header text-white text-center bg-dark">{{ __('Edit My Profile') }}</div>
+                    <div class="card-header text-white text-center bg-dark">
+                        Edit Profile of {{ $user->name }} (ID: {{ $user->id }})
+                    </div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.profile.update') }}">
+                        <form method="POST" action="{{ route('admin.profile.update', $user->id) }}">
                             @csrf
                             {{ method_field('put') }}
 
