@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -62,11 +63,31 @@ class AdminProfileControllerTest extends TestCase
         $this->actingAsAdmin();
         $user = User::factory()->create();
 
-        $response = $this->put(route('profile.update', $user->id), $userProfileData);
+        $response = $this->put(route('admin.profile.update', $user->id), $userProfileData);
 
         $response->assertSessionHasErrors($expectedSessionErrors);
     }
 
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_show_email_and_name_on_the_profile_page_for_an_admin(): void
+    {
+        $admin = $this->actingAsAdmin();
+
+        $response = $this->get(route('admin.profile', $admin->id));
+
+        $response->assertSeeText($admin->email);
+        $response->assertSeeText($admin->name);
+    }
+
+    /**
+     * Provides invalid user profile input data
+     *
+     * @return array[]
+     */
     public function provideInvalidUserProfileData(): array
     {
         return [
@@ -97,11 +118,12 @@ class AdminProfileControllerTest extends TestCase
     /**
      * Act as an admin in the request
      *
-     * @return void
+     * @return Model
      */
-    private function actingAsAdmin(): void
+    private function actingAsAdmin(): Model
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin);
+        return $admin;
     }
 }
