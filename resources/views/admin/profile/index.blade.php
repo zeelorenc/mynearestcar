@@ -9,9 +9,10 @@
         </a>
     </div>
 
-    <!--
-        show all the profile details here
-    -->
+    <ul class="list-group">
+        <li class="list-group-item">{{ __('Name') }}: {{ $user->name }}</li>
+        <li class="list-group-item">{{ __('E-Mail Address') }}: {{ $user->email }}</li>
+    </ul>
 
 
 @endsection
