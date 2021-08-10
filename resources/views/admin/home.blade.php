@@ -3,9 +3,7 @@
 @section('content')
 
     <div class="container">
-        <ul>
-            <li><a href="{{ route('admin.profile') }}">Update my profile</a></li>
-        </ul>
+        <h1>Admin Dashborad</h1>
     </div>
 
 
