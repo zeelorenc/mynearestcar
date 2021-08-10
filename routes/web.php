@@ -30,13 +30,14 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
 });
 
 Route::get('admin/login', [AdminController::class, 'login'])
-    ->name('admin.login');  
+    ->name('admin.login');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
     Route::get('/', [AdminController::class, 'index'])
         ->name('admin.index');
 
-    Route::group(['prefix' => 'profile'], function() {
+    // admin user profile editing
+    Route::group(['prefix' => 'profile/{user}'], function() {
         Route::get('/', [AdminProfileController::class, 'index'])
             ->name('admin.profile');
         Route::get('edit', [AdminProfileController::class, 'edit'])
