@@ -8,7 +8,8 @@ class AdminProfileController extends Controller
 {
     public function index()
     {
-        return view('admin.profile.index');
+        return view('admin.profile.index')
+            ->with('user', auth()->user());
     }
 
     public function edit()
