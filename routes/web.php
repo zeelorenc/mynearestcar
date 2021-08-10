@@ -29,13 +29,12 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
         ->name('profile.edit');
 });
 
+Route::get('admin/login', [AdminController::class, 'login'])
+    ->name('admin.login');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
     Route::get('/', [AdminController::class, 'index'])
         ->name('admin.index');
-    Route::get('login', [AdminController::class, 'login'])
-        ->name('admin.login');
-
     Route::group(['prefix' => 'profile'], function() {
         Route::get('/', [AdminProfileController::class, 'index'])
             ->name('admin.profile');

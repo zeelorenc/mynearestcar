@@ -8,8 +8,8 @@
                     <div class="alert alert-success">{{ session()->get('message') }}</div>
                 @endif
 
-                <div class="card border-danger">
-                    <div class="card-header text-white text-center bg-danger">{{ __('Edit My Profile') }}</div>
+                <div class="card border-dark">
+                    <div class="card-header text-white text-center bg-dark">{{ __('Edit My Profile') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('admin.profile.update') }}">
@@ -46,7 +46,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-block btn-primary">
+                                    <button type="submit" class="btn btn-block btn-dark">
                                         {{ __('Save Changes') }}
                                     </button>
                                 </div>
