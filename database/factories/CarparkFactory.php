@@ -25,20 +25,8 @@ class CarparkFactory extends Factory
         $this->faker->addProvider(new Address($this->faker));
         return [
             'name' => "{$this->faker->streetName} Carpark",
-            'lat' => $this->randomBetween(-37.7, -37.8),
-            'lng' => $this->randomBetween(144.7, 145.1),
+            'lat' => $this->faker->longitude(-37.73, -37.84),
+            'lng' => $this->faker->latitude(144.70, 145.14),
         ];
-    }
-
-    /**
-     * Random between two numbers
-     *
-     * @param float $min
-     * @param float $max
-     * @return float
-     */
-    private function randomBetween(float $min, float $max): float
-    {
-        return ($min + ($max - $min) * (mt_rand() / mt_getrandmax()));
     }
 }
