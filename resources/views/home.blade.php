@@ -4,9 +4,15 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Dashboard</h1>
+            <h1>Rent a car</h1>
         </div>
-        <map-component></map-component>
+        <div class="section-body">
+            <div class="card">
+                <div class="card-body p-0 overflow-hidden rounded">
+                    <map-component></map-component>
+                </div>
+            </div>
+        </div>
     </section>
 
 @endsection
