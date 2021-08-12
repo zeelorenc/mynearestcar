@@ -11,18 +11,36 @@
                 fullscreenControl: false,
             }'
         >
+            <!-- user location -->
+            <UserMarker/>
+
+            <!-- all carpark locations -->
+            <CarparkMarker
+                :key="index"
+                v-for="(carpark, index) in this.carparks"
+                :carpark="carpark"
+            />
         </GmapMap>
     </div>
 </template>
 
 <script>
-    import { gmapApi } from 'vue2-google-maps';
+export default {
+    data() {
+        return {
+            carparks: [],
+        };
+    },
 
-    export default {
-        mounted() {
+    mounted() {
+        this.loadCarparks();
+    },
+
+    methods: {
+        loadCarparks: async function () {
+            const { data } = await axios.get('api/carparks');
+            this.carparks = data;
         },
-        computed: {
-            google: gmapApi,
-        }
-    }
+    },
+}
 </script>
