@@ -40,42 +40,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
     Route::group(['prefix' => 'profile/{user}'], function() {
         Route::get('/', [AdminProfileController::class, 'index'])
             ->name('admin.profile');
-        /*Route::get('edit', [AdminProfileController::class, 'edit'])
-            ->name('admin.profile.edit');*/
+        Route::get('edit', [AdminProfileController::class, 'edit'])
+            ->name('admin.profile.edit');
         Route::put('update', [AdminProfileController::class, 'update'])
             ->name('admin.profile.update');
     });
-});
-
-
-/* Those are just template links. They can be changed if you are develop those feature. */
-Route::get('admin/register', function () {
-    return view('admin.auth.register');
-})->name('admin.register');
-
-
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-    Route::get('/vehicle/list', function () {
-        return view('admin.vehicle.list');
-    })->name('admin.vehicle.list');
-
-    Route::get('/vehicle/add', function () {
-        return view('admin.vehicle.add');
-    })->name('admin.vehicle.add');
-
-    Route::get('/parking/list', function () {
-        return view('admin.parking.list');
-    })->name('admin.parking.list');
-
-    Route::get('/parking/add', function () {
-        return view('admin.parking.add');
-    })->name('admin.parking.add');
-
-    Route::get('/order/search', function () {
-        return view('admin.order.search');
-    })->name('admin.order.search');
-
-    Route::get('/user/search', function () {
-        return view('admin.user.search');
-    })->name('admin.user.search');
 });
