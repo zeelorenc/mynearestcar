@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <map-component></map-component>
 
-{{--    <map-sidebar-component></map-sidebar-component>--}}
+    <section class="section">
+        <div class="section-header">
+            <h1>Dashboard</h1>
+        </div>
+        <map-component></map-component>
+    </section>
+
 @endsection
