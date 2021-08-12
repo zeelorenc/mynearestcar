@@ -1,5 +1,8 @@
-.vue-map-container {
-    position: absolute !important;
-    width: 100%;
-    height: calc(100vh - 55px);
+.google-map-container {
+    height: 500px;
+
+    .vue-map-container {
+        width: 100%;
+        height: inherit;
+    }
 }

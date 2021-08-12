@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="google-map-container">
         <GmapMap
             ref='mapRef'
             :zoom='12'
