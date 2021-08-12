@@ -34,6 +34,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "jest": "^27.0.6",
         "stisla-theme": "^1.0.6",
         "vue2-google-maps": "^0.10.7"
