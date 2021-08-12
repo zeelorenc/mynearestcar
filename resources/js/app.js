@@ -9,6 +9,9 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 
 require('./bootstrap');
 
+/**
+ * Register google maps with api key coming from .env
+ */
 Vue.use(VueGoogleMaps, {
     load: {
         key: process.env.MIX_GOOGLE_MAPS_API_KEY,
@@ -16,7 +19,11 @@ Vue.use(VueGoogleMaps, {
     installComponents: true,
 });
 
-Vue.component('map-component', require('./components/MapComponent.vue').default);
+/**
+ * Registers all vue components inside of ./components
+ */
+const files = require.context('./', true, /\.vue$/i);
+files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
