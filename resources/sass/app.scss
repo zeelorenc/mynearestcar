@@ -1,13 +1,18 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// Variables
-@import 'variables';
+//// Variables
+//@import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// Design
-@import 'elements/nav';
-@import 'elements/form';
-@import 'elements/map';
+// Add stilsa theme
+@import '~stisla-theme/dist/scss/style';
+@import '~stisla-theme/dist/scss/components';
+//@import '~stisla-theme/dist/scss/rtl';
+
+//// Design
+//@import 'elements/nav';
+//@import 'elements/form';
+//@import 'elements/map';
