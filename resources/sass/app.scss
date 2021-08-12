@@ -4,13 +4,16 @@
 //// Variables
 //@import 'variables';
 
+// Fontawesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 // Add stilsa theme
 @import '~stisla-theme/dist/scss/style';
 @import '~stisla-theme/dist/scss/components';
-//@import '~stisla-theme/dist/scss/rtl';
 
 //// Design
 //@import 'elements/nav';

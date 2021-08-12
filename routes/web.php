@@ -40,8 +40,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
     Route::group(['prefix' => 'profile/{user}'], function() {
         Route::get('/', [AdminProfileController::class, 'index'])
             ->name('admin.profile');
-        /*Route::get('edit', [AdminProfileController::class, 'edit'])
-            ->name('admin.profile.edit');*/
+        Route::get('edit', [AdminProfileController::class, 'edit'])
+            ->name('admin.profile.edit');
         Route::put('update', [AdminProfileController::class, 'update'])
             ->name('admin.profile.update');
     });
