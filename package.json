@@ -35,6 +35,7 @@
     },
     "dependencies": {
         "jest": "^27.0.6",
+        "stisla-theme": "^1.0.6",
         "vue2-google-maps": "^0.10.7"
     }
 }
