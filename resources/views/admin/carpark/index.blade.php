@@ -14,13 +14,14 @@
 
         <div class="section-body">
 
-            <div class="card">
+            <!--<div class="card">
                 <div class="card-body">
 
                     <form action="">
                         <div class="form-group mb-0">
                             <div class="input-group">
-                                <input type="text" class="form-control form-control-lg" placeholder="Enter information you want to search">
+                                <input type="text" class="form-control form-control-lg"
+                                       placeholder="Enter information you want to search">
                                 <div class="input-group-append">
                                     <button class="btn btn-lg btn-primary" type="button">
                                         <i class="fas fa-search"></i> {{ __('Search') }}
@@ -31,68 +32,38 @@
                     </form>
 
                 </div>
-            </div>
+            </div>-->
 
             <div class="card">
-                <div class="card-header">
-                    <h4>{{ __('Result') }}</h4>
-                </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-md">
-                            <tbody><tr>
-                                <th>#</th>
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
                                 <th>Name</th>
+                                <th>Coordinates (Lat, Long)</th>
+                                <th>Vehicles</th>
                                 <th>Created At</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th></th>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Irwansyah Saputra</td>
-                                <td>2017-01-09</td>
-                                <td><div class="badge badge-success">Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Hasan Basri</td>
-                                <td>2017-01-09</td>
-                                <td><div class="badge badge-success">Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Kusnadi</td>
-                                <td>2017-01-11</td>
-                                <td><div class="badge badge-danger">Not Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Rizal Fakhri</td>
-                                <td>2017-01-11</td>
-                                <td><div class="badge badge-success">Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
-                            </tbody></table>
+                            @foreach ($carparks as $carpark)
+                                <tr>
+                                    <td>{{ $carpark->id }}</td>
+                                    <td>{{ $carpark->name }}</td>
+                                    <td>{{ $carpark->lat }}, {{ $carpark->lng }}</td>
+                                    <td>{{ $carpark->vehicles->count() }}</div>
+                                    <td>{{ $carpark->created_at->toFormattedDateString() }}</div>
+                                    <td><a href="{{ route('admin.carpark.edit', $carpark->id) }}" class="btn btn-primary">Edit</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <nav class="d-inline-block">
-                        <ul class="pagination mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
+                        {{ $carparks->links() }}
                     </nav>
                 </div>
             </div>
