@@ -14,7 +14,7 @@ class CarparkController extends \Illuminate\Routing\Controller
      */
     public function index()
     {
-        return Carpark::all();
+        return Carpark::all()->toArray();
     }
 
     /**
