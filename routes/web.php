@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\AdminProfileController;
+use \App\Http\Controllers\AdminCarparkController;
 use \App\Http\Controllers\UserController;
 
 /*
@@ -45,7 +46,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
         Route::put('update', [AdminProfileController::class, 'update'])
             ->name('admin.profile.update');
     });
+
+    // admin carpark management
+    Route::group(['prefix' => 'carpark', 'middleware' => ['auth', 'auth.admin']], function() {
+        Route::get('list', function () {
+            return view('admin.carpark.list');
+        })->name('admin.carpark.list');
+
+        Route::get('add', [AdminCarparkController::class, 'add'])
+            ->name('admin.carpark.add');
+
+        Route::post('save', [AdminCarparkController::class, 'save'])
+            ->name('admin.carpark.save');
+    });
+
+
 });
+
+
+
 
 
 /* Those are just template links. They can be changed if you are develop those feature. */
@@ -62,14 +81,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
     Route::get('/vehicle/add', function () {
         return view('admin.vehicle.add');
     })->name('admin.vehicle.add');
-
-    Route::get('/parking/list', function () {
-        return view('admin.parking.list');
-    })->name('admin.parking.list');
-
-    Route::get('/parking/add', function () {
-        return view('admin.parking.add');
-    })->name('admin.parking.add');
 
     Route::get('/order/search', function () {
         return view('admin.order.search');

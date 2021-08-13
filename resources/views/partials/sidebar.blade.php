@@ -30,16 +30,16 @@
         </li>
 
 
-        <li class="menu-header"><i class="fas fa-parking p-1 mr-2"></i> {{ __('Parking Management') }}</li>
+        <li class="menu-header"><i class="fas fa-parking p-1 mr-2"></i> {{ __('Carpark Management') }}</li>
 
-        <li class="{{ Request::route()->getName() == 'admin.parking.list' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.parking.list') }}">
-                <i class="fas fa-list"></i> <span>{{ __('Parking List') }}</span>
+        <li class="{{ Request::route()->getName() == 'admin.carpark.list' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.carpark.list') }}">
+                <i class="fas fa-list"></i> <span>{{ __('Car Park List') }}</span>
             </a>
         </li>
-        <li class="{{ Request::route()->getName() == 'admin.parking.add' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.parking.add') }}">
-                <i class="fas fa-plus"></i> <span>{{ __('Add Park') }}</span>
+        <li class="{{ Request::route()->getName() == 'admin.carpark.add' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.carpark.add') }}">
+                <i class="fas fa-plus"></i> <span>{{ __('Add Car Park') }}</span>
             </a>
         </li>
 
