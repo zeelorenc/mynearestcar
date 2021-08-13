@@ -15,6 +15,7 @@ require('./bootstrap');
 Vue.use(VueGoogleMaps, {
     load: {
         key: process.env.MIX_GOOGLE_MAPS_API_KEY,
+        libraries: 'places',
     },
     installComponents: true,
 });
