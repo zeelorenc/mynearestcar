@@ -55,6 +55,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.carpark.create');
         Route::post('store', [CarparkController::class, 'store'])
             ->name('admin.carpark.store');
+        Route::get('{carpark}/edit', [CarparkController::class, 'edit'])
+            ->name('admin.carpark.edit');
     });
 
 

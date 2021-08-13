@@ -10,12 +10,21 @@ class CarparkController extends Controller
 {
     public function index()
     {
-        return view('admin.carpark.index');
+        $carparks = Carpark::orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.carpark.index')
+            ->with('carparks', $carparks);
     }
 
     public function create()
     {
         return view('admin.carpark.create');
+    }
+
+    public function edit()
+    {
+        // @todo create edit page and handling
     }
 
     public function store(Request $request)
