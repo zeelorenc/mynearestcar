@@ -56,7 +56,7 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-right">
-            <a href="{{ route('admin.profile', $currentUser->id) }}" class="dropdown-item has-icon">
+            <a href="{{ route('admin.profile.index', $currentUser->id) }}" class="dropdown-item has-icon">
                 <i class="fas fa-user"></i> {{ __('My Profile') }}
             </a>
 

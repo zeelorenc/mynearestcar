@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\AdminController;
-use \App\Http\Controllers\AdminProfileController;
-use \App\Http\Controllers\AdminCarparkController;
+use \App\Http\Controllers\Admin\ProfileController;
+use \App\Http\Controllers\Admin\CarparkController;
 use \App\Http\Controllers\UserController;
 
 /*
@@ -39,25 +39,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
     // admin user profile editing
     Route::group(['prefix' => 'profile/{user}'], function() {
-        Route::get('/', [AdminProfileController::class, 'index'])
-            ->name('admin.profile');
-        Route::get('edit', [AdminProfileController::class, 'edit'])
+        Route::get('/', [ProfileController::class, 'index'])
+            ->name('admin.profile.index');
+        Route::get('edit', [ProfileController::class, 'edit'])
             ->name('admin.profile.edit');
-        Route::put('update', [AdminProfileController::class, 'update'])
+        Route::put('update', [ProfileController::class, 'update'])
             ->name('admin.profile.update');
     });
 
     // admin carpark management
     Route::group(['prefix' => 'carpark', 'middleware' => ['auth', 'auth.admin']], function() {
-        Route::get('list', function () {
-            return view('admin.carpark.list');
-        })->name('admin.carpark.list');
-
-        Route::get('add', [AdminCarparkController::class, 'add'])
-            ->name('admin.carpark.add');
-
-        Route::post('save', [AdminCarparkController::class, 'save'])
-            ->name('admin.carpark.save');
+        Route::get('/', [CarparkController::class, 'index'])
+            ->name('admin.carpark.index');
+        Route::get('create', [CarparkController::class, 'create'])
+            ->name('admin.carpark.create');
+        Route::post('store', [CarparkController::class, 'store'])
+            ->name('admin.carpark.store');
     });
 
 
