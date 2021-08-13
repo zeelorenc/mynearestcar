@@ -24,6 +24,28 @@ class AdminControllerTest extends TestCase
      *
      * @return void
      */
+    public function it_can_render_the_admin_index(): void
+    {
+        // @todo assert it can see the admin login
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_render_the_admin_login(): void
+    {
+        // @todo assert it can see the admin login
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function it_can_redirect_to_admin_when_logging_in_as_admin(): void
     {
         $response = $this->postUserLogin(['role' => 'admin']);

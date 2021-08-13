@@ -1,10 +1,10 @@
 
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <a href="index.php">{{ env('APP_NAME') }}</a>
+        <a href="{{ route('home') }}">{{ env('APP_NAME') }}</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-        <a href="index.php">MNC</a>
+        <a href="{{ route('home') }}">MNC</a>
     </div>
 
     <!-- This is a sidebar navigation -->
@@ -32,14 +32,14 @@
 
         <li class="menu-header"><i class="fas fa-parking p-1 mr-2"></i> {{ __('Carpark Management') }}</li>
 
-        <li class="{{ Request::route()->getName() == 'admin.carpark.list' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.carpark.list') }}">
-                <i class="fas fa-list"></i> <span>{{ __('Car Park List') }}</span>
+        <li class="{{ Request::route()->getName() == 'admin.carpark.index' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.carpark.index') }}">
+                <i class="fas fa-list"></i> <span>{{ __('Carpark List') }}</span>
             </a>
         </li>
-        <li class="{{ Request::route()->getName() == 'admin.carpark.add' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.carpark.add') }}">
-                <i class="fas fa-plus"></i> <span>{{ __('Add Car Park') }}</span>
+        <li class="{{ Request::route()->getName() == 'admin.carpark.create' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.carpark.create') }}">
+                <i class="fas fa-plus"></i> <span>{{ __('Add Carpark') }}</span>
             </a>
         </li>
 
