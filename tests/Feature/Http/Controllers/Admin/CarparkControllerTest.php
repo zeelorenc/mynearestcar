@@ -25,8 +25,8 @@ class CarparkControllerTest extends TestCase
      */
     public function it_can_render_the_carpark_index_view(): void
     {
-        // @todo assert it can see the carpark index view
-        $this->assertTrue(true);
+        $response = $this->get(route('admin.carpark.index'));
+        $response->assertViewIs('admin.carpark.index');
     }
 
     /**
