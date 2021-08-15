@@ -26,8 +26,12 @@ class AdminControllerTest extends TestCase
      */
     public function it_can_render_the_admin_index(): void
     {
-        // @todo assert it can see the admin login
-        $this->assertTrue(true);
+        $admin = User::factory()->create(['role' => 'admin']);
+        $this->actingAs($admin);
+        
+        $response = $this->get(route('admin.index'));
+        $response->assertViewIs('admin.home');
+        $response->assertSeeText('Admin Dashboard');
     }
 
     /**
@@ -37,8 +41,8 @@ class AdminControllerTest extends TestCase
      */
     public function it_can_render_the_admin_login(): void
     {
-        // @todo assert it can see the admin login
-        $this->assertTrue(true);
+        $response = $this->get(route('admin.login'));
+        $response->assertViewIs('admin.auth.login');
     }
 
     /**
