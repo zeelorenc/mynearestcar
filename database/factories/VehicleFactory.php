@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Vehicle;
 use App\Schemas\VehicleStatusSchema;
+use Faker\Provider\Fakecar;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VehicleFactory extends Factory
@@ -22,11 +23,12 @@ class VehicleFactory extends Factory
      */
     public function definition()
     {
+        $this->faker->addProvider(new Fakecar($this->faker));
         return [
-            'name' => ucwords($this->faker->words(2, true)) . ' Car',
+            'name' => $this->faker->vehicle,
             'status' => VehicleStatusSchema::AVAILABLE,
             'price' => $this->faker->randomFloat(2, 10, 150),
-            'seats' => $this->faker->randomFloat(0, 1, 6),
+            'seats' => $this->faker->vehicleSeatCount,
         ];
     }
 }
