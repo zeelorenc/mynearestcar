@@ -18,19 +18,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-//        User::create([
-//            'name' => 'Test User',
-//            'email' => 'test@test.com',
-//            'password' => Hash::make('test'),
-//        ]);
+        // create default admin account
         User::create([
             'name' => 'admin',
-            'email' => 'admin@staff.mynearestcar.com',
+            'email' => 'admin@mynearestcar.test',
             'role' => 'admin',
             'email_verified_at' => now(),
             'password' => Hash::make(UserFactory::DEFAULT_PASSWORD),
             'remember_token' => Str::random(10),
         ]);
+
+        // create random users
         User::factory(10)
             ->create();
     }
