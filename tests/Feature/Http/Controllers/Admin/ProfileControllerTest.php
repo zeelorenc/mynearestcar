@@ -19,8 +19,8 @@ class ProfileControllerTest extends TestCase
     public function it_can_render_the_user_profile_view(): void
     {
         $admin = $this->actingAsAdmin();
-        // @todo assert it can see the user profile
-        $this->assertTrue(true);
+        $response = $this->get(route('admin.profile.index', $admin->id));
+        $response->assertViewIs('admin.profile.index');
     }
 
     /**
