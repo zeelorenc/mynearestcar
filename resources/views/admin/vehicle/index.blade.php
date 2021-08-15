@@ -37,7 +37,7 @@
                 <div class="card-header">
                     <h4>{{ __('Result') }}</h4>
                 </div>
-                <div class="card-body">
+                {{-- <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-md">
                             <tbody><tr>
@@ -93,6 +93,43 @@
                                 <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
                             </li>
                         </ul>
+                    </nav>
+                </div> --}}
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-md">
+                            <tbody>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Car Park ID</th>
+                                <th>Status</th>
+                                <th>Price</th>
+                                <th>Seats</th>
+                                <th>Created At</th>
+                                <th>Update At</th>
+                            </tr>
+                            @foreach ($vehicles as $vehicle)
+                                <tr>
+                                    <td>{{ $vehicle->id }}</td>
+                                    <td>{{ $vehicle->name }}</td>
+                                    <td>{{ $vehicle->carpark_id }}</td>
+                                    <td>{{ $vehicle->status }}</div>
+                                    <td>{{ $vehicle->price }}</div>
+                                    <td>{{ $vehicle->seats }}</div>
+                                    <td>{{ $vehicle->created_at->toFormattedDateString() }}</div>
+                                    <td>{{ $vehicle->updated_at->toFormattedDateString() }}</div>
+                                    <td><a href="{{ route('admin.vehicle.edit', $vehicle->id) }}" class="btn btn-primary">Edit</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <nav class="d-inline-block">
+                        {{ $vehicles->links() }}
                     </nav>
                 </div>
             </div>

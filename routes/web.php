@@ -7,6 +7,8 @@ use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\Admin\ProfileController;
 use \App\Http\Controllers\Admin\CarparkController;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\Admin\VehicleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +61,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.carpark.edit');
     });
 
+    // admin vehicle management
+    Route::group(['prefix' => 'vehicle', 'middleware' => ['auth', 'auth.admin']], function() {
+        Route::get('/', [VehicleController::class, 'index'])
+            ->name('admin.vehicle.index');
+        Route::get('create', [VehicleController::class, 'create'])
+            ->name('admin.vehicle.create');
+        Route::post('store', [VehicleController::class, 'store'])
+            ->name('admin.vehicle.store');
+        Route::get('{vehicle}/edit', [VehicleController::class, 'edit'])
+            ->name('admin.vehicle.edit');
+    });
 
 });
 
