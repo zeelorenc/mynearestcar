@@ -10,7 +10,7 @@ class VehicleController extends Controller
 {
     public function index()
     {
-        $vehicles = Vehicle::orderBy('created_at', 'desc')
+        $vehicles = Vehicle::orderBy('created_at', 'asc')
             ->paginate(10);
 
         return view('admin.vehicle.index')
@@ -31,17 +31,20 @@ class VehicleController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
-            'carpark_id' => ['required', 'numeric'],
+            'carpark_id' => ['required', 'numeric', 'exists:carparks,id'],
             'status' => ['required', 'string'],
-            'price' => ['required', 'double']
+            'price' => ['required', 'numeric'],
+            'seats' => ['required', 'numeric']
         ]);
 
-        Carpark::create([
+        Vehicle::create([
             'name' => $request->get('name'),
             'carpark_id' => $request->get('carpark_id'),
             'status' => $request->get('status'),
-            'price' => $request->get('price')
+            'price' => $request->get('price'),
+            'seats' => $request->get('seats')
         ]);
+
         return back()->with('message', 'Added a vehicle successfully!');
     }
 }

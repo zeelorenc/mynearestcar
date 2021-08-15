@@ -14,5 +14,6 @@ class Vehicle extends Model
         'seats',
         'price',
         'status',
+        'carpark_id',
     ];
 }
