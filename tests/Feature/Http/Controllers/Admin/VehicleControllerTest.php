@@ -25,9 +25,8 @@ class VehicleControllerTest extends TestCase
      */
     public function it_can_render_the_vehicle_index_view(): void
     {
-        // @todo assert it can see the carpark index view
-        $response = $this->get(route('admin.vehicle.create'));
-        $response->assertViewIs('admin.vehicle.create');
+        $response = $this->get(route('admin.vehicle.index'));
+        $response->assertViewIs('admin.vehicle.index');
     }
 
     /**
@@ -37,8 +36,8 @@ class VehicleControllerTest extends TestCase
      */
     public function it_can_render_the_vehicle_create_view(): void
     {
-        // @todo assert it can see the carpark index view
-        $this->assertTrue(true);
+        $response = $this->get(route('admin.vehicle.create'));
+        $response->assertViewIs('admin.vehicle.create');
     }
 
     /**
