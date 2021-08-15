@@ -19,12 +19,12 @@
         <li class="menu-header"><i class="fas fa-car p-1 mr-2"></i> {{ __('Vehicle Management') }}</li>
 
         <li class="{{ Request::route()->getName() == 'admin.vehicle.list' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.vehicle.list') }}">
+            <a class="nav-link" href="{{ route('admin.vehicle.index') }}">
                 <i class="fas fa-list"></i> <span>{{ __('Vehicle List') }}</span>
             </a>
         </li>
         <li class="{{ Request::route()->getName() == 'admin.vehicle.add' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.vehicle.add') }}">
+            <a class="nav-link" href="{{ route('admin.vehicle.create') }}">
                 <i class="fas fa-plus"></i> <span>{{ __('Add Vehicle') }}</span>
             </a>
         </li>
