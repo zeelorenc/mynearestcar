@@ -15,53 +15,52 @@
         <div class="section-body">
 
             <div class="card">
-                <form action="">
-                    <div class="card-header">
-                        <h4>Horizontal Form</h4>
-                    </div>
+                <form action="{{ route('admin.vehicle.store') }}" method="POST">
+                    @csrf
                     <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">Email</label>
-                                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputPassword4">Password</label>
-                                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                            </div>
+                        @if(session()->has('message'))
+                            <div class="alert alert-success mb-2">{{ session()->get('message') }}</div>
+                        @endif
+
+                        <div class="form-group" >
+                            <label for="inputName">Name</label>
+                            <input id="name" type="text" name="name" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus placeholder="Enter the vehicle name">
+                            @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label for="inputAddress">Address</label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                            <label for="inputCarpark">Car park ID</label>
+                            <input id="carpark_id" type="numbric" name="carpark_id" class="form-control @error('carpark_id') is-invalid @enderror" name="carpark_id" required autocomplete="carpark_id" autofocus placeholder="Enter the carpark id to which the vehicle belong to">
+                            @error('carpark_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label for="inputAddress2">Address 2</label>
-                            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                            <label for="inputStatus">Status</label>
+                            <input id="status" type="" name="carpark_id" class="form-control @error('carpark_id') is-invalid @enderror" name="carpark_id" required autocomplete="carpark_id" autofocus placeholder="Enter the carpark id to which the vehicle belong to">
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputCity">City</label>
-                                <input type="text" class="form-control" id="inputCity">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputState">State</label>
-                                <select id="inputState" class="form-control">
-                                    <option selected="">Choose...</option>
-                                    <option>...</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="inputZip">Zip</label>
-                                <input type="text" class="form-control" id="inputZip">
-                            </div>
+                        <div class="form-group">
+                            <label for="inputCarpark">Car park ID</label>
+                            <input id="carpark_id" type="numbric" name="carpark_id" class="form-control @error('carpark_id') is-invalid @enderror" name="carpark_id" required autocomplete="carpark_id" autofocus placeholder="Enter the carpark id to which the vehicle belong to">
+                            @error('carpark_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
-                        <div class="form-group mb-0">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="gridCheck">
-                                <label class="form-check-label" for="gridCheck">
-                                    Check me out
-                                </label>
-                            </div>
+                        <div class="form-group">
+                            <label for="inputCarpark">Car park ID</label>
+                            <input id="carpark_id" type="numbric" name="carpark_id" class="form-control @error('carpark_id') is-invalid @enderror" name="carpark_id" required autocomplete="carpark_id" autofocus placeholder="Enter the carpark id to which the vehicle belong to">
+                            @error('carpark_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="card-footer">
