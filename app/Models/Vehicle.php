@@ -14,5 +14,16 @@ class Vehicle extends Model
         'seats',
         'price',
         'status',
+        'carpark_id',
     ];
+
+    /**
+     * Return's the vehicle's carpark
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carpark()
+    {
+        return $this->belongsTo(Carpark::class);
+    }
 }

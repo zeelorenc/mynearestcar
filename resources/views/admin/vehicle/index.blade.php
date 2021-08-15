@@ -108,7 +108,8 @@
                                 <th>Price</th>
                                 <th>Seats</th>
                                 <th>Created At</th>
-                                <th>Update At</th>
+                                <th>Updated At</th>
+                                <th></th>
                             </tr>
                             @foreach ($vehicles as $vehicle)
                                 <tr>
