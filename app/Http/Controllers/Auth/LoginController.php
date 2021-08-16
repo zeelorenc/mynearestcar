@@ -28,14 +28,10 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        if (request()->get('admin_redirect') === 'yes') {
-            if (auth()->user()->role === 'client') {
-                return route('home');
-            } else {
-                return route('admin.index');
-            }
-        } else {
+        if (auth()->user()->role === 'client') {
             return RouteServiceProvider::HOME;
+        } else {
+            return RouteServiceProvider::ADMIN_HOME;
         }
     }
 

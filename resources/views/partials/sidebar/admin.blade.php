@@ -1,4 +1,9 @@
 <ul class="sidebar-menu">
+    <li class="{{ Request::route()->getName() == 'admin.index' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.index') }}">
+            <i class="fas fa-fire"></i> <span>Dashboard</span>
+        </a>
+    </li>
 
     <li class="menu-header"><i class="fas fa-car p-1 mr-2"></i> {{ __('Vehicle Management') }}</li>
     <li class="{{ Request::route()->getName() == 'admin.vehicle.list' ? ' active' : '' }}">

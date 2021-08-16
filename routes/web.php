@@ -23,7 +23,12 @@ use \App\Http\Controllers\Admin\VehicleController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+Route::get('/', function () {
+    return view('index');
+})->name('index');
+
 
 Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
     Route::put('/', [UserController::class, 'update'])
@@ -80,6 +85,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
 
 /* Those are just template links. They can be changed if you are develop those feature. */
+Route::get('contactus', function () {
+    return view('contactus');
+})->name('contactus');
+
 Route::get('admin/register', function () {
     return view('admin.auth.register');
 })->name('admin.register');
