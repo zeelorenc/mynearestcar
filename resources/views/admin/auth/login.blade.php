@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="card card-primary">
+    <div class="card card-info">
         <div class="card-header"><h4>{{ __('Admin Login') }}</h4></div>
 
         <div class="card-body">
@@ -51,7 +51,7 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-block btn-primary">
+                        <button type="submit" class="btn btn-block btn-info">
                             {{ __('Login') }}
                         </button>
 
@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="mt-5 text-muted text-center">
-        Don't have an account? <a href="{{ route('register') }}">Create One</a>
+        Don't have an account? <a href="{{ route('admin.register') }}">Create One</a>
     </div>
 
 @endsection
