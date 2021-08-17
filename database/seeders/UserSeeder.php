@@ -18,18 +18,26 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // create default admin account
+        // create default admin and client account
         User::create([
-            'name' => 'admin',
-            'email' => 'admin@mynearestcar.test',
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
             'role' => 'admin',
+            'email_verified_at' => now(),
+            'password' => Hash::make(UserFactory::DEFAULT_PASSWORD),
+            'remember_token' => Str::random(10),
+        ]);
+        User::create([
+            'name' => 'Client',
+            'email' => 'client@example.com',
+            'role' => 'client',
             'email_verified_at' => now(),
             'password' => Hash::make(UserFactory::DEFAULT_PASSWORD),
             'remember_token' => Str::random(10),
         ]);
 
         // create random users
-        User::factory(10)
+        User::factory(6)
             ->create();
     }
 }

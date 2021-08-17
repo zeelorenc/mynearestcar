@@ -82,6 +82,7 @@
                                     <div class="d-flex w-100">
                                         <small class="mr-2">5 seats</small>
                                         <small class="mr-2">Toyota</small>
+                                        <car-detail class="ml-auto" car-name="Car A"></car-detail>
                                     </div>
                                 </a>
                                 <a href="#" class="list-group-item list-group-item-action">
@@ -92,6 +93,7 @@
                                     <div class="d-flex w-100">
                                         <small class="mr-2">5 seats</small>
                                         <small class="mr-2">Toyota</small>
+                                        <car-detail class="ml-auto" car-name="Car B"></car-detail>
                                     </div>
                                 </a>
                             </div>

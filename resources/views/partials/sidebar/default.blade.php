@@ -5,6 +5,12 @@
         </a>
     </li>
 
+    <li class="{{ Request::route()->getName() == 'carsearch' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('carsearch') }}">
+            <i class="fas fa-search"></i> <span>Car Search</span>
+        </a>
+    </li>
+
     <li class="{{ Request::route()->getName() == 'contactus' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('contactus') }}">
             <i class="fas fa-address-card"></i> <span>Contact Us</span>
