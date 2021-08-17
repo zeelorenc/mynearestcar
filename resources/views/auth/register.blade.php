@@ -37,12 +37,16 @@
                 </div>
 
                 <div class="form-group row mb-2">
-                    <label for="drive-no" class="col-md-4 col-form-label">{{ __('Driver Licence') }}</label>
+                    <label for="driver_licence" class="col-md-4 col-form-label">{{ __('Driver Licence') }}</label>
 
                     <div class="col-md-12">
-                        <input id="drive-no" type="text" class="form-control @error('driver-no') is-invalid @enderror" name="driver-no" value="{{ old('driver-no') }}" required autocomplete="driver-no">
+                        <input id="driver_licence" type="text"
+                               class="form-control @error('driver_licence') is-invalid @enderror"
+                               name="driver_licence"
+                               value="{{ old('driver_licence') }}"
+                               pattern="\d{2}-\d{2}-\d{4}" required autocomplete="driver_licence">
 
-                        @error('driver-no')
+                        @error('driver_licence')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

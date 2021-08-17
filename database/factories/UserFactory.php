@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Faker\Core\Number;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -30,10 +31,16 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $role = collect(['client', 'admin'])->random();
+        $str = str_pad(mt_rand(1,99999999),8,'0',STR_PAD_LEFT);
+        $str = substr_replace($str, '-', 2, 0);
+        $str = substr_replace($str, '-', 5, 0);
+
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'role' => collect(['client','admin'])->random(),
+            'role' => $role,
+            'driver_licence' => $role === 'client' ? $str : '',
             'email_verified_at' => now(),
             'password' => Hash::make(self::DEFAULT_PASSWORD),
             'remember_token' => Str::random(10),
