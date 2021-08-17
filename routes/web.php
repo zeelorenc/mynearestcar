@@ -45,8 +45,12 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
         ->name('profile.edit');
 });
 
+
 Route::get('admin/login', [AdminController::class, 'login'])
     ->name('admin.login');
+
+Route::get('admin/register', [AdminController::class, 'register'])
+    ->name('admin.register');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
     Route::get('/', [AdminController::class, 'index'])
@@ -93,9 +97,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
 
 /* Those are just template links. They can be changed if you are develop those feature. */
-Route::get('admin/register', function () {
-    return view('admin.auth.register');
-})->name('admin.register');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
