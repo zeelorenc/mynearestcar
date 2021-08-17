@@ -8,7 +8,7 @@
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label for="name" class="col-md-12 col-form-label">{{ __('Name') }}</label>
 
                     <div class="col-md-12">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label for="email" class="col-md-4 col-form-label">{{ __('E-Mail Address') }}</label>
 
                     <div class="col-md-12">
@@ -36,7 +36,21 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row mb-2">
+                    <label for="drive-no" class="col-md-4 col-form-label">{{ __('Driver Licence') }}</label>
+
+                    <div class="col-md-12">
+                        <input id="drive-no" type="text" class="form-control @error('driver-no') is-invalid @enderror" name="driver-no" value="{{ old('driver-no') }}" required autocomplete="driver-no">
+
+                        @error('driver-no')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row mb-2">
                     <label for="password" class="col-md-4 col-form-label">{{ __('Password') }}</label>
 
                     <div class="col-md-12">
@@ -68,4 +82,8 @@
             </form>
         </div>
     </div>
+    <div class="mt-5 text-muted text-center">
+        Already have an account? <a href="{{ route('login') }}">Go to login</a>
+    </div>
+
 @endsection

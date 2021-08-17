@@ -6,6 +6,7 @@
 
 import Vue from 'vue';
 import * as VueGoogleMaps from 'vue2-google-maps';
+import { BootstrapVue } from 'bootstrap-vue';
 
 require('./bootstrap');
 
@@ -19,6 +20,11 @@ Vue.use(VueGoogleMaps, {
     },
     installComponents: true,
 });
+
+/*
+ * Register bootstrap vue
+ * */
+Vue.use(BootstrapVue)
 
 /**
  * Registers all vue components inside of ./components
@@ -35,3 +41,18 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 const app = new Vue({
     el: '#app',
 });
+
+
+/**
+ * Sidebar fix
+ */
+const toggleSidebar = () => {
+    document.body.className = (
+        document.body.className === 'sidebar-gone'
+            ? ''
+            : 'sidebar-gone'
+    );
+};
+
+const sideBarButton = document.querySelector('[data-toggle="sidebar"]');
+sideBarButton.addEventListener('click', toggleSidebar);
