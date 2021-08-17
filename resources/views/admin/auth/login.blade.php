@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <div class="card card-primary">
+    <div class="card card-info">
         <div class="card-header"><h4>{{ __('Admin Login') }}</h4></div>
 
         <div class="card-body">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <input type="hidden" name="admin_redirect" value="yes">
+<!--                <input type="hidden" name="admin_redirect" value="yes">-->
 
                 <div class="form-group row mb-2">
                     <label for="email" class="col-md-12 col-form-label">{{ __('E-Mail Address') }}</label>
@@ -51,7 +51,7 @@
 
                 <div class="form-group row mb-0">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-block btn-primary">
+                        <button type="submit" class="btn btn-block btn-info">
                             {{ __('Login') }}
                         </button>
 
@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="mt-5 text-muted text-center">
-        Don't have an account? <a href="{{ route('register') }}">Create One</a>
+        Don't have an account? <a href="{{ route('admin.register') }}">Create One</a>
     </div>
 
 @endsection
