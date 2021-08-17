@@ -8,7 +8,7 @@
         <div class="card-body">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <input type="hidden" name="admin_redirect" value="yes">
+<!--                <input type="hidden" name="admin_redirect" value="yes">-->
 
                 <div class="form-group row mb-2">
                     <label for="email" class="col-md-12 col-form-label">{{ __('E-Mail Address') }}</label>

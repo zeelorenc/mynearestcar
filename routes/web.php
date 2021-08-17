@@ -23,11 +23,19 @@ use \App\Http\Controllers\Admin\VehicleController;
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'home'])->name('home');
-
 Route::get('/', function () {
     return view('index');
 })->name('index');
+
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+Route::get('contactus', function () {
+    return view('contactus');
+})->name('contactus');
+
+Route::get('carsearch', function () {
+    return view('carsearch');
+})->name('carsearch');
 
 
 Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
@@ -85,24 +93,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
 
 /* Those are just template links. They can be changed if you are develop those feature. */
-Route::get('contactus', function () {
-    return view('contactus');
-})->name('contactus');
-
 Route::get('admin/register', function () {
     return view('admin.auth.register');
 })->name('admin.register');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-    Route::get('/vehicle/list', function () {
-        return view('admin.vehicle.list');
-    })->name('admin.vehicle.list');
-
-    Route::get('/vehicle/add', function () {
-        return view('admin.vehicle.add');
-    })->name('admin.vehicle.add');
-
     Route::get('/order/search', function () {
         return view('admin.order.search');
     })->name('admin.order.search');

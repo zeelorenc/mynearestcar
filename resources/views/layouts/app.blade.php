@@ -32,14 +32,14 @@
             @yield('content')
         </div>
 
-        <footer class="main-footer absolute-bottom-left">
+        <footer class="main-footer">
             @include('partials.footer')
         </footer>
     </div>
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}" {{uniqid()}}></script>
+<script src="{{ asset('js/app.js') }}"></script>
 @yield('scripts')
 </body>
 </html>
