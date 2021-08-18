@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Schemas\UserSchema;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo()
+    {
+        if (auth()->user()->role === 'client') {
+            return RouteServiceProvider::HOME;
+        } else {
+            return RouteServiceProvider::ADMIN_HOME;
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -44,7 +52,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -53,21 +61,28 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:2', 'confirmed'],
-        ]);
+        ])->sometimes('email', 'prohibited', function ($input) {
+            return $input->role === UserSchema::ROLE_ADMIN
+                && !str_contains($input->email, UserSchema::ADMIN_EMAIL_PATTERN);
+        });
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
+        $role = $data['role'] ?? 'client';
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => $role,
+            'driver_licence' => $role === 'client' ? $data['driver_licence'] : '',
         ]);
     }
 }

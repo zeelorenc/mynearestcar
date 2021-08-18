@@ -31,6 +31,7 @@ class UserSeeder extends Seeder
             'name' => 'Client',
             'email' => 'client@example.com',
             'role' => 'client',
+            'driver_licence' => '12-34-5678',
             'email_verified_at' => now(),
             'password' => Hash::make(UserFactory::DEFAULT_PASSWORD),
             'remember_token' => Str::random(10),
