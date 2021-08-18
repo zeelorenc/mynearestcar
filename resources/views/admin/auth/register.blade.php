@@ -8,6 +8,7 @@
         <div class="card-body">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
+                <input type="hidden" name="role" value="admin">
 
                 <div class="form-group row mb-2">
                     <label for="name" class="col-md-12 col-form-label">{{ __('Name') }}</label>
@@ -50,16 +51,10 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="cpassword" class="col-md-12 col-form-label">{{ __('Confirm Password') }}</label>
+                    <label for="password-confirm" class="col-md-12 col-form-label">{{ __('Confirm Password') }}</label>
 
                     <div class="col-md-12">
-                        <input id="cpassword" type="password" class="form-control @error('cpassword') is-invalid @enderror" name="cpassword" required autocomplete="current-password" />
-
-                        @error('cpassword')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                     </div>
                 </div>
 
