@@ -1,7 +1,7 @@
 <ul class="sidebar-menu">
     <li class="{{ Request::route()->getName() == 'admin.index' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('admin.index') }}">
-            <i class="fas fa-fire"></i> <span>Dashboard</span>
+            <i class="fas fa-user-shield"></i> <span>Admin Dashboard</span>
         </a>
     </li>
 
