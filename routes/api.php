@@ -22,3 +22,6 @@ use App\Http\Controllers\Api\CarparkController;
 Route::apiResource('carparks', CarparkController::class, [
     'as' => 'api',
 ]);
+
+Route::get('/carparks/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
+    ->name('api.carparks.vehicles');
