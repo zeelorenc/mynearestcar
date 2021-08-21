@@ -14,9 +14,8 @@ export default {
     props: ['carpark'],
 
     methods: {
-        clicked: () => {
-            // TODO: add expand sidebar
-            alert("Clicked a carpark");
+        clicked: function() {
+            this.$emit('clicked');
         },
     } ,
 

@@ -17,6 +17,11 @@ class CarparkController extends \Illuminate\Routing\Controller
         return Carpark::all()->toArray();
     }
 
+    public function vehicles(Carpark $carpark)
+    {
+        return $carpark->vehicles->toArray();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
