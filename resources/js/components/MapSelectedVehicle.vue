@@ -8,11 +8,10 @@
             hide-footer
             title="Order Rental Vehicle"
         >
-            <div class="mb-2">
-                <span class="mr-3"><i class="fas fa-car"></i> {{ vehicle.name }}</span>
-                <span><i class="fas fa-user-friends"></i> {{ vehicle.seats }} seats</span>
+            <div class="mb-4">
+                <span class="mr-3"><i class="fas fa-car mr-1"></i> {{ vehicle.name }}</span>
+                <span><i class="fas fa-user-friends mr-1"></i> {{ vehicle.seats }} seats</span>
             </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, soluta!</p>
 
             <form @submit.prevent="createOrder">
                 <div class="mb-4">

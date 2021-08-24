@@ -4,7 +4,7 @@
     <section class="section">
         <div class="section-header">
             <h1 class="w-100 d-flex align-items-center justify-content-between">
-                <span>{{ "Confirm Order #{$order->id}" }}</span>
+                <span>{{ "Rental Booking Order #{$order->id}" }}</span>
                 <small class="{{ \App\Schemas\OrderStatusSchema::asCssClass($order->status) }} font-weight-bold">
                     {{ strtoupper($order->status) }}
                 </small>
