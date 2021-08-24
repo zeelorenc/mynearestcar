@@ -32,7 +32,6 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_create_an_order(): void
     {
-        $this->withoutExceptionHandling();
         $carpark = Carpark::factory()->create();
         $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
 
@@ -77,6 +76,10 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_charge_a_stripe_token_and_mark_order_as_paid(): void
     {
+        if (empty(config('services.stripe.secret'))) {
+            $this->markTestSkipped('Skipping test as Stripe secret key is unavailable');
+        }
+
         $carpark = Carpark::factory()->create();
         $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
         $order = $this->mockOrder($vehicle);
