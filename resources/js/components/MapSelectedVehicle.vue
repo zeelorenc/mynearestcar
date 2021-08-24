@@ -14,34 +14,57 @@
             </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, soluta!</p>
 
-            <div class="mb-4">
+            <form @submit.prevent="createOrder">
+                <div class="mb-4">
+                    <div class="form-group mb-2">
+                        <label>From Date</label>
+                        <input
+                            type="datetime-local"
+                            :class="{
+                                'form-control': true,
+                                'is-invalid': errors.from_date || false,
+                            }"
+                            v-model="from_date"
+                        >
+
+                        <span class="invalid-feedback" role="alert" v-if="errors.from_date">
+                            <strong>{{ errors.from_date[0] }}</strong>
+                        </span>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>To Date</label>
+                        <input
+                            type="datetime-local"
+                            :class="{
+                                'form-control': true,
+                                'is-invalid': errors.to_date || false,
+                            }"
+                            v-model="to_date"
+                        >
+                        <span class="invalid-feedback" role="alert" v-if="errors.to_date">
+                            <strong>{{ errors.to_date[0] }}</strong>
+                        </span>
+                    </div>
+                </div>
+
                 <div class="form-check mb-3">
                     <input class="form-check-input"
                            style="margin-top:0.4rem"
                            type="checkbox"
                            id="uber"
-                           v-model="checked">
-                    <label class="form-check-label w-100 d-flex align-items-center justify-content-between" for="uber">
+                           v-model="uber_pickup">
+                    <label class="form-check-label w-100 d-flex align-items-center justify-content-between"
+                           for="uber">
                         Uber Request
                         <span class="badge badge-success">EXTRA</span>
                     </label>
                 </div>
 
-                <form action="" v-if="checked">
-                    <div class="form-group mb-2">
-                        <label>Datetime</label>
-                        <input type="datetime-local" class="form-control">
-                    </div>
-                    <div class="form-group mb-0">
-                        <label>Location</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </form>
-            </div>
-
-            <a href="#" class="btn btn-primary btn-shadow btn-block">
-                ORDER ({{ checked === true ? `$${vehicle.price} + UBER` : `$${vehicle.price}`}})
-            </a>
+                <button type="submit" class="btn btn-primary btn-shadow btn-block">
+                    ORDER ({{ uber_pickup === true ? `$${vehicle.price} + UBER` : `$${vehicle.price}` }})
+                </button>
+            </form>
         </b-modal>
     </div>
 </template>
@@ -51,10 +74,29 @@ export default {
     props: ['vehicle'],
     data() {
         return {
-            checked: false
+            from_date: null,
+            to_date: null,
+            uber_pickup: false,
+            errors: {},
         }
     },
 
-    methods: {}
+    methods: {
+        createOrder: async function (e) {
+            try {
+                const { data } = await axios.post(`/order/create`, {
+                    vehicle_id: this.vehicle.id,
+                    from_date: new Date(this.from_date),
+                    to_date: new Date(this.to_date),
+                    uber_pickup: this.uber_pickup,
+                });
+                // redirect to order page
+                window.location.href = `order/${data.id}`;
+                console.log("Order", data);
+            } catch (e) {
+                this.errors = e.response.data.errors || {}
+            }
+        }
+    }
 }
 </script>
