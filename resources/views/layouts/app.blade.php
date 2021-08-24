@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- CSRF Token -->
@@ -12,6 +11,9 @@
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <!-- Global frontend variables -->
+    <script>window.currentUser = {!! $currentUser !!};</script>
 </head>
 
 <body>
