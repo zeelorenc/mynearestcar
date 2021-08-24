@@ -6,6 +6,7 @@ use App\Adapters\StripeAdapter;
 use App\Models\Order;
 use App\Models\Vehicle;
 use App\Schemas\OrderStatusSchema;
+use App\Schemas\VehicleStatusSchema;
 use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -69,6 +70,9 @@ class OrderController extends \Illuminate\Routing\Controller
         $order->update([
             'status' => OrderStatusSchema::PAID,
             'stripe_charge_id' => $charge['id'],
+        ]);
+        $order->vehicle()->update([
+            'status' => VehicleStatusSchema::BOOKED,
         ]);
         return ['success' => true, 'message' => $order];
     }
