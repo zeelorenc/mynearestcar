@@ -4,7 +4,7 @@
             <h4>{{ carpark.name }}</h4>
             <span class="badge badge-light p-1"
                   data-toggle="tooltip"
-                  ata-original-title="Available car quantity">14</span>
+                  ata-original-title="Available car quantity">{{ carpark.vehicles.length }}</span>
         </div>
         <div class="card-body d-flex justify-content-between">
             <small class="mr-2"><i class="fas fa-route mr-1"></i> 830m</small>
@@ -23,8 +23,11 @@
                 </div>
                 <div class="d-flex w-100">
                     <small class="mr-2">{{ vehicle.seats }} seats</small>
-                    <small class="mr-2">{{ vehicle.status }}</small>
+                    <small :class="{ 'mr-2': true, 'text-danger': vehicle.status !== 'available' }">
+                        {{ vehicle.status }}
+                    </small>
                     <MapSelectedVehicle
+                        v-if="vehicle.status === 'available'"
                         class="ml-auto"
                         :vehicle="vehicle"
                     />

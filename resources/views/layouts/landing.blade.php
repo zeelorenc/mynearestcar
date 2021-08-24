@@ -12,6 +12,9 @@
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <!-- Global frontend variables -->
+    <script>window.currentUser = {!! $currentUser !!};</script>
 </head>
 
 <body>

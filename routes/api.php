@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OrderController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\CarparkController;
@@ -25,3 +26,13 @@ Route::apiResource('carparks', CarparkController::class, [
 
 Route::get('/carparks/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
     ->name('api.carparks.vehicles');
+
+Route::get('/carparks/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
+    ->name('api.carparks.vehicles');
+
+Route::group(['prefix' => 'order'], function() { // @todo auth api
+    Route::post('create', [OrderController::class, 'create'])
+        ->name('api.order.create');
+    Route::post('{order}/payment', [OrderController::class, 'payment'])
+        ->name('api.order.payment');
+});
