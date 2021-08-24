@@ -45,8 +45,6 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
 });
 
 Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
-    Route::post('create', [OrderController::class, 'create'])
-        ->name('order.create');
     Route::get('{order}', [OrderController::class, 'show'])
         ->name('order.show');
 });
