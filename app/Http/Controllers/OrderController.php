@@ -31,4 +31,10 @@ class OrderController extends Controller
         ]);
         return $order;
     }
+
+    public function show(Order $order)
+    {
+        return view('order.show')
+            ->with('order', $order);
+    }
 }

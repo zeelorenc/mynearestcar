@@ -21,7 +21,7 @@ class OrderControllerTest extends TestCase
      *
      * @return void
      */
-    public function it_can_create_an_order()
+    public function it_can_create_an_order(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -45,7 +45,7 @@ class OrderControllerTest extends TestCase
      *
      * @return void
      */
-    public function it_cannot_create_an_order_without_valid_fields()
+    public function it_cannot_create_an_order_without_valid_fields(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -63,5 +63,15 @@ class OrderControllerTest extends TestCase
             'to_date',
             'uber_pickup',
         ]);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_render_the_order_page(): void
+    {
+        // @todo create mock order then see if it loads page
     }
 }
