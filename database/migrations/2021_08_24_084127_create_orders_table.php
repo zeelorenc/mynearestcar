@@ -1,5 +1,6 @@
 <?php
 
+use App\Schemas\OrderStatusSchema;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,10 +21,10 @@ class CreateOrdersTable extends Migration
             $table->timestamp('from_date')->nullable();
             $table->timestamp('to_date')->nullable();
             $table->boolean('uber_pickup');
-            $table->float('total');
-            $table->string('status');
+            $table->unsignedFloat('total');
+            $table->string('status')->default(OrderStatusSchema::UNPAID);
+            $table->string('stripe_charge_id')->nullable();
             $table->timestamps();
-
             $table
                 ->foreign('user_id')
                 ->references('id')

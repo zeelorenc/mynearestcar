@@ -33,4 +33,6 @@ Route::get('/carparks/{carpark}/vehicles', [CarparkController::class, 'vehicles'
 Route::group(['prefix' => 'order'], function() { // @todo auth api
     Route::post('create', [OrderController::class, 'create'])
         ->name('api.order.create');
+    Route::post('{order}/payment', [OrderController::class, 'payment'])
+        ->name('api.order.payment');
 });

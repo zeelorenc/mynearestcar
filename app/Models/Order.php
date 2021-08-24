@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Schemas\OrderStatusSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ class Order extends Model
         'uber_pickup',
         'total',
         'status',
+        'stripe_charge_id',
     ];
 
     protected $dates = ['from_date', 'to_date'];
@@ -29,5 +31,10 @@ class Order extends Model
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
+    }
+
+    public function paid()
+    {
+        return $this->status === OrderStatusSchema::PAID;
     }
 }
