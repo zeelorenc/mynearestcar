@@ -37,21 +37,11 @@
                         </table>
 
                         <div class="row mt-5">
-                            <div class="col-6 offset-6 text-right">
+                            <div class="col-8 offset-4 text-right">
                                 <div class="text-dark h5">
                                     Total: <b>${{ number_format($order->total, 2) }}</b>
                                 </div>
-
-                                <form action="payment_process_stripe.php" method="post" style="height: 200px">
-                                    <script src="https://checkout.stripe.com/checkout.js"
-                                            class="stripe-button"
-                                            data-key="pk_test_b5ffYKuhHsqFLspImiQMnhcx00RHpt8Ngs"
-                                            data-description="Payment for Order ID {{ $order->id }}"
-                                            data-amount="{{ $order->price * 100 }}"
-                                            data-email="{{ $currentUser->email }}"
-                                            data-locale="auto">
-                                    </script>
-                                </form>
+                                <order-payment :order="{{ $order }}"/>
                             </div>
                         </div>
 
