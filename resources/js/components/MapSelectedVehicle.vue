@@ -84,15 +84,14 @@ export default {
     methods: {
         createOrder: async function (e) {
             try {
-                const { data } = await axios.post(`/order/create`, {
+                const { data } = await axios.post(`/api/order/create`, {
+                    user_id: this.$root.currentUser.id,
                     vehicle_id: this.vehicle.id,
                     from_date: new Date(this.from_date),
                     to_date: new Date(this.to_date),
                     uber_pickup: this.uber_pickup,
                 });
-                // redirect to order page
-                window.location.href = `order/${data.id}`;
-                console.log("Order", data);
+                window.location.href = `/order/${data.id}`;
             } catch (e) {
                 this.errors = e.response.data.errors || {}
             }

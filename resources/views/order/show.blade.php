@@ -3,7 +3,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ "Confirm Order #{$order->id}" }}</h1>
+            <h1 class="w-100 d-flex align-items-center justify-content-between">
+                <span>{{ "Confirm Order #{$order->id}" }}</span>
+                <small class="{{ \App\Schemas\OrderStatusSchema::asCssClass($order->status) }} font-weight-bold">
+                    {{ strtoupper($order->status) }}
+                </small>
+            </h1>
         </div>
 
         <div class="section-body">
@@ -34,6 +39,13 @@
                                 <td><i class="fas fa-taxi mr-2"></i> Uber</td>
                                 <td>{{ $order->uber_pickup ? "UBER ORDERED" : "UBER NOT ORDERED" }}</td>
                             </tr>
+                            <tr>
+                                <td><i class="fas fa-file-invoice-dollar mr-2"></i> Cost</td>
+                                <td>
+                                    {{ $order->from_date->diffInDays($order->to_date) }} days
+                                    @ ${{ $order->vehicle->price }} per day
+                                </td>
+                            </tr>
                         </table>
 
                         <div class="row mt-5">
@@ -41,7 +53,12 @@
                                 <div class="text-dark h5">
                                     Total: <b>${{ number_format($order->total, 2) }}</b>
                                 </div>
-                                <order-payment :order="{{ $order }}"/>
+
+                                @if ($order->paid())
+                                    <small class="text-info">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                @else
+                                    <order-payment :order="{{ $order }}"/>
+                                @endif
                             </div>
                         </div>
 

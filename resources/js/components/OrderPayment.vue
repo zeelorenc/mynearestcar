@@ -41,10 +41,11 @@ export default {
             this.$refs.elementRef.submit();
         },
         tokenCreated: async function (token) {
-            const { data } = axios.post(`/order/${this.order.id}/payment`, {
-                payment_token: token,
+            const { data } = await axios.post(`/api/order/${this.order.id}/payment`, {
+                stripe: token,
             });
-            console.log(data)
+            const { id: orderId } = data.message;
+            window.location.href = `/order/${orderId}`;
         },
         tokenError: function (e) {
             this.processing = false;
