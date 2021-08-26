@@ -32,6 +32,7 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_create_an_order(): void
     {
+        $this->withoutExceptionHandling();
         $carpark = Carpark::factory()->create();
         $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
 
@@ -42,6 +43,10 @@ class OrderControllerTest extends TestCase
             'to_date' => Carbon::now()->addDay(),
             'uber_pickup' => false,
             'total' => 100.00,
+            'user_location' => [
+                'lat' => 10.0,
+                'lng' => 20.0,
+            ],
         ]);
 
         $this->assertNotNull(Order::first());

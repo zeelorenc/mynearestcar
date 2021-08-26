@@ -9,7 +9,7 @@
                             ref='mapRef'
                             :zoom='12'
                             map-type-id='terrain'
-                            :center='{lat: -37.8136, lng: 144.9631}'
+                            :center='focusLocation'
                             :options='{
                                 mapTypeControl: false,
                                 streetViewControl: false,
@@ -17,7 +17,7 @@
                             }'
                         >
                             <!-- user location -->
-                            <UserMarker/>
+                            <UserMarker @loaded="loadedLocation"/>
 
                             <!-- all carpark locations -->
                             <CarparkMarker
@@ -25,6 +25,12 @@
                                 v-for="(carpark, index) in this.carparks"
                                 :carpark="carpark"
                                 @clicked="clickedCarpark(carpark)"
+                            />
+
+                            <gmap-polygon
+                                v-if="focusCarparkPaths !== null"
+                                :paths="focusCarparkPaths"
+                                :options="{ strokeColor: '#ff0000ff' }"
                             />
                         </GmapMap>
                     </div>
@@ -46,6 +52,8 @@ export default {
         return {
             carparks: [],
             selectedCarpark: null,
+            focusLocation: {lat: -37.8136, lng: 144.9631},
+            focusCarparkPaths: null,
         };
     },
 
@@ -54,6 +62,21 @@ export default {
     },
 
     methods: {
+        loadedLocation: async function (location) {
+            const {data: carpark} = await axios.post('api/carparks/nearest', location);
+            this.$root.currentLocation = location;
+
+            // select closest carpark if they have not selected one
+            if (this.selectedCarpark === null) {
+                this.clickedCarpark(carpark);
+            } else {
+                this.drawLineToCarpark({
+                    lat: this.selectedCarpark.lat,
+                    lng: this.selectedCarpark.lng
+                });
+            }
+        },
+
         loadCarparks: async function () {
             const {data} = await axios.get('api/carparks');
             this.carparks = data;
@@ -62,8 +85,31 @@ export default {
         clickedCarpark: async function (carpark) {
             const {data} = await axios.get(`api/carparks/${carpark.id}/vehicles`);
             this.selectedCarpark = Object.assign(carpark, {vehicles: data});
-            console.log(this.selectedCarpark);
+
+            const carparkLocation = {lat: carpark.lat, lng: carpark.lng};
+            if (this.$root.currentLocation !== null) {
+                this.focusLocation = this.getMidPoint(this.$root.currentLocation, carparkLocation);
+                this.drawLineToCarpark(carparkLocation);
+            } else {
+                this.focusLocation = carparkLocation;
+            }
         },
+
+        drawLineToCarpark: function (carparkLocation) {
+            if (this.$root.currentLocation !== null) {
+                this.focusCarparkPaths = [
+                    carparkLocation,
+                    this.$root.currentLocation,
+                ];
+            }
+        },
+
+        getMidPoint: function (locationOne, locationTwo) {
+            return {
+                lat: (locationOne.lat + locationTwo.lat) / 2,
+                lng: (locationOne.lng + locationTwo.lng) / 2,
+            }
+        }
     },
 }
 </script>
