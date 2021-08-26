@@ -24,11 +24,12 @@ Route::apiResource('carparks', CarparkController::class, [
     'as' => 'api',
 ]);
 
-Route::get('/carparks/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
-    ->name('api.carparks.vehicles');
-
-Route::get('/carparks/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
-    ->name('api.carparks.vehicles');
+Route::group(['prefix' => 'carparks'], function() {
+    Route::post('nearest', [CarparkController::class, 'nearest'])
+        ->name('api.carparks.nearest');
+    Route::get('/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
+        ->name('api.carparks.vehicles');
+});
 
 Route::group(['prefix' => 'order'], function() { // @todo auth api
     Route::post('create', [OrderController::class, 'create'])
