@@ -22,7 +22,7 @@
                             <!-- all carpark locations -->
                             <CarparkMarker
                                 :key="index"
-                                v-for="(carpark, index) in this.carparks"
+                                v-for="(carpark, index) in carparks"
                                 :carpark="carpark"
                                 @clicked="clickedCarpark(carpark)"
                             />
@@ -30,7 +30,7 @@
                             <gmap-polygon
                                 v-if="focusCarparkPaths !== null"
                                 :paths="focusCarparkPaths"
-                                :options="{ strokeColor: '#ff0000ff' }"
+                                :options="{ strokeColor: '#6777efff' }"
                             />
                         </GmapMap>
                     </div>
@@ -63,18 +63,12 @@ export default {
 
     methods: {
         loadedLocation: async function (location) {
-            const {data: carpark} = await axios.post('api/carparks/nearest', location);
+            const {data: carparks} = await axios.post('api/carparks/nearest', location);
             this.$root.currentLocation = location;
+            this.carparks = carparks;
 
             // select closest carpark if they have not selected one
-            if (this.selectedCarpark === null) {
-                this.clickedCarpark(carpark);
-            } else {
-                this.drawLineToCarpark({
-                    lat: this.selectedCarpark.lat,
-                    lng: this.selectedCarpark.lng
-                });
-            }
+            this.clickedCarpark(this.selectedCarpark ?? carparks[0]);
         },
 
         loadCarparks: async function () {

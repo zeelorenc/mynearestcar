@@ -6,10 +6,10 @@
                   data-toggle="tooltip"
                   ata-original-title="Available car quantity">{{ carpark.vehicles.length }}</span>
         </div>
-        <div class="card-body d-flex justify-content-between">
-            <small class="mr-2"><i class="fas fa-route mr-1"></i> 830m</small>
-            <small class="mr-2"><i class="fas fa-walking mr-1"></i> 20 min</small>
-            <small class="mr-2"><i class="fas fa-taxi mr-1"></i> 8 min</small>
+        <div class="card-body d-flex justify-content-between" v-if="carpark.distance">
+            <small class="mr-2"><i class="fas fa-route mr-1"></i> {{ distanceKm }}</small>
+            <small class="mr-2"><i class="fas fa-walking mr-1"></i> {{ walkingMinutes }}</small>
+            <small class="mr-2"><i class="fas fa-taxi mr-1"></i> {{ drivingMinutes }}</small>
         </div>
         <div class="list-group list-group-flush">
             <a
@@ -43,5 +43,33 @@
 <script>
 export default {
     props: ['carpark'],
+
+    computed: {
+        distanceKm: function () {
+            return (this.carpark.distance / 1000).toFixed(0) + ' km';
+        },
+
+        walkingMinutes: function () {
+            const metersPerMinute = 90;
+            return this.formatTime(this.carpark.distance / metersPerMinute);
+        },
+
+        drivingMinutes: function () {
+            const metersPerMinute = 360;
+            return this.formatTime(this.carpark.distance / metersPerMinute);
+        },
+
+    },
+
+    methods: {
+        formatTime: function (time) {
+            if (time > 60) {
+                time /= 60;
+                return time.toFixed(0) + ' hrs';
+            } else {
+                return time.toFixed(0) + ' mins';
+            }
+        }
+    }
 }
 </script>
