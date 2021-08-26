@@ -22,7 +22,7 @@
                             <!-- all carpark locations -->
                             <CarparkMarker
                                 :key="index"
-                                v-for="(carpark, index) in this.carparks"
+                                v-for="(carpark, index) in carparks"
                                 :carpark="carpark"
                                 @clicked="clickedCarpark(carpark)"
                             />
@@ -30,7 +30,7 @@
                             <gmap-polygon
                                 v-if="focusCarparkPaths !== null"
                                 :paths="focusCarparkPaths"
-                                :options="{ strokeColor: '#ff0000ff' }"
+                                :options="{ strokeColor: '#6777efff' }"
                             />
                         </GmapMap>
                     </div>
@@ -68,14 +68,7 @@ export default {
             this.carparks = carparks;
 
             // select closest carpark if they have not selected one
-            if (this.selectedCarpark === null) {
-                this.clickedCarpark(carparks[0]);
-            } else {
-                this.drawLineToCarpark({
-                    lat: this.selectedCarpark.lat,
-                    lng: this.selectedCarpark.lng
-                });
-            }
+            this.clickedCarpark(this.selectedCarpark ?? carparks[0]);
         },
 
         loadCarparks: async function () {
