@@ -19,6 +19,11 @@ class Order extends Model
         'total',
         'status',
         'stripe_charge_id',
+        'user_location',
+    ];
+
+    protected $casts = [
+        'user_location' => 'array',
     ];
 
     protected $dates = ['from_date', 'to_date'];

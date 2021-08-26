@@ -42,6 +42,7 @@ const app = new Vue({
     data() {
         return {
             currentUser: window.currentUser || null,
+            currentLocation: null,
         }
     },
     el: '#app',

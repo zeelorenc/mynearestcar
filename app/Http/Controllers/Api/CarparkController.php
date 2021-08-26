@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\DistanceAdapter;
 use App\Models\Carpark;
 use Illuminate\Http\Request;
 
@@ -22,48 +23,17 @@ class CarparkController extends \Illuminate\Routing\Controller
         return $carpark->vehicles->toArray();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function nearest(Request $request)
     {
-        throw new \BadMethodCallException();
-    }
+        $latitude = $request->get('lat');
+        $longitude = $request->get('lng');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        throw new \BadMethodCallException();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        throw new \BadMethodCallException();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        throw new \BadMethodCallException();
+        return Carpark::all()
+            ->map(function ($e) use ($latitude, $longitude) {
+                $e['distance'] = DistanceAdapter::calculate($latitude, $longitude, $e->lat, $e->lng);
+                return $e;
+            })
+            ->sortBy('distance')
+            ->first();
     }
 }
