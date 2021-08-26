@@ -52,6 +52,7 @@
                            style="margin-top:0.4rem"
                            type="checkbox"
                            id="uber"
+                           :disabled="this.$currentLocation === null"
                            v-model="uber_pickup">
                     <label class="form-check-label w-100 d-flex align-items-center justify-content-between"
                            for="uber">
@@ -89,6 +90,7 @@ export default {
                     from_date: new Date(this.from_date),
                     to_date: new Date(this.to_date),
                     uber_pickup: this.uber_pickup,
+                    user_location: this.$root.currentLocation,
                 });
                 window.location.href = `/order/${data.id}`;
             } catch (e) {

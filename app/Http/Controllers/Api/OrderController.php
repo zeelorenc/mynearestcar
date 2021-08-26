@@ -47,6 +47,7 @@ class OrderController extends \Illuminate\Routing\Controller
             'uber_pickup' => $request->get('uber_pickup'),
             'total' => $vehicle->price * $rentalDays,
             'status' => OrderStatusSchema::UNPAID,
+            'user_location' => $request->get('user_location'),
         ]);
         return $order;
     }
