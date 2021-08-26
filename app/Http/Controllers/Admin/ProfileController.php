@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\AdminChangePassword;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 
@@ -44,7 +45,7 @@ class ProfileController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user->password = $request->get('password');
+        $user->password = Hash::make($request->get('password'));
         $user->save();
 
         Mail::send(new AdminChangePassword($user));
