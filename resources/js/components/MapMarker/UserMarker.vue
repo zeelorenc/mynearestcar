@@ -25,6 +25,7 @@ export default {
         getUserPosition: function () {
             navigator.geolocation.getCurrentPosition(position => {
                 this.location = { lat: position.coords.latitude, lng: position.coords.longitude };
+                this.$emit('loaded', this.location);
             });
         }
     },
