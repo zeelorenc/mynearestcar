@@ -34,6 +34,6 @@ class CarparkController extends \Illuminate\Routing\Controller
                 return $e;
             })
             ->sortBy('distance')
-            ->first();
+            ->values();
     }
 }
