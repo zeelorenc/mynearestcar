@@ -63,12 +63,13 @@ export default {
 
     methods: {
         loadedLocation: async function (location) {
-            const {data: carpark} = await axios.post('api/carparks/nearest', location);
+            const {data: carparks} = await axios.post('api/carparks/nearest', location);
             this.$root.currentLocation = location;
+            this.carparks = carparks;
 
             // select closest carpark if they have not selected one
             if (this.selectedCarpark === null) {
-                this.clickedCarpark(carpark);
+                this.clickedCarpark(carparks[0]);
             } else {
                 this.drawLineToCarpark({
                     lat: this.selectedCarpark.lat,

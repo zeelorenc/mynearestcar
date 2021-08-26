@@ -39,6 +39,6 @@ class CarparkControllerTest extends TestCase
             'lng' => 0.0,
         ]);
 
-        $this->assertEquals($closest->id, $carpark['id']);
+        $this->assertEquals($closest->id, $carpark[0]['id']);
     }
 }
