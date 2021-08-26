@@ -65,7 +65,16 @@ export default {
         loadedLocation: async function (location) {
             const {data: carpark} = await axios.post('api/carparks/nearest', location);
             this.$root.currentLocation = location;
-            this.clickedCarpark(carpark);
+
+            // select closest carpark if they have not selected one
+            if (this.selectedCarpark === null) {
+                this.clickedCarpark(carpark);
+            } else {
+                this.drawLineToCarpark({
+                    lat: this.selectedCarpark.lat,
+                    lng: this.selectedCarpark.lng
+                });
+            }
         },
 
         loadCarparks: async function () {
@@ -78,8 +87,12 @@ export default {
             this.selectedCarpark = Object.assign(carpark, {vehicles: data});
 
             const carparkLocation = {lat: carpark.lat, lng: carpark.lng};
-            this.focusLocation = this.getMidPoint(this.$root.currentLocation, carparkLocation);
-            this.drawLineToCarpark(carparkLocation);
+            if (this.$root.currentLocation !== null) {
+                this.focusLocation = this.getMidPoint(this.$root.currentLocation, carparkLocation);
+                this.drawLineToCarpark(carparkLocation);
+            } else {
+                this.focusLocation = carparkLocation;
+            }
         },
 
         drawLineToCarpark: function (carparkLocation) {

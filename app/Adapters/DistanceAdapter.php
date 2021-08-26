@@ -20,7 +20,8 @@ class DistanceAdapter
         float $latitudeFrom,
         float $longitudeFrom,
         float $latitudeTo,
-        float $longitudeTo
+        float $longitudeTo,
+        float $earthRadius = self::EARTH_RADIUS
     ): float {
         // convert from degrees to radians
         $latFrom = deg2rad($latitudeFrom);
@@ -34,6 +35,6 @@ class DistanceAdapter
         $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
 
         $angle = atan2(sqrt($a), $b);
-        return $angle * self::EARTH_RADIUS;
+        return $angle * $earthRadius;
     }
 }
