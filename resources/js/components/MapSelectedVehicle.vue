@@ -52,7 +52,7 @@
                            style="margin-top:0.4rem"
                            type="checkbox"
                            id="uber"
-                           :disabled="this.$currentLocation === null"
+                           :disabled="this.$root.currentLocation === null"
                            v-model="uber_pickup">
                     <label class="form-check-label w-100 d-flex align-items-center justify-content-between"
                            for="uber">
