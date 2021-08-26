@@ -28,12 +28,13 @@ class CarparkController extends \Illuminate\Routing\Controller
         $latitude = $request->get('lat');
         $longitude = $request->get('lng');
 
-        return Carpark::all()
+        $carparks= Carpark::all()
             ->map(function ($e) use ($latitude, $longitude) {
                 $e['distance'] = DistanceAdapter::calculate($latitude, $longitude, $e->lat, $e->lng);
                 return $e;
             })
             ->sortBy('distance')
-            ->first();
+        ->toArray();
+        return $carparks;
     }
 }
