@@ -18,7 +18,7 @@
                 <form action="{{ route('admin.vehicle.update', $vehicle->id) }}" method="POST">
                     @csrf
                     {{ method_field('put') }}
-                    
+
                     <div class="card-body">
                         @if(session()->has('message'))
                             <div class="alert alert-success mb-2">{{ session()->get('message') }}</div>
@@ -70,9 +70,11 @@
                                             value="{{ $vehicle->status }}"
                                             required
                                     >
-                                        <option value="available">Available</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="booked">Booked</option>
+                                        @foreach (\App\Schemas\VehicleStatusSchema::all() as $status)
+                                            <option value="{{ $status }}" @if ($vehicle->status === $status) selected="selected" @endif>
+                                                {{ ucfirst($status) }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     @error('status')
                                     <span class="invalid-feedback" role="alert">
