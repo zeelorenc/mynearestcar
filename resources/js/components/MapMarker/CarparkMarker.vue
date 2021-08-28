@@ -4,7 +4,7 @@
         :clickable="true"
         @click="this.clicked"
         :icon="{
-             url: '../../../img/carParkIcon.png',
+            url: require('../../../images/markers/carpark.png').default,
             size: { width: 32, height: 32, f: 'px', b: 'px' },
             scaledSize: { width: 32, height: 32, f: 'px', b: 'px' },
         }"
