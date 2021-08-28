@@ -72,6 +72,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.profile.edit');
         Route::put('update', [ProfileController::class, 'update'])
             ->name('admin.profile.update');
+        Route::put('password', [ProfileController::class, 'password'])
+            ->name('admin.profile.password');
     });
 
     // admin carpark management

@@ -96,7 +96,9 @@
                     </div>
 
                     <div class="card">
-                        <form method="post">
+                        <form method="POST" action="{{ route('admin.profile.password', $user->id) }}">
+                            @csrf
+                            {{ method_field('put') }}
                             <div class="card-header">
                                 <h4>Change Password</h4>
                             </div>
@@ -104,13 +106,18 @@
                                 <div class="row">
                                     <div class="form-group col-md-6 col-12">
                                         <label for="pwd">Password *</label>
-                                        <input type="password" id="pwd" class="form-control" name="pwd[password]"
-                                               required="">
+                                        <input type="password" id="pwd" class="form-control @error('password') is-invalid @enderror"
+                                               name="password" required autocomplete="current-password">
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group col-md-6 col-12">
-                                        <label for="repwd">Confirm Password *</label>
-                                        <input type="password" id="repwd" class="form-control" name="pwd[repwd]"
-                                               required="">
+                                        <label for="password-confirm">Confirm Password *</label>
+                                        <input type="password" id="password-confirm" class="form-control" name="password_confirmation"
+                                               required autocomplete="new-password">
                                     </div>
                                 </div>
                             </div>
