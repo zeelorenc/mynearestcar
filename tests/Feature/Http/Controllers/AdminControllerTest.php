@@ -53,8 +53,8 @@ class AdminControllerTest extends TestCase
      */
     public function it_can_render_the_admin_register(): void
     {
-        // @todo write test
-        $this->assertTrue(true);
+        $response = $this->get(route('admin.register'));
+        $response->assertViewIs('admin.auth.register');
     }
 
     /**
