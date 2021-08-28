@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ProfileControllerTest extends TestCase
@@ -106,6 +107,25 @@ class ProfileControllerTest extends TestCase
 
         $response->assertSeeText($admin->email);
         $response->assertSeeText($admin->name);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_change_the_user_password(): void
+    {
+        $this->actingAsAdmin();
+        $user = User::factory()->create();
+
+        $response = $this->put(route('admin.profile.password', $user->id), [
+            'password' => 'NewPassword123',
+            'password_confirmation' => 'NewPassword123',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertTrue(Hash::check('NewPassword123', $user->refresh()->password));
     }
 
     /**
