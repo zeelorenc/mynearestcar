@@ -29,8 +29,8 @@ class HomeControllerTest extends TestCase
      */
     public function it_can_render_the_home_page()
     {
-        // @todo write test
-        $this->assertTrue(true);
+        $response = $this->get(route('home'));
+        $response->assertViewIs('home');
     }
 
     /**
@@ -40,8 +40,8 @@ class HomeControllerTest extends TestCase
      */
     public function it_can_render_the_contact_page()
     {
-        // @todo write test
-        $this->assertTrue(true);
+        $response = $this->get(route('contact'));
+        $response->assertViewIs('contact');
     }
 
     private function mockUser()
