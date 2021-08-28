@@ -4,7 +4,9 @@
         :position="this.location"
         :clickable="true"
         :icon="{
-            url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            url: '../../../img/currentLocation.png',
+            size: { width: 32, height: 32, f: 'px', b: 'px' },
+            scaledSize: { width: 32, height: 32, f: 'px', b: 'px' },
         }"
     />
 </template>
