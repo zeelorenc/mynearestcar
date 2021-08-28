@@ -98,6 +98,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.vehicle.store');
         Route::get('{vehicle}/edit', [AdminVehicleController::class, 'edit'])
             ->name('admin.vehicle.edit');
+        Route::put('{vehicle}/update', [AdminVehicleController::class, 'update'])
+            ->name('admin.vehicle.update');
     });
 
 });

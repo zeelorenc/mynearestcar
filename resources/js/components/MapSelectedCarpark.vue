@@ -6,10 +6,10 @@
                   data-toggle="tooltip"
                   ata-original-title="Available car quantity">{{ carpark.vehicles.length }}</span>
         </div>
-        <div class="card-body d-flex justify-content-between">
-            <small class="mr-2"><i class="fas fa-route mr-1"></i> {{ this.distanceKm }}</small>
-            <small class="mr-2"><i class="fas fa-walking mr-1"></i> {{ this.walkingMinutes }}</small>
-            <small class="mr-2"><i class="fas fa-taxi mr-1"></i> {{ this.drivingMinutes }}</small>
+        <div class="card-body d-flex justify-content-between" v-if="carpark.distance">
+            <small class="mr-2"><i class="fas fa-route mr-1"></i> {{ distanceKm }}</small>
+            <small class="mr-2"><i class="fas fa-walking mr-1"></i> {{ walkingMinutes }}</small>
+            <small class="mr-2"><i class="fas fa-taxi mr-1"></i> {{ drivingMinutes }}</small>
         </div>
         <div class="list-group list-group-flush">
             <a
@@ -55,7 +55,7 @@ export default {
         },
 
         drivingMinutes: function () {
-            const metersPerMinute = 900;
+            const metersPerMinute = 360;
             return this.formatTime(this.carpark.distance / metersPerMinute);
         },
 
