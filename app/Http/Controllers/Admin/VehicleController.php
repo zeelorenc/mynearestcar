@@ -26,9 +26,10 @@ class VehicleController extends Controller
             ->with('carparks', Carpark::all());
     }
 
-    public function edit()
+    public function edit(Vehicle $vehicle)
     {
-        // @todo create edit page and handling
+        return view('admin.vehicle.edit')
+            ->with('vehicle', $vehicle)->with('carparks', Carpark::all());
     }
 
     public function store(Request $request)
@@ -50,5 +51,24 @@ class VehicleController extends Controller
         ]);
 
         return back()->with('message', 'Added a vehicle successfully!');
+    }
+
+    public function update(Vehicle $vehicle, Request $request){
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'carpark_id' => ['required', 'numeric', 'exists:carparks,id'],
+            'status' => ['required', 'string', Rule::in(VehicleStatusSchema::all())],
+            'price' => ['required', 'numeric', 'min:0'],
+            'seats' => ['required', 'numeric', 'min:1', 'max:24']
+        ]);
+
+        $vehicle->name = $request->get('name');
+        $vehicle->carpark_id = $request->get('carpark_id');
+        $vehicle->status = $request->get('status');
+        $vehicle->price = $request->get('price');
+        $vehicle->seats = $request->get('seats');
+        $vehicle->save();
+
+        return back()->with('message', 'Changed information successfully!');
     }
 }

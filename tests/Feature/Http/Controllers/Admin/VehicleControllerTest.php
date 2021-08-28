@@ -86,6 +86,50 @@ class VehicleControllerTest extends TestCase
     }
 
     /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_update_an_existing_vehicle(): void
+    {
+        $carpark = Carpark::factory()->create();
+        $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
+
+        $response = $this->put(route('admin.vehicle.update', [$vehicle->id]), [
+            'name' => 'Updated Vehicle Name',
+            'status' => VehicleStatusSchema::AVAILABLE,
+            'price' => 100,
+            'seats' => 3,
+            'carpark_id' => $carpark->id,
+        ]);
+        $vehicle->refresh();
+
+        $response->assertSessionHasNoErrors();
+        $this->assertEquals('Updated Vehicle Name', $vehicle->name);
+        // @todo assert other attributes
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_will_not_update_a_vehicle_with_invalid_attributes(): void
+    {
+        $carpark = Carpark::factory()->create();
+        $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
+
+        $response = $this->put(route('admin.vehicle.update', [$vehicle->id]));
+        $response->assertSessionHasErrors([
+            'name',
+            'status',
+            'price',
+            'seats',
+            'carpark_id',
+        ]);
+    }
+
+    /**
      * Mocks an admin user and logs in as one
      *
      * @return void
