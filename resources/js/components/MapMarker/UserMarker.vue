@@ -4,7 +4,7 @@
         :position="this.location"
         :clickable="true"
         :icon="{
-            url: '../../../img/currentLocation.png',
+            url: require('../../../images/markers/user.png').default,
             size: { width: 32, height: 32, f: 'px', b: 'px' },
             scaledSize: { width: 32, height: 32, f: 'px', b: 'px' },
         }"

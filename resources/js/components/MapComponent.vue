@@ -30,7 +30,7 @@
                             <gmap-polygon
                                 v-if="focusCarparkPaths !== null"
                                 :paths="focusCarparkPaths"
-                                :options="{ strokeColor: '#6777efff' }"
+                                :options="{ strokeColor: '#eab75bff' }"
                             />
                         </GmapMap>
                     </div>
