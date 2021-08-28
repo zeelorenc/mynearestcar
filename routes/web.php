@@ -68,6 +68,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
     Route::group(['prefix' => 'profile/{user}'], function() {
         Route::get('/', [ProfileController::class, 'index'])
             ->name('admin.profile.index');
+        Route::get('edit', [ProfileController::class, 'edit'])
+            ->name('admin.profile.edit');
         Route::put('update', [ProfileController::class, 'update'])
             ->name('admin.profile.update');
         Route::put('password', [ProfileController::class, 'password'])
