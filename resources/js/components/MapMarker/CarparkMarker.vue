@@ -4,7 +4,9 @@
         :clickable="true"
         @click="this.clicked"
         :icon="{
-            url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            url: require('../../../images/markers/carpark.png').default,
+            size: { width: 32, height: 32, f: 'px', b: 'px' },
+            scaledSize: { width: 32, height: 32, f: 'px', b: 'px' },
         }"
     />
 </template>
