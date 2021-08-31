@@ -28,11 +28,15 @@ class AppServiceProvider extends ServiceProvider
     {
         // @todo potential to refactor to its own validator class
         validator()->extend('min_date_diff', function ($attribute, $value, $parameters, $validator) {
-            $firstDate = Carbon::parse(request($parameters[0]));
-            $secondDate = Carbon::parse(request($parameters[1]));
-            $minDifference = (int) $parameters[2];
-            $diffFunction = 'diffIn' . ucfirst($parameters[3]);
-            return $firstDate->{$diffFunction}($secondDate) >= $minDifference;
+            try {
+                $firstDate = Carbon::parse(request($parameters[0]));
+                $secondDate = Carbon::parse(request($parameters[1]));
+                $minDifference = (int) $parameters[2];
+                $diffFunction = 'diffIn' . ucfirst($parameters[3]);
+                return $firstDate->{$diffFunction}($secondDate) >= $minDifference;
+            } catch (\Exception $e) {
+                return false;
+            }
         });
 
         validator()->replacer('min_date_diff', function ($message, $attribute, $rule, $parameters) {
