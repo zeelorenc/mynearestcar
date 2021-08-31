@@ -43,6 +43,9 @@ class VehicleControllerTest extends TestCase
                 'seats' => 2,
                 'price' => 100.00,
                 'status' => VehicleStatusSchema::AVAILABLE,
+                'brand' => 'Mercedes Benz',
+                'model' => 'C43 AMG',
+                'type' => 'Coupe',
             ]);
 
         $this->assertEquals('Mercedes Benz C43 AMG', $vehicle->name);

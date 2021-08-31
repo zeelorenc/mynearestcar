@@ -21,9 +21,9 @@ class CreateVehiclesTable extends Migration
             $table->enum('status', VehicleStatusSchema::all());
             $table->unsignedFloat('price');
             $table->tinyInteger('seats')->nullable();
-            $table->string('type');
-            $table->string('brand');
-            $table->string('model');
+            $table->string('type')->nullable();
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
             $table->timestamps();
 
             $table
