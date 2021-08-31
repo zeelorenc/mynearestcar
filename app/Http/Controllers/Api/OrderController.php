@@ -28,8 +28,8 @@ class OrderController extends \Illuminate\Routing\Controller
         $this->validate($request, [
             'user_id' => ['required', 'exists:users,id'], // @todo change to use middleware/bearer
             'vehicle_id' => ['required', 'exists:vehicles,id'],
-            'from_date' => ['required', 'date', 'before:to_date'],
-            'to_date' => ['required', 'date', 'after:from_date'],
+            'from_date' => ['required', 'date', 'before:to_date', 'after:1 hour'],
+            'to_date' => ['required', 'date', 'after:from_date', 'after:1 hour'],
             'uber_pickup' => ['required', 'boolean'],
         ]);
 
