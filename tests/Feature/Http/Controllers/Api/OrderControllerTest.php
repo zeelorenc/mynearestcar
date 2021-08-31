@@ -97,6 +97,64 @@ class OrderControllerTest extends TestCase
         $this->assertEquals(OrderStatusSchema::PAID, $order->refresh()->status);
     }
 
+
+    /**
+     * @test
+     * @dataProvider invalidDateTimeRangeDataProvider
+     *
+     * @param Carbon $fromDate
+     * @param Carbon $toDate
+     * @param array $expectedErrors
+     * @return void
+     */
+    public function it_will_not_create_an_order_without_a_valid_date_range(
+        Carbon $fromDate,
+        Carbon $toDate,
+        array $expectedErrors
+    ): void {
+        $carpark = Carpark::factory()->create();
+        $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
+
+        $response = $this->post(route('api.order.create'), [
+            'user_id' => $this->user->id, // @todo change to use middleware/bearer
+            'vehicle_id' => $vehicle->id,
+            'from_date' => $fromDate,
+            'to_date' => $toDate,
+            'uber_pickup' => false,
+            'total' => 100.00,
+            'user_location' => [
+                'lat' => 10.0,
+                'lng' => 20.0,
+            ],
+        ]);
+        if (filled($expectedErrors)) {
+            $response->assertSessionHasErrors($expectedErrors);
+        } else {
+            $response->assertSessionHasNoErrors();
+        }
+    }
+
+    public function invalidDateTimeRangeDataProvider(): array
+    {
+        return [
+            'fromDate is below current date' => [
+                'from_date' => Carbon::now()->subDay(),
+                'to_date' => Carbon::now()->addDays(2),
+                'expected_errors' => ['from_date'],
+            ],
+            'fromDate is at minimum the current date' => [
+                'from_date' => Carbon::now()->addDay(),
+                'to_date' => Carbon::now()->addDays(2),
+                'expected_errors' => [],
+            ],
+            'fromDate and toDate have at minimum a 1 day spread' => [
+                'from_date' => Carbon::now()->addDay(),
+                'to_date' => Carbon::now()->addDay(),
+                'expected_errors' => ['to_date'],
+            ]
+        ];
+    }
+
     /**
      * @param Vehicle $vehicle
      * @return Order
