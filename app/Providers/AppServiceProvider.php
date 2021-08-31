@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         validator()->replacer('min_date_diff', function ($message, $attribute, $rule, $parameters) {
-            $message = "{$parameters[1]} must have a difference of {$parameters[2]} {$parameters[3]} to {$parameters[0]}.";
+            $message = "{$parameters[1]} and {$parameters[0]} must have a difference of {$parameters[2]} {$parameters[3]}.";
             return ucfirst(str_replace('_', ' ', $message));
         });
 
