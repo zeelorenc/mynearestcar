@@ -29,6 +29,9 @@ class VehicleFactory extends Factory
             'status' => VehicleStatusSchema::AVAILABLE,
             'price' => $this->faker->randomFloat(2, 10, 150),
             'seats' => $this->faker->vehicleSeatCount,
+            'type' => $this->faker->vehicleType,
+            'brand' => $this->faker->vehicleBrand,
+            'model' => $this->faker->vehicleModel,
         ];
     }
 }

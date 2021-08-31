@@ -10,7 +10,10 @@
         >
             <div class="mb-4">
                 <span class="mr-3"><i class="fas fa-car mr-1"></i> {{ vehicle.name }}</span>
-                <span><i class="fas fa-user-friends mr-1"></i> {{ vehicle.seats }} seats</span>
+                <span class="mr-3"><i class="fas fa-user-friends mr-1"></i> {{ vehicle.seats }} seats</span>
+                <span class="mr-3"><i class="fas fa-vr-cardboard mr-1"></i> {{ vehicle.type }}</span>
+                <span class="mr-3"><i class="fas fa-copyright mr-1"></i> {{ vehicle.brand }}</span>
+                <span class="mr-3"><i class="fas fa-car-side mr-1"></i> {{ vehicle.model }}</span>
             </div>
 
             <form @submit.prevent="createOrder">

@@ -18,14 +18,24 @@
                 class="list-group-item list-group-item-action"
             >
                 <div class="d-flex w-100 align-items-start justify-content-between">
-                    <h6 class="mb-1">{{ vehicle.name }}</h6>
+                    <h6 class="mb-2">
+                        {{ vehicle.name }}
+
+                        <span :class="['badge', {
+                            'text-capitalize': true,
+                            'badge-danger': vehicle.status !== 'available',
+                            'badge-success': vehicle.status === 'available'
+                        }]">
+                            {{ vehicle.status }}
+                        </span>
+                    </h6>
                     <b class="text-black">${{ vehicle.price }}</b>
                 </div>
                 <div class="d-flex w-100">
                     <small class="mr-2">{{ vehicle.seats }} seats</small>
-                    <small :class="{ 'mr-2': true, 'text-danger': vehicle.status !== 'available' }">
-                        {{ vehicle.status }}
-                    </small>
+                    <small class="mr-2">{{ vehicle.type }}</small>
+                    <small class="mr-2">{{ vehicle.brand }}</small>
+                    <small class="mr-2">{{ vehicle.model }}</small>
                     <MapSelectedVehicle
                         v-if="vehicle.status === 'available'"
                         class="ml-auto"
