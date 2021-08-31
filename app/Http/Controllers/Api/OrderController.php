@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 
 class OrderController extends \Illuminate\Routing\Controller
 {
@@ -28,8 +29,8 @@ class OrderController extends \Illuminate\Routing\Controller
         $this->validate($request, [
             'user_id' => ['required', 'exists:users,id'], // @todo change to use middleware/bearer
             'vehicle_id' => ['required', 'exists:vehicles,id'],
-            'from_date' => ['required', 'date', 'before:to_date'],
-            'to_date' => ['required', 'date', 'after:from_date'],
+            'from_date' => ['required', 'date', 'before:to_date', 'after_or_equal:today'],
+            'to_date' => ['required', 'date', 'after:from_date', 'after:from_date', 'min_date_diff:to_date,from_date,1,days'],
             'uber_pickup' => ['required', 'boolean'],
         ]);
 
