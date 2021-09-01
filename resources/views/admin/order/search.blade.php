@@ -16,7 +16,6 @@
 
             <div class="card">
                 <div class="card-body">
-
                     <form action="{{ route('admin.order.search') }}" method="POST">
                         <div class="form-group mb-0">
                             <div class="input-group">
@@ -41,6 +40,11 @@
                     <h4>{{ __('Result') }}</h4>
                 </div>
                 <div class="card-body">
+                    @if (session()->has('message'))
+                        <div class="alert alert-success mb-4">{{ session()->get('message') }}</div>
+                    @elseif (session()->has('error'))
+                        <div class="alert alert-warning mb-4">{{ session()->get('error') }}</div>
+                    @endif
                     <div class="table-responsive">
                         <table class="table table-bordered table-md">
                             <tbody><tr>
@@ -52,10 +56,6 @@
                                 <th>Uber pickup</th>
                                 <th>Total</th>
                                 <th>Status</th>
-                                <th>Stripe charge id</th>
-                                <th>User location (Lat, Long)</th>
-                                <th>Created at</th>
-                                <th>Updated at</th>
                                 <th></th>
                             </tr>
                             @foreach ($orders as $order)
@@ -65,18 +65,21 @@
                                 <td>{{ $order->vehicle_id }}</td>
                                 <td>{{ $order->from_date->toFormattedDateString() }}</td>
                                 <td>{{ $order->to_date->toFormattedDateString() }}</td>
-                                <td>{{ $order->uber_pickup }}</td>
-                                <td>{{ $order->total }}</td>
-                                <td>{{ $order->status }}</td>
-                                <td>{{ $order->stripe_charge_id }}</td>
-                                <td>{{ $order->user_location['lat'] }}, {{ $order->user_location['lng'] }}</td>
-                                <td>{{ $order->created_at->toFormattedDateString() }}</td>
-                                <td>{{ $order->updated_at->toFormattedDateString() }}</td>
+                                <td>{{ $order->uber_pickup ? 'Yes' : 'No' }}</td>
+                                <td>${{ $order->total }}</td>
+                                <td>{{ ucfirst($order->status) }}</td>
                                 <td>
                                     <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
                                         @csrf
                                         {{ method_field('put') }}
-                                        <button class="btn btn-primary">Returned</button>
+                                        <button
+                                            class="btn btn-primary btn-block"
+                                            @if ($order->vehicle->status !== \App\Schemas\VehicleStatusSchema::RETURNED)
+                                                disabled="disabled"
+                                            @endif
+                                        >
+                                            Confirm Return
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

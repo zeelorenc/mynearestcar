@@ -5,6 +5,7 @@ namespace Tests\Feature\Http\Controllers\Admin;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Vehicle;
+use App\Schemas\OrderStatusSchema;
 use App\Schemas\VehicleStatusSchema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,10 +46,12 @@ class OrderControllerTest extends TestCase
     {
         $this->actingAsAdmin();
         $vehicle = Vehicle::factory()->create(['status' => VehicleStatusSchema::RETURNED]);
-        $order = Order::factory()->for($vehicle)->create();
+        $order = Order::factory()->for($vehicle)->create(['status' => OrderStatusSchema::PAID]);
 
         $this->put(route('admin.order.update', $order->id));
+        $order->refresh();
 
+        $this->assertEquals(OrderStatusSchema::COMPLETED, $order->status);
         $this->assertEquals(VehicleStatusSchema::AVAILABLE, $order->vehicle->status);
     }
 
