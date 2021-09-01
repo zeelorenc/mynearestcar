@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Schemas\VehicleStatusSchema;
 use Illuminate\Http\Request;
 use App\Models\Order;
 
@@ -36,11 +37,14 @@ class OrderController extends Controller
 
     public function update(Order $order, Request $request)
     {
-        // $order_id = request()->get("id");
-        $order->status = "returned";
-        $order->save();
-
-        return back()->with('message', 'Vehicle returned successfully!');
+        if ($order->vehicle->status === VehicleStatusSchema::RETURNED) {
+            $order->vehicle->update([
+                'status' => VehicleStatusSchema::AVAILABLE,
+            ]);
+            return back()->with('message', 'Vehicle returned successfully!');
+        } else {
+            return back()->with('message', 'Vehicle has not been marked as returned.');
+        }
     }
 
     public function edit()
