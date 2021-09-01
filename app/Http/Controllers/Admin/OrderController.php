@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Schemas\OrderStatusSchema;
 use App\Schemas\VehicleStatusSchema;
 use Illuminate\Http\Request;
 use App\Models\Order;
@@ -38,12 +39,15 @@ class OrderController extends Controller
     public function update(Order $order, Request $request)
     {
         if ($order->vehicle->status === VehicleStatusSchema::RETURNED) {
+            $order->update([
+                'status' => OrderStatusSchema::COMPLETED,
+            ]);
             $order->vehicle->update([
                 'status' => VehicleStatusSchema::AVAILABLE,
             ]);
-            return back()->with('message', 'Vehicle returned successfully!');
+            return back()->with('message', 'The vehicle return processed successfully and order is now completed!');
         } else {
-            return back()->with('message', 'Vehicle has not been marked as returned.');
+            return back()->with('error', 'Order has not been marked as confirmed as its vehicle is not returned.');
         }
     }
 
