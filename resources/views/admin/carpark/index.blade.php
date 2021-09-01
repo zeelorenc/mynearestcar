@@ -52,8 +52,8 @@
                                     <td>{{ $carpark->id }}</td>
                                     <td>{{ $carpark->name }}</td>
                                     <td>{{ $carpark->lat }}, {{ $carpark->lng }}</td>
-                                    <td>{{ $carpark->vehicles->count() }}</div>
-                                    <td>{{ $carpark->created_at->toFormattedDateString() }}</div>
+                                    <td>{{ $carpark->vehicles->count() }}</td>
+                                    <td>{{ $carpark->created_at->toFormattedDateString() }}</td>
                                     <td><a href="{{ route('admin.carpark.edit', $carpark->id) }}" class="btn btn-primary">Edit</a></td>
                                 </tr>
                             @endforeach

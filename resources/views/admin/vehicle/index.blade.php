@@ -116,11 +116,11 @@
                                     <td>{{ $vehicle->id }}</td>
                                     <td>{{ $vehicle->name }}</td>
                                     <td>{{ $vehicle->carpark_id }}</td>
-                                    <td>{{ $vehicle->status }}</div>
-                                    <td>{{ $vehicle->price }}</div>
-                                    <td>{{ $vehicle->seats }}</div>
-                                    <td>{{ $vehicle->created_at->toFormattedDateString() }}</div>
-                                    <td>{{ $vehicle->updated_at->toFormattedDateString() }}</div>
+                                    <td>{{ $vehicle->status }}</td>
+                                    <td>{{ $vehicle->price }}</td>
+                                    <td>{{ $vehicle->seats }}</td>
+                                    <td>{{ $vehicle->created_at->toFormattedDateString() }}</td>
+                                    <td>{{ $vehicle->updated_at->toFormattedDateString() }}</td>
                                     <td><a href="{{ route('admin.vehicle.edit', $vehicle->id) }}" class="btn btn-primary">Edit</a></td>
                                 </tr>
                             @endforeach
