@@ -17,12 +17,13 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form action="">
+                    <form action="{{ route('admin.order.search') }}" method="POST">
                         <div class="form-group mb-0">
                             <div class="input-group">
-                                <input type="text" class="form-control form-control-lg" placeholder="Enter information you want to search">
+                                @csrf
+                                <input type="text" name="vehicle_id" class="form-control form-control-lg" placeholder="Enter the vehicle id you want to search">
                                 <div class="input-group-append">
-                                    <button class="btn btn-lg btn-primary" type="button">
+                                    <button class="btn btn-lg btn-primary">
                                         <i class="fas fa-search"></i> {{ __('Search') }}
                                     </button>
                                 </div>
@@ -33,6 +34,8 @@
                 </div>
             </div>
 
+            @if (count($orders))
+
             <div class="card">
                 <div class="card-header">
                     <h4>{{ __('Result') }}</h4>
@@ -41,62 +44,54 @@
                     <div class="table-responsive">
                         <table class="table table-bordered table-md">
                             <tbody><tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Created At</th>
+                                <th>ID</th>
+                                <th>User id</th>
+                                <th>Vehicle id</th>
+                                <th>From date</th>
+                                <th>To date</th>
+                                <th>Uber pickup</th>
+                                <th>Total</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th>Stripe charge id</th>
+                                <th>User location (Lat, Long)</th>
+                                <th>Created at</th>
+                                <th>Updated at</th>
+                                <th></th>
                             </tr>
+                            @foreach ($orders as $order)
                             <tr>
-                                <td>1</td>
-                                <td>Irwansyah Saputra</td>
-                                <td>2017-01-09</td>
-                                <td><div class="badge badge-success">Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->user_id }}</td>
+                                <td>{{ $order->vehicle_id }}</td>
+                                <td>{{ $order->from_date->toFormattedDateString() }}</td>
+                                <td>{{ $order->to_date->toFormattedDateString() }}</td>
+                                <td>{{ $order->uber_pickup }}</td>
+                                <td>{{ $order->total }}</td>
+                                <td>{{ $order->status }}</td>
+                                <td>{{ $order->stripe_charge_id }}</td>
+                                <td>{{ $order->user_location['lat'] }}, {{ $order->user_location['lng'] }}</td>
+                                <td>{{ $order->created_at->toFormattedDateString() }}</td>
+                                <td>{{ $order->updated_at->toFormattedDateString() }}</td>
+                                <td>
+                                    <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
+                                        @csrf
+                                        {{ method_field('put') }}
+                                        <button class="btn btn-primary">Returned</button>
+                                    </form>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Hasan Basri</td>
-                                <td>2017-01-09</td>
-                                <td><div class="badge badge-success">Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Kusnadi</td>
-                                <td>2017-01-11</td>
-                                <td><div class="badge badge-danger">Not Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Rizal Fakhri</td>
-                                <td>2017-01-11</td>
-                                <td><div class="badge badge-success">Active</div></td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
+                        @endforeach
                             </tbody></table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <nav class="d-inline-block">
-                        <ul class="pagination mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
+                        {{ $orders->links() }}
                     </nav>
                 </div>
             </div>
 
+            @endif
         </div>
     </section>
 
