@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
+    public function index(User $user)
+    {
+        return view('user.index')
+            ->with('user', $user);
+    }
+
     public function edit(Request $request)
     {
         $user = auth()->user();
@@ -25,5 +34,17 @@ class UserController extends Controller
         $user->save();
 
         return back()->with('message', 'Changed profile successfully!');
+    }
+
+    public function password(User $user, Request $request)
+    {
+        $this->validate($request, [
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+
+        return back()->with('message', 'Changed password successfully!');
     }
 }
