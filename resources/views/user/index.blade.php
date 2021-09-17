@@ -47,6 +47,10 @@
                                     <span>Email:</span>
                                     <b>{{ $user->email }}</b>
                                 </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Driver Licence:</span>
+                                    <b>{{ $user->driver_licence }}</b>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -81,6 +85,18 @@
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                                name="email" placeholder="{{ $user->email }}" autocomplete="email">
                                         @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        <label>Driver Licence</label>
+                                        <input type="text" class="form-control @error('driver_licence') is-invalid @enderror"
+                                               name="driver_licence" placeholder="{{ $user->driver_licence }}"
+                                               autocomplete="driver_licence">
+                                        @error('driver_licence')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

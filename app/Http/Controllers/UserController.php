@@ -26,10 +26,12 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+            'driver_licence' => ['nullable', 'string', 'regex:/\d{2}-\d{2}-\d{4}/', 'unique:users,driver_licence'],
         ]);
 
         $user->name = $request->get('name');
         $user->email = $request->get('email') ?: $user->email;
+        $user->driver_licence = $request->get('driver_licence') ?: $user->driver_licence;
         $user->save();
 
         return back()->with('message', 'Changed profile successfully!');
