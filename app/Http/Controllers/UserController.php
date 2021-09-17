@@ -21,14 +21,13 @@ class UserController extends Controller
         return view('user.edit_profile', compact('user'));
     }
 
-    public function update(Request $request)
+    public function update(User $user, Request $request)
     {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
         ]);
 
-        $user = auth()->user();
         $user->name = $request->get('name');
         $user->email = $request->get('email') ?: $user->email;
         $user->save();
