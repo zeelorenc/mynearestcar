@@ -54,7 +54,7 @@
 
                 <div class="col-12 col-md-12 col-lg-8">
                     <div class="card">
-                        <form method="POST" action="{{ route('admin.profile.update', $user->id) }}">
+                        <form method="POST" action="{{ route('profile.update', $user->id) }}">
                             @csrf
                             {{ method_field('put') }}
 
