@@ -38,11 +38,15 @@ Route::group(['prefix' => 'vehicle', 'middleware' => 'auth'], function() {
     Route::get('search', [VehicleController::class, 'search'])->name('vehicle.search');
 });
 
-Route::group(['prefix' => 'profile', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() {
+    Route::get('/', [UserController::class, 'index'])
+        ->name('profile.index');
     Route::put('/', [UserController::class, 'update'])
         ->name('profile.update');
-    Route::get('edit', [UserController::class, 'edit'])
-        ->name('profile.edit');
+//    Route::get('edit', [UserController::class, 'edit'])
+//        ->name('profile.index');
+    Route::put('password', [UserController::class, 'password'])
+        ->name('profile.password');
 });
 
 Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {

@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -22,9 +23,9 @@ class UserControllerTest extends TestCase
         ];
 
         $this->actingAs($user = User::factory()->create());
-        $this->put(route('profile.update'), $expectedUserProfile);
+        $this->put(route('profile.update', $user->id), $expectedUserProfile);
 
-        $this->assertEquals($expectedUserProfile, $user->only(array_keys($expectedUserProfile)));
+        $this->assertEquals($expectedUserProfile, $user->refresh()->only(array_keys($expectedUserProfile)));
     }
 
     /**
@@ -40,9 +41,9 @@ class UserControllerTest extends TestCase
         ];
 
         $this->actingAs($user = User::factory()->create());
-        $this->put(route('profile.update'), $expectedUserProfile);
+        $this->put(route('profile.update', $user->id), $expectedUserProfile);
 
-        $this->assertEquals($expectedUserProfile, $user->only(array_keys($expectedUserProfile)));
+        $this->assertEquals($expectedUserProfile, $user->refresh()->only(array_keys($expectedUserProfile)));
     }
 
     /**
@@ -52,8 +53,27 @@ class UserControllerTest extends TestCase
      */
     public function it_redirects_guest_to_login_if_attempting_to_update_user_profile(): void
     {
-        $res = $this->put(route('profile.update'), ['name' => 'Some Name']);
+        $user = User::factory()->create();
+        $res = $this->put(route('profile.update', $user->id), ['name' => 'Some Name']);
         $res->assertRedirect(route('login'));
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_change_the_user_password(): void
+    {
+        $this->actingAs($user = User::factory()->create());
+
+        $response = $this->put(route('profile.password', $user->id), [
+            'password' => 'NewPassword123',
+            'password_confirmation' => 'NewPassword123',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertTrue(Hash::check('NewPassword123', $user->refresh()->password));
     }
 
     /**
@@ -67,8 +87,8 @@ class UserControllerTest extends TestCase
     public function it_displays_validation_error_for_invalid_profile_fields(
         $userProfileData, $expectedSessionErrors
     ): void {
-        $this->actingAs(User::factory()->create());
-        $response = $this->put(route('profile.update'), $userProfileData);
+        $this->actingAs($user = User::factory()->create());
+        $response = $this->put(route('profile.update', $user->id), $userProfileData);
         $response->assertSessionHasErrors($expectedSessionErrors);
     }
 
