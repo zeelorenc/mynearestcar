@@ -57,10 +57,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $role = $data['role'] ?? 'client';
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:2', 'confirmed'],
+            'driver_licence' => [
+                $role === 'client' ? 'required' : 'nullable',
+                'string',
+                'regex:/\d{2}-\d{2}-\d{4}/',
+                'unique:users,driver_licence'
+            ],
         ])->sometimes('email', 'prohibited', function ($input) {
             return $input->role === UserSchema::ROLE_ADMIN
                 && !str_contains($input->email, UserSchema::ADMIN_EMAIL_PATTERN);
