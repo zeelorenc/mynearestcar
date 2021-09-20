@@ -40,6 +40,7 @@
                         v-if="vehicle.status === 'available'"
                         class="ml-auto"
                         :vehicle="vehicle"
+                        :carpark="carpark"
                     />
                 </div>
             </a>

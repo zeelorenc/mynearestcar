@@ -1,6 +1,10 @@
 .google-map-container {
     height: 500px;
 
+    &.map-modal {
+        height: 200px;
+    }
+
     .vue-map-container {
         width: 100%;
         height: inherit;
