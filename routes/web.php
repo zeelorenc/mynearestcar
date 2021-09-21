@@ -6,6 +6,7 @@ use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\VehicleController;
 use \App\Http\Controllers\OrderController;
+use \App\Http\Controllers\RentController;
 
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\Admin\ProfileController;
@@ -33,6 +34,7 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
 
 Route::group(['prefix' => 'vehicle', 'middleware' => 'auth'], function() {
     Route::get('search', [VehicleController::class, 'search'])->name('vehicle.search');
