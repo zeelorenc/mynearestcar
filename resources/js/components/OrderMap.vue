@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    props: ['vehicle', 'carpark', 'visible'],
+    props: ['vehicle', 'carpark', 'visible', 'route'],
 
     data() {
         return {
@@ -52,9 +52,6 @@ export default {
 
     mounted() {
         this.$refs.uberMapRef.$mapPromise.then(() => {
-            console.log('this.$root.currentLocation', this.$root.currentLocation);
-            console.log('carpark', {'lat': this.carpark.lat, 'lng': this.carpark.lng});
-
             this.setDirections(
                 this.$root.currentLocation,
                 {'lat': this.carpark.lat, 'lng': this.carpark.lng}
@@ -70,22 +67,27 @@ export default {
             }
             this.directionsRender = new google.maps.DirectionsRenderer({suppressMarkers: true});
             this.directionsRender.setMap(mapObject);
-            new google.maps.DirectionsService().route(
-                {
-                    origin: start,
-                    destination: finish,
-                    optimizeWaypoints: true,
-                    travelMode: 'DRIVING'
-                },
-                (response, status) => {
-                    if (status === 'OK') {
-                        this.directionsResponse = response;
-                        this.directionsRender.setDirections(response);
-                        const distance = response.routes[0].legs[0].distance.value;
-                        this.$emit('calculated', distance);
+
+            // if this.route is set (in the view order page), then it will preset the route from the database
+            if (this.route) {
+                this.directionsRender.setDirections(this.directionsResponse = this.route);
+            } else {
+                new google.maps.DirectionsService().route(
+                    {
+                        origin: start,
+                        destination: finish,
+                        optimizeWaypoints: true,
+                        travelMode: 'DRIVING'
+                    },
+                    (response, status) => {
+                        if (status === 'OK') {
+                            this.directionsResponse = response;
+                            this.directionsRender.setDirections(response);
+                            this.$emit('calculated', response);
+                        }
                     }
-                }
-            );
+                );
+            }
         }
     },
 }
