@@ -13,14 +13,18 @@
 
 <script>
 export default {
+    props: ['userLocation'],
+
     data() {
         return  {
-            location: this.$root.currentLocation || null,
+            location: this.userLocation || this.$root.currentLocation,
         };
     },
 
     mounted() {
-        this.getUserPosition();
+        if (!this.userLocation) {
+            this.getUserPosition();
+        }
     },
 
     methods: {
