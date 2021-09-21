@@ -65,15 +65,15 @@ export default {
         loadedLocation: async function (location) {
             const {data: carparks} = await axios.post('api/carparks/nearest', location);
             this.$root.currentLocation = location;
-            this.carparks = carparks;
+            this.carparks = carparks.filter(c => c.vehicles_count);
 
             // select closest carpark if they have not selected one
-            this.clickedCarpark(this.selectedCarpark ?? carparks[0]);
+            this.clickedCarpark(this.selectedCarpark ?? this.carparks[0]);
         },
 
         loadCarparks: async function () {
-            const {data} = await axios.get('api/carparks');
-            this.carparks = data;
+            const {data: carparks} = await axios.get('api/carparks');
+            this.carparks = carparks.filter(c => c.vehicles_count);
         },
 
         clickedCarpark: async function (carpark) {
