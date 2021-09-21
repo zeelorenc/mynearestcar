@@ -18,7 +18,7 @@
                             }'
                         >
                             <!-- user location -->
-                            <UserMarker />
+                            <UserMarker :userLocation="startLocation" />
 
                             <!-- carpark location -->
                             <CarparkMarker :carpark="carpark"/>
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    props: ['vehicle', 'carpark', 'visible', 'route'],
+    props: ['vehicle', 'carpark', 'visible', 'route', 'startLocation'],
 
     data() {
         return {

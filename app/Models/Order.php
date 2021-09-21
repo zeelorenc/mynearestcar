@@ -34,7 +34,7 @@ class Order extends Model
     public function getGrandTotalAttribute(): float
     {
         $uberTotal = optional($this->uber)->total ?? 0;
-        return $this->total + $uberTotal;
+        return round($this->total + $uberTotal, 2);
     }
 
     public function user()
