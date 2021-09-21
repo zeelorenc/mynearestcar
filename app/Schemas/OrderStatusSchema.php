@@ -17,9 +17,9 @@ class OrderStatusSchema
     public static function asCssClass(string $status): string
     {
         return [
-            self::COMPLETED => 'text-success',
-            self::PAID => 'text-success',
-            self::UNPAID => 'text-danger',
+            self::COMPLETED => 'success',
+            self::PAID => 'success',
+            self::UNPAID => 'danger',
         ][$status] ?? '';
     }
 

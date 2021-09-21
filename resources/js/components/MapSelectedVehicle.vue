@@ -76,7 +76,7 @@
                 />
 
                 <button type="submit" class="btn btn-primary btn-shadow btn-block" :disabled="uber_pickup === true && uber_route === null">
-                    ORDER ({{ uber_pickup === true ? `$${vehicle.price} + $${uberCost} UBER` : `$${vehicle.price}` }})
+                    ORDER ({{ uber_pickup === true ? `$${vehicle.price} PER DAY + $${uberCost} UBER` : `$${vehicle.price} PER DAY` }})
                 </button>
             </form>
         </b-modal>

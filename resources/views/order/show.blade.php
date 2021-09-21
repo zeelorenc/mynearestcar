@@ -5,7 +5,7 @@
         <div class="section-header">
             <h1 class="w-100 d-flex align-items-center justify-content-between">
                 <span>{{ "Rental Booking Order #{$order->id}" }}</span>
-                <small class="{{ \App\Schemas\OrderStatusSchema::asCssClass($order->status) }} font-weight-bold">
+                <small class="text-{{ \App\Schemas\OrderStatusSchema::asCssClass($order->status) }} font-weight-bold">
                     {{ strtoupper($order->status) }}
                 </small>
             </h1>
@@ -14,9 +14,10 @@
         <div class="section-body">
 
             <div class="card">
+                <div class="card-header">
+                    <h4>Order information</h4>
+                </div>
                 <div class="card-body">
-                    <div class="card-title">Order information</div>
-
                     <form action="">
                         <table class="table table-striped">
                             <tr>
@@ -44,13 +45,16 @@
                                                 :carpark='{!! $order->vehicle->carpark !!}'
                                                 :vehicle='{!! $order->vehicle !!}'
                                                 :route='{!! json_encode($order->uber->route_data) !!}'
+                                                :start-location='{!! json_encode($order->user_location) !!}'
                                                 :visible="true"
                                             />
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
                                                 <p class="m-0">Total ${{ number_format($order->uber->total, 2) }} for {{ number_format($order->uber->distance / 1000, 2) }} km trip</p>
-                                                <p class="m-0"><i>Your uber will be called as soon as payment has been processed</i></p>
+                                                @if ($order->status !== \App\Schemas\OrderStatusSchema::PAID)
+                                                    <p class="m-0"><i>Your uber will be called as soon as payment has been processed</i></p>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
