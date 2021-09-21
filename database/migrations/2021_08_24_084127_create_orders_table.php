@@ -20,7 +20,6 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('vehicle_id');
             $table->timestamp('from_date')->nullable();
             $table->timestamp('to_date')->nullable();
-            $table->boolean('uber_pickup');
             $table->unsignedFloat('total');
             $table->string('status')->default(OrderStatusSchema::UNPAID);
             $table->string('stripe_charge_id')->nullable();

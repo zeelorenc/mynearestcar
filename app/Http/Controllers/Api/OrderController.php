@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Adapters\StripeAdapter;
+use App\Http\Requests\CreateOrderRequest;
 use App\Models\Order;
+use App\Models\OrderUber;
 use App\Models\Vehicle;
 use App\Schemas\OrderStatusSchema;
 use App\Schemas\VehicleStatusSchema;
@@ -24,16 +26,8 @@ class OrderController extends \Illuminate\Routing\Controller
      * @return mixed
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function create(Request $request)
+    public function create(CreateOrderRequest $request)
     {
-        $this->validate($request, [
-            'user_id' => ['required', 'exists:users,id'], // @todo change to use middleware/bearer
-            'vehicle_id' => ['required', 'exists:vehicles,id'],
-            'from_date' => ['required', 'date', 'before:to_date', 'after_or_equal:today'],
-            'to_date' => ['required', 'date', 'after:from_date', 'after:from_date', 'min_date_diff:to_date,from_date,1,days'],
-            'uber_pickup' => ['required', 'boolean'],
-        ]);
-
         $fromDate = Carbon::parse($request->get('from_date'));
         $toDate = Carbon::parse($request->get('to_date'));
 
@@ -50,6 +44,11 @@ class OrderController extends \Illuminate\Routing\Controller
             'status' => OrderStatusSchema::UNPAID,
             'user_location' => $request->get('user_location'),
         ]);
+        if ($request->get('uber_pickup') === true) {
+            $order->uber()->create([
+                'route_data' => $request->get('uber_route'),
+            ]);
+        }
         return $order;
     }
 
@@ -65,7 +64,7 @@ class OrderController extends \Illuminate\Routing\Controller
                 'email' => $order->user->email,
                 'source' => Arr::get($request->get('stripe'), 'id'),
             ])
-            ->charge($order->total, "Rental Order {$order->id}");
+            ->charge($order->grand_total, "Rental Order {$order->id}");
         if ($charge['status'] !== 'succeeded') {
             return ['success' => false, 'message' => 'Payment failed'];
         }

@@ -7,6 +7,7 @@
             content-class="shadow"
             hide-footer
             title="Order Rental Vehicle"
+            size="lg"
         >
             <div class="mb-4">
                 <span class="mr-3"><i class="fas fa-car mr-1"></i> {{ vehicle.name }}</span>
@@ -60,12 +61,22 @@
                     <label class="form-check-label w-100 d-flex align-items-center justify-content-between"
                            for="uber">
                         Uber Request
-                        <span class="badge badge-success">EXTRA</span>
+                        <span class="badge badge-success">
+                            EXTRA <span v-if="uber_route !== null">${{ uberCost }}</span>
+                        </span>
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-shadow btn-block">
-                    ORDER ({{ uber_pickup === true ? `$${vehicle.price} + UBER` : `$${vehicle.price}` }})
+                <OrderMap
+                    :vehicle="vehicle"
+                    :carpark="carpark"
+                    v-if="this.$root.currentLocation !== null"
+                    :visible="uber_pickup === true"
+                    @calculated="calculatedUber"
+                />
+
+                <button type="submit" class="btn btn-primary btn-shadow btn-block" :disabled="uber_pickup === true && uber_route === null">
+                    ORDER ({{ uber_pickup === true ? `$${vehicle.price} + $${uberCost} UBER` : `$${vehicle.price}` }})
                 </button>
             </form>
         </b-modal>
@@ -74,17 +85,30 @@
 
 <script>
 export default {
-    props: ['vehicle'],
+    props: ['vehicle', 'carpark'],
     data() {
         return {
             from_date: null,
             to_date: null,
             uber_pickup: false,
+            uber_route: null,
             errors: {},
         }
     },
 
+    computed: {
+        uberCost: function () {
+            const distance = this.uber_route.routes[0].legs[0].distance.value;
+            const kilometers = distance / 1000;
+            return (5 + kilometers * 2.5).toFixed(2);
+        },
+    },
+
     methods: {
+        calculatedUber: function (response) {
+            this.uber_route = response;
+        },
+
         createOrder: async function (e) {
             try {
                 const { data } = await axios.post(`/api/order/create`, {
@@ -94,6 +118,7 @@ export default {
                     to_date: new Date(this.to_date),
                     uber_pickup: this.uber_pickup,
                     user_location: this.$root.currentLocation,
+                    uber_route: this.uber_route,
                 });
                 window.location.href = `/order/${data.id}`;
             } catch (e) {

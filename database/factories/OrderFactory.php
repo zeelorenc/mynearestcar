@@ -33,7 +33,6 @@ class OrderFactory extends Factory
             'vehicle_id' => Vehicle::factory(),
             'from_date' => $fromDate,
             'to_date' => $toDate,
-            'uber_pickup' => $this->faker->randomElement([true, false]),
             'total' => $this->faker->randomFloat(2, 20, 120) * $rentalDays,
             'status' => collect(OrderStatusSchema::all())->random(),
             'user_location' => [

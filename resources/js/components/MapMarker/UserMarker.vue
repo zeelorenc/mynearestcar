@@ -15,7 +15,7 @@
 export default {
     data() {
         return  {
-            location: null,
+            location: this.$root.currentLocation || null,
         };
     },
 

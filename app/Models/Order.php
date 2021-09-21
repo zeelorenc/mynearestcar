@@ -15,7 +15,6 @@ class Order extends Model
         'vehicle_id',
         'from_date',
         'to_date',
-        'uber_pickup',
         'total',
         'status',
         'stripe_charge_id',
@@ -27,6 +26,16 @@ class Order extends Model
     ];
 
     protected $dates = ['from_date', 'to_date'];
+
+    protected $appends = [
+        'grand_total',
+    ];
+
+    public function getGrandTotalAttribute(): float
+    {
+        $uberTotal = optional($this->uber)->total ?? 0;
+        return $this->total + $uberTotal;
+    }
 
     public function user()
     {
@@ -41,5 +50,10 @@ class Order extends Model
     public function paid()
     {
         return $this->status === OrderStatusSchema::PAID;
+    }
+
+    public function uber()
+    {
+        return $this->hasOne(OrderUber::class);
     }
 }
