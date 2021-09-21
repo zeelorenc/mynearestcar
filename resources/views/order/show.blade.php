@@ -35,10 +35,27 @@
                                 <td><i class="fas fa-calendar-alt mr-2"></i> Drop-off Date</td>
                                 <td>{{ $order->to_date->toDayDateTimeString() }}</td>
                             </tr>
-                            <tr>
-                                <td><i class="fas fa-taxi mr-2"></i> Uber</td>
-                                <td>{{ $order->uber_pickup ? "UBER ORDERED" : "UBER NOT ORDERED" }}</td>
-                            </tr>
+                            @if ($order->uber)
+                                <tr>
+                                    <td><i class="fas fa-taxi mr-2"></i> Uber</td>
+                                    <td style="padding: 20px">
+                                        <div class="mb-2">
+                                            <order-map
+                                                :carpark='{!! $order->vehicle->carpark !!}'
+                                                :vehicle='{!! $order->vehicle !!}'
+                                                :route='{!! json_encode($order->uber->route_data) !!}'
+                                                :visible="true"
+                                            />
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p class="m-0">Total ${{ number_format($order->uber->total, 2) }} for {{ number_format($order->uber->distance / 1000, 2) }} km trip</p>
+                                                <p class="m-0"><i>Your uber will be called as soon as payment has been processed</i></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
                                 <td><i class="fas fa-file-invoice-dollar mr-2"></i> Cost</td>
                                 <td>
@@ -51,7 +68,7 @@
                         <div class="row mt-5">
                             <div class="col-8 offset-4 text-right">
                                 <div class="text-dark h5">
-                                    Total: <b>${{ number_format($order->total, 2) }}</b>
+                                    Total: <b>${{ number_format($order->grand_total, 2) }}</b>
                                 </div>
 
                                 @if ($order->paid())

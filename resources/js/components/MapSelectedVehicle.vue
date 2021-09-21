@@ -52,7 +52,6 @@
                 </div>
 
                 <div class="form-check mb-3">
-                    <input type="hidden" name="uber_distance" v-model="uber_distance">
                     <input class="form-check-input"
                            style="margin-top:0.4rem"
                            type="checkbox"
@@ -63,7 +62,7 @@
                            for="uber">
                         Uber Request
                         <span class="badge badge-success">
-                            EXTRA <span v-if="uber_distance !== null">${{ uberCost }}</span>
+                            EXTRA <span v-if="uber_route !== null">${{ uberCost }}</span>
                         </span>
                     </label>
                 </div>
@@ -76,7 +75,7 @@
                     @calculated="calculatedUber"
                 />
 
-                <button type="submit" class="btn btn-primary btn-shadow btn-block" :disabled="uber_pickup === true && uber_distance === null">
+                <button type="submit" class="btn btn-primary btn-shadow btn-block" :disabled="uber_pickup === true && uber_route === null">
                     ORDER ({{ uber_pickup === true ? `$${vehicle.price} + $${uberCost} UBER` : `$${vehicle.price}` }})
                 </button>
             </form>
@@ -92,21 +91,22 @@ export default {
             from_date: null,
             to_date: null,
             uber_pickup: false,
-            uber_distance: null,
+            uber_route: null,
             errors: {},
         }
     },
 
     computed: {
         uberCost: function () {
-            const kilometers = this.uber_distance / 1000;
+            const distance = this.uber_route.routes[0].legs[0].distance.value;
+            const kilometers = distance / 1000;
             return (5 + kilometers * 2.5).toFixed(2);
-        }
+        },
     },
 
     methods: {
-        calculatedUber: function (distance) {
-            this.uber_distance = distance;
+        calculatedUber: function (response) {
+            this.uber_route = response;
         },
 
         createOrder: async function (e) {
@@ -118,6 +118,7 @@ export default {
                     to_date: new Date(this.to_date),
                     uber_pickup: this.uber_pickup,
                     user_location: this.$root.currentLocation,
+                    uber_route: this.uber_route,
                 });
                 window.location.href = `/order/${data.id}`;
             } catch (e) {
