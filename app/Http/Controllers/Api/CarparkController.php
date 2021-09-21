@@ -15,7 +15,7 @@ class CarparkController extends \Illuminate\Routing\Controller
      */
     public function index()
     {
-        return Carpark::all()->toArray();
+        return Carpark::withCount('vehicles')->get()->toArray();
     }
 
     public function vehicles(Carpark $carpark)
@@ -28,7 +28,8 @@ class CarparkController extends \Illuminate\Routing\Controller
         $latitude = $request->get('lat');
         $longitude = $request->get('lng');
 
-        return Carpark::all()
+        return Carpark::withCount('vehicles')
+            ->get()
             ->map(function ($e) use ($latitude, $longitude) {
                 $e['distance'] = DistanceAdapter::calculate($latitude, $longitude, $e->lat, $e->lng);
                 return $e;

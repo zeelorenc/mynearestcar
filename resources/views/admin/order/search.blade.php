@@ -66,7 +66,7 @@
                                 <td>{{ $order->from_date->toFormattedDateString() }}</td>
                                 <td>{{ $order->to_date->toFormattedDateString() }}</td>
                                 <td>{{ $order->uber_pickup ? 'Yes' : 'No' }}</td>
-                                <td>${{ $order->total }}</td>
+                                <td>${{ $order->grand_total }}</td>
                                 <td>{{ ucfirst($order->status) }}</td>
                                 <td>
                                     <form action="{{ route('admin.order.update', $order->id) }}" method="POST">

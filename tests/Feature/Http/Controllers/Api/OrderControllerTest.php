@@ -32,7 +32,6 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_create_an_order(): void
     {
-        $this->withoutExceptionHandling();
         $carpark = Carpark::factory()->create();
         $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
 
@@ -57,6 +56,35 @@ class OrderControllerTest extends TestCase
      *
      * @return void
      */
+    public function it_can_create_an_order_with_an_uber(): void
+    {
+        $carpark = Carpark::factory()->create();
+        $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
+
+        $this->post(route('api.order.create'), [
+            'user_id' => $this->user->id, // @todo change to use middleware/bearer
+            'vehicle_id' => $vehicle->id,
+            'from_date' => Carbon::now(),
+            'to_date' => Carbon::now()->addDay(),
+            'uber_pickup' => true,
+            'uber_route' => ['sample_data'],
+            'total' => 100.00,
+            'user_location' => [
+                'lat' => 10.0,
+                'lng' => 20.0,
+            ],
+        ]);
+
+        $order = Order::first();
+        $this->assertNotNull($order);
+        $this->assertNotNull($order->uber);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
     public function it_cannot_create_an_order_without_valid_fields(): void
     {
         $response = $this->post(route('api.order.create'), [
@@ -66,12 +94,13 @@ class OrderControllerTest extends TestCase
             'uber_pickup' => 'false',
         ]);
 
-        $response->assertSessionHasErrors([
+        $response->assertJsonStructure(['errors' => [
             'vehicle_id',
             'from_date',
             'to_date',
             'uber_pickup',
-        ]);
+        ]]);
+        $response->assertUnprocessable();
     }
 
     /**
@@ -97,7 +126,6 @@ class OrderControllerTest extends TestCase
         $this->assertEquals(OrderStatusSchema::PAID, $order->refresh()->status);
     }
 
-
     /**
      * @test
      * @dataProvider invalidDateTimeRangeDataProvider
@@ -111,7 +139,8 @@ class OrderControllerTest extends TestCase
         Carbon $fromDate,
         Carbon $toDate,
         array $expectedErrors
-    ): void {
+    ): void
+    {
         $carpark = Carpark::factory()->create();
         $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
 
@@ -128,9 +157,9 @@ class OrderControllerTest extends TestCase
             ],
         ]);
         if (filled($expectedErrors)) {
-            $response->assertSessionHasErrors($expectedErrors);
+            $response->assertJsonStructure(['errors' => $expectedErrors]);
         } else {
-            $response->assertSessionHasNoErrors();
+            $response->assertCreated();
         }
     }
 
