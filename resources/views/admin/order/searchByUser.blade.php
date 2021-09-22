@@ -16,7 +16,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.order.searchById') }}" method="POST">
+                    <form action="{{ route('admin.order.searchByUser') }}" method="POST">
                         <div class="form-group mb-0">
                             <div class="input-group">
                                 @csrf

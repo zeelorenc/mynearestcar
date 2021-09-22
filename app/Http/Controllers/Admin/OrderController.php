@@ -36,6 +36,22 @@ class OrderController extends Controller
             ->with('orders', $orders);
     }
 
+    public function searchByUser(Request $request)
+    {
+        $orders = new Order();
+
+        if ($request->has('user_id')) {
+            $orders = $orders->where('user_id', $request->get('user_id'));
+        }
+
+        $orders = $orders
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        return view('admin.order.searchByUser')
+            ->with('orders', $orders);
+    }
+
     public function update(Order $order, Request $request)
     {
         if ($order->vehicle->status === VehicleStatusSchema::RETURNED) {

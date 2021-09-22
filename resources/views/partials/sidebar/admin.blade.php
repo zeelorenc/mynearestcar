@@ -39,8 +39,8 @@
 
 
     <li class="menu-header"><i class="fas fa-users p-1 mr-2"></i> {{ __('User Management') }}</li>
-    <li class="{{ Request::route()->getName() == 'admin.user.search' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.user.search') }}">
+    <li class="{{ Request::route()->getName() == 'admin.order.searchByUser' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.order.searchByUser') }}">
             <i class="fas fa-search"></i> <span>{{ __('Search User') }}</span>
         </a>
     </li>
