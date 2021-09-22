@@ -119,6 +119,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.order.update');
     });
 
+    Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
+        Route::get('history', [OrderController::class, 'history'])
+            ->name('order.history');
+    });
+
+
 
 });
 

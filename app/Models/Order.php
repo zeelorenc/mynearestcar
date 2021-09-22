@@ -19,6 +19,8 @@ class Order extends Model
         'status',
         'stripe_charge_id',
         'user_location',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
