@@ -12,7 +12,6 @@ use \App\Http\Controllers\Admin\ProfileController;
 use \App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
 use \App\Http\Controllers\Admin\CarparkController as AdminCarparkController;
 use \App\Http\Controllers\Admin\OrderController as AdminOrderController;
-use \App\Http\Controllers\Admin\UserController as AdminUserController;
 
 
 /*
@@ -116,14 +115,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.order.search');
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
+        Route::any('searchByUser', [AdminOrderController::class, 'searchByUser'])
+            ->name('admin.order.searchByUser');
     });
 
 
     // admin user management
-    Route::group(['prefix' => 'user', 'middleware' => ['auth', 'auth.admin']], function() {
-        Route::any('search', [AdminUserController::class, 'search'])
-            ->name('admin.user.search');
-    });
+    // Route::group(['prefix' => 'user', 'middleware' => ['auth', 'auth.admin']], function() {
+    //     Route::any('search', [AdminUserController::class, 'search'])
+    //         ->name('admin.order.searchById');
+    // });
 });
 
 
