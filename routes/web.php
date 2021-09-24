@@ -116,13 +116,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
     });
-
-
-    // admin user management
-    // Route::group(['prefix' => 'user', 'middleware' => ['auth', 'auth.admin']], function() {
-    //     Route::any('search', [AdminUserController::class, 'search'])
-    //         ->name('admin.order.searchById');
-    // });
 });
 
 
@@ -132,10 +125,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 /* Those are just template links. They can be changed if you are develop those feature. */
 
 
-// Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-
-//     Route::get('/user/search', function () {
-//         return view('admin.user.search');})
-//         ->name('admin.user.search');
-
-// });
+ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
+     Route::get('/user/search', function () {
+         return view('admin.user.search');})
+         ->name('admin.user.search');
+ });
