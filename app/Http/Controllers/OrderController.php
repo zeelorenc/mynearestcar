@@ -15,18 +15,11 @@ class OrderController extends Controller
             ->with('order', $order);
     }
 
-    public function history(Request $request)
+    public function history()
     {
-        $orders = new Order();
-
-        if ($request->has('user_id')) {
-            $orders = $orders->where('user_id', $request->get('user_id'));
-        }
-
-        $orders = $orders
+        $orders = auth()->user()->orders()
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
-
+            ->paginate(10);
         return view('order.history')
             ->with('orders', $orders);
     }

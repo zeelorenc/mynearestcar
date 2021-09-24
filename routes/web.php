@@ -52,10 +52,10 @@ Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() 
 });
 
 Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
-    Route::get('{order}', [OrderController::class, 'show'])
-        ->name('order.show');
     Route::get('history', [OrderController::class, 'history'])
         ->name('order.history');
+    Route::get('{order}', [OrderController::class, 'show'])
+        ->name('order.show');
 });
 
 /**
