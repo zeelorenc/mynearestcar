@@ -7,4 +7,4 @@ Total cost of ${{ number_format($order->total + $order->uber->getTotalAttribute(
 Please find the order summary below:
 
 - Rental cost: ${{ $order->total }}
-- Uber cost: ${{ $order->uber->getTotalAttribute() }}
+- Uber cost: ${{ $order->uber->total }}
