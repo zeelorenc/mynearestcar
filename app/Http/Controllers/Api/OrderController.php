@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Adapters\StripeAdapter;
 use App\Http\Requests\CreateOrderRequest;
+use App\Mail\OrderInvoice;
 use App\Models\Order;
 use App\Models\OrderUber;
 use App\Models\Vehicle;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class OrderController extends \Illuminate\Routing\Controller
@@ -68,6 +70,7 @@ class OrderController extends \Illuminate\Routing\Controller
         if ($charge['status'] !== 'succeeded') {
             return ['success' => false, 'message' => 'Payment failed'];
         }
+
         $order->update([
             'status' => OrderStatusSchema::PAID,
             'stripe_charge_id' => $charge['id'],
@@ -75,6 +78,9 @@ class OrderController extends \Illuminate\Routing\Controller
         $order->vehicle()->update([
             'status' => VehicleStatusSchema::BOOKED,
         ]);
+
+        Mail::send(new OrderInvoice($order));
+
         return ['success' => true, 'message' => $order];
     }
 }
