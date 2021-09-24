@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Api;
 
 use App\Adapters\StripeAdapter;
+use App\Mail\OrderInvoice;
 use App\Models\Carpark;
 use App\Models\Order;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Models\Vehicle;
 use App\Schemas\OrderStatusSchema;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class OrderControllerTest extends TestCase
@@ -114,6 +116,7 @@ class OrderControllerTest extends TestCase
             $this->markTestSkipped('Skipping test as Stripe secret key is unavailable');
         }
 
+        Mail::fake();
         $carpark = Carpark::factory()->create();
         $vehicle = Vehicle::factory()->create(['carpark_id' => $carpark->id]);
         $order = $this->mockOrder($vehicle);
@@ -124,6 +127,7 @@ class OrderControllerTest extends TestCase
 
         $this->assertTrue($response->json('success'));
         $this->assertEquals(OrderStatusSchema::PAID, $order->refresh()->status);
+        Mail::assertSent(OrderInvoice::class);
     }
 
     /**
