@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Carpark;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -54,6 +55,18 @@ class CarparkControllerTest extends TestCase
         ]);
 
         $this->assertNotNull(Carpark::first());
+    }
+
+    /** @test */
+    public function it_can_delete_a_carpark(): void
+    {
+        $carpark = Carpark::factory()->create();
+        Vehicle::factory()->create(['carpark_id' => $carpark->id]);
+
+        $this->delete(route('admin.carpark.destroy', $carpark->id));
+
+        $this->assertNull(Carpark::find($carpark->id));
+        $this->assertEmpty(Vehicle::all());
     }
 
     /**
