@@ -60,7 +60,7 @@
                                     <td>{{ $carpark->created_at->toFormattedDateString() }}</td>
                                     <td>
                                         <!-- <a href="{{ route('admin.carpark.edit', $carpark->id) }}" class="btn btn-primary">Edit</a> -->
-                                        <a href="{{ route('admin.carpark.destroy', $carpark->id) }}" class="btn btn-danger">Delete</a>
+                                        <a href="{{ route('admin.carpark.destroy', $carpark->id) }}" onclick="return confirm('Are you sure want to delete this?')" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
