@@ -93,6 +93,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.carpark.store');
         Route::get('{carpark}/edit', [AdminCarparkController::class, 'edit'])
             ->name('admin.carpark.edit');
+        Route::get('{carpark}/destroy', [AdminCarparkController::class, 'destroy'])
+            ->name('admin.carpark.destroy');
     });
 
     // admin vehicle management
