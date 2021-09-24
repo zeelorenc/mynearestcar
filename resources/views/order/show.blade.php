@@ -26,7 +26,13 @@
                             </tr>
                             <tr>
                                 <td><i class="fas fa-car-side mr-2"></i> Vehicle</td>
-                                <td>{{ $order->vehicle->name }}</td>
+                                <td>
+                                    <p><i class="fas fa-car mr-1"></i> {{ $order->vehicle->name }}</p>
+                                    <p><i class="fas fa-user-friends mr-1"></i> {{ $order->vehicle->seats }} seats</p>
+                                    <p><i class="fas fa-vr-cardboard mr-1"></i> {{ $order->vehicle->type }}</p>
+                                    <p><i class="fas fa-copyright mr-1"></i> {{ $order->vehicle->brand }}</p>
+                                    <p><i class="fas fa-car-side mr-1"></i> {{ $order->vehicle->model }}</p>
+                                </td>
                             </tr>
                             <tr>
                                 <td><i class="fas fa-calendar-alt mr-2"></i> Pickup Date</td>
