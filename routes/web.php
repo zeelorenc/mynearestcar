@@ -111,12 +111,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
     Route::group(['prefix' => 'order', 'middleware' => ['auth', 'auth.admin']], function() {
         // Route::get('/', [AdminOrderController::class, 'index'])
         //     ->name('admin.order.index');
-        Route::any('search', [AdminOrderController::class, 'search'])
+        Route::get('search', [AdminOrderController::class, 'search'])
             ->name('admin.order.search');
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
-        Route::any('searchByUser', [AdminOrderController::class, 'searchByUser'])
-            ->name('admin.order.searchByUser');
     });
 
 

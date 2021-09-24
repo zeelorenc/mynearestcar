@@ -16,11 +16,10 @@
 
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.order.search') }}" method="POST">
+                    <form action="{{ route('admin.order.search') }}" method="GET">
                         <div class="form-group mb-0">
                             <div class="input-group">
-                                @csrf
-                                <input type="text" name="vehicle_id" class="form-control form-control-lg" placeholder="Enter the vehicle id you want to search">
+                                <input type="text" name="query" class="form-control form-control-lg" placeholder="Search by client or vehicle">
                                 <div class="input-group-append">
                                     <button class="btn btn-lg btn-primary">
                                         <i class="fas fa-search"></i> {{ __('Search') }}
@@ -49,8 +48,8 @@
                         <table class="table table-bordered table-md">
                             <tbody><tr>
                                 <th>ID</th>
-                                <th>User id</th>
-                                <th>Vehicle id</th>
+                                <th>User</th>
+                                <th>Vehicle</th>
                                 <th>From date</th>
                                 <th>To date</th>
                                 <th>Uber pickup</th>
@@ -61,8 +60,8 @@
                             @foreach ($orders as $order)
                             <tr>
                                 <td>{{ $order->id }}</td>
-                                <td>{{ $order->user_id }}</td>
-                                <td>{{ $order->vehicle_id }}</td>
+                                <td>{{ $order->user->name }}</td>
+                                <td>{{ $order->vehicle->name }}</td>
                                 <td>{{ $order->from_date->toFormattedDateString() }}</td>
                                 <td>{{ $order->to_date->toFormattedDateString() }}</td>
                                 <td>{{ $order->uber_pickup ? 'Yes' : 'No' }}</td>

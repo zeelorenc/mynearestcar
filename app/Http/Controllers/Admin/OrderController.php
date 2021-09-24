@@ -22,10 +22,15 @@ class OrderController extends Controller
 
     public function search(Request $request)
     {
-        $orders = new Order();
+        $orders = Order::query();
 
-        if ($request->has('vehicle_id')) {
-            $orders = $orders->where('vehicle_id', $request->get('vehicle_id'));
+        if (filled($query = $request->get('query'))) {
+            $orders->orWhereHas('vehicle', function ($vehicle) use ($query) {
+                $vehicle->where('name', 'like', "%{$query}%");
+            });
+            $orders->orWhereHas('user', function ($user) use ($query) {
+                $user->where('name', 'like', "%{$query}%");
+            });
         }
 
         $orders = $orders
@@ -33,22 +38,6 @@ class OrderController extends Controller
             ->paginate(5);
 
         return view('admin.order.search')
-            ->with('orders', $orders);
-    }
-
-    public function searchByUser(Request $request)
-    {
-        $orders = new Order();
-
-        if ($request->has('user_id')) {
-            $orders = $orders->where('user_id', $request->get('user_id'));
-        }
-
-        $orders = $orders
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
-
-        return view('admin.order.searchByUser')
             ->with('orders', $orders);
     }
 
