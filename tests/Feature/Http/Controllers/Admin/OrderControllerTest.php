@@ -31,8 +31,8 @@ class OrderControllerTest extends TestCase
     {
         $order = Order::factory()->create();
 
-        $response = $this->post(route('admin.order.search'), [
-            'vehicle_id' => $order->vehicle_id,
+        $response = $this->get(route('admin.order.search'), [
+            'query' => $order->vehicle->name,
         ]);
         $searchedOrder = optional($response->viewData('orders'))->first();
 
