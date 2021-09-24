@@ -52,6 +52,8 @@ Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() 
 });
 
 Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
+    Route::get('history', [OrderController::class, 'history'])
+        ->name('order.history');
     Route::get('{order}', [OrderController::class, 'show'])
         ->name('order.show');
 });
@@ -129,8 +131,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 /* Those are just template links. They can be changed if you are develop those feature. */
 
 
- Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-     Route::get('/user/search', function () {
-         return view('admin.user.search');})
-         ->name('admin.user.search');
- });
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
+    Route::get('/user/search', function () {
+        return view('admin.user.search');
+    })->name('admin.user.search');
+});

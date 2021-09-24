@@ -61,6 +61,12 @@
             </a>
 
             <div class="dropdown-divider"></div>
+            
+            <a href="{{ route('order.history') }}" class="dropdown-item has-icon">
+                <i class="fas fa-history"></i> {{ __('Rental History') }}
+            </a>
+
+            <div class="dropdown-divider"></div>
 
             <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

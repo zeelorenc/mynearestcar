@@ -14,4 +14,13 @@ class OrderController extends Controller
         return view('order.show')
             ->with('order', $order);
     }
+
+    public function history()
+    {
+        $orders = auth()->user()->orders()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('order.history')
+            ->with('orders', $orders);
+    }
 }
