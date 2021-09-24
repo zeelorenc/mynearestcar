@@ -22,10 +22,15 @@ class OrderController extends Controller
 
     public function search(Request $request)
     {
-        $orders = new Order();
+        $orders = Order::query();
 
-        if ($request->has('vehicle_id')) {
-            $orders = $orders->where('vehicle_id', $request->get('vehicle_id'));
+        if (filled($query = $request->get('query'))) {
+            $orders->orWhereHas('vehicle', function ($vehicle) use ($query) {
+                $vehicle->where('name', 'like', "%{$query}%");
+            });
+            $orders->orWhereHas('user', function ($user) use ($query) {
+                $user->where('name', 'like', "%{$query}%");
+            });
         }
 
         $orders = $orders

@@ -54,6 +54,8 @@ Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() 
 Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
     Route::get('{order}', [OrderController::class, 'show'])
         ->name('order.show');
+    Route::get('history', [OrderController::class, 'history'])
+        ->name('order.history');
 });
 
 /**
@@ -93,6 +95,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.carpark.store');
         Route::get('{carpark}/edit', [AdminCarparkController::class, 'edit'])
             ->name('admin.carpark.edit');
+        Route::delete('{carpark}/destroy', [AdminCarparkController::class, 'destroy'])
+            ->name('admin.carpark.destroy');
     });
 
     // admin vehicle management
@@ -113,19 +117,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
     Route::group(['prefix' => 'order', 'middleware' => ['auth', 'auth.admin']], function() {
         // Route::get('/', [AdminOrderController::class, 'index'])
         //     ->name('admin.order.index');
-        Route::any('search', [AdminOrderController::class, 'search'])
+        Route::get('search', [AdminOrderController::class, 'search'])
             ->name('admin.order.search');
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
     });
-
-    Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
-        Route::get('history', [OrderController::class, 'history'])
-            ->name('order.history');
-    });
-
-
-
 });
 
 
@@ -136,7 +132,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-
     Route::get('/user/search', function () {
         return view('admin.user.search');
     })->name('admin.user.search');

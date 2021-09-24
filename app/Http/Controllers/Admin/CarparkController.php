@@ -27,6 +27,13 @@ class CarparkController extends Controller
         // @todo create edit page and handling
     }
 
+    public function destroy(Carpark $carpark)
+    {
+        $carpark->delete();
+
+        return back()->with('message', 'Deleted Carpark successfully!');
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
