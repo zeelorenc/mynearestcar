@@ -61,12 +61,20 @@
             </a>
 
             <div class="dropdown-divider"></div>
-            
+
             <a href="{{ route('order.history') }}" class="dropdown-item has-icon">
                 <i class="fas fa-history"></i> {{ __('Rental History') }}
             </a>
 
             <div class="dropdown-divider"></div>
+
+            @if (optional($currentUser)->orders->where('status', \App\Schemas\OrderStatusSchema::PAID)->first())
+            <a href="{{ route('order.current') }}" class="dropdown-item has-icon">
+                <i class="fas fa-calendar-check"></i> {{ __('My Current Booking') }}
+            </a>
+
+            <div class="dropdown-divider"></div>
+            @endif
 
             <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
