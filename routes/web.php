@@ -56,6 +56,8 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
         ->name('order.history');
     Route::get('{order}', [OrderController::class, 'show'])
         ->name('order.show');
+    Route::get('/order/current', [OrderController::class, 'current'])
+        ->name('order.current');
 });
 
 /**
