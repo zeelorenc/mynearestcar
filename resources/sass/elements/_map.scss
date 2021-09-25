@@ -1,5 +1,6 @@
 .google-map-container {
     height: 500px;
+    position: relative;
 
     &.map-modal {
         height: 200px;
@@ -13,4 +14,17 @@
 
 .modal-backdrop {
     opacity: 0.75;
+}
+
+.car-filter {
+    z-index: 9999;
+    width: calc(100% - 20px);
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    margin: 10px;
+
+    select {
+        max-width: 250px;
+    }
 }

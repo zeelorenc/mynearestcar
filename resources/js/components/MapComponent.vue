@@ -5,6 +5,22 @@
             <div class="card">
                 <div class="card-body p-0 overflow-hidden rounded">
                     <div class="google-map-container">
+                        <div class="car-filter">
+                            <select
+                                class="form-control"
+                                @change="filterVehicleModel($event)"
+                            >
+                                <option value="">Filter by car model</option>
+                                <option
+                                    :key="index"
+                                    v-for="(model, index) in this.vehicleModels"
+                                    :value="model"
+                                >
+                                    {{ model }}
+                                </option>
+                            </select>
+                        </div>
+
                         <GmapMap
                             ref='mapRef'
                             :zoom='12'
@@ -41,6 +57,7 @@
         <div class="col-4" v-show="selectedCarpark">
             <MapSelectedCarpark
                 :carpark="selectedCarpark"
+                :filter="{ vehicleModel: this.filteringVehicleModel }"
             />
         </div>
     </div>
@@ -48,12 +65,15 @@
 
 <script>
 export default {
+    props: ['vehicleModels'],
+
     data() {
         return {
             carparks: [],
             selectedCarpark: null,
             focusLocation: {lat: -37.8136, lng: 144.9631},
             focusCarparkPaths: null,
+            filteringVehicleModel: '',
         };
     },
 
@@ -62,6 +82,16 @@ export default {
     },
 
     methods: {
+        filterVehicleModel: async function (e) {
+            this.filteringVehicleModel = e.target.value;
+            const {data: carparks} = await axios.post('api/carparks/filter', {
+                vehicle_model: this.filteringVehicleModel,
+            });
+            this.carparks = carparks.filter(c => c.vehicles_count);
+            this.selectedCarpark = null;
+            this.clickedCarpark(this.carparks[0]);
+        },
+
         loadedLocation: async function (location) {
             const {data: carparks} = await axios.post('api/carparks/nearest', location);
             this.$root.currentLocation = location;
