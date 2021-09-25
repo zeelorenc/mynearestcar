@@ -9,6 +9,9 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    /** @var User $currentUser */
+    protected $currentUser;
+
     /**
      * Create and act as the user in the application
      *
@@ -17,7 +20,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function actingAsUser(array $attributes = []): void
     {
-        $user = User::factory()->create($attributes);
-        $this->actingAs($user);
+        $this->currentUser = User::factory()->create($attributes);
+        $this->actingAs($this->currentUser);
     }
 }
