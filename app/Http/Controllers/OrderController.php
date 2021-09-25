@@ -30,6 +30,7 @@ class OrderController extends Controller
     {
         $order = auth()->user()->orders()->where('status', 'paid')->first();
         return view('order.show')
-            ->with('order', $order);
+        ->with('order', $order);
+
     }
 }
