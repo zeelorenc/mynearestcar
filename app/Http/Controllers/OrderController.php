@@ -26,11 +26,10 @@ class OrderController extends Controller
             ->with('orders', $orders);
     }
 
-    public function showCurrentOrder()
+    public function current()
     {
         $order = auth()->user()->orders()->where('status', 'paid')->first();
         return view('order.show')
-        ->with('order', $order);
-
+            ->with('order', $order);
     }
 }

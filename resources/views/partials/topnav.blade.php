@@ -68,7 +68,7 @@
 
             <div class="dropdown-divider"></div>
 
-            @if (auth()->user()->orders()->where('status', 'paid')->first())
+            @if (optional($currentUser)->orders->where('status', \App\Schemas\OrderStatusSchema::PAID)->first())
             <a href="{{ route('order.current') }}" class="dropdown-item has-icon">
                 <i class="fas fa-calendar-check"></i> {{ __('My Current Booking') }}
             </a>
