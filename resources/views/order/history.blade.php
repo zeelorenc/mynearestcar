@@ -19,6 +19,9 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>{{ __('Your rental history') }}</h4>
+                        <div class="card-header-action">
+                            <a href="{{ route('order.export') }}" class="btn btn-primary">Download .CSV Export</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         @if (session()->has('message'))
