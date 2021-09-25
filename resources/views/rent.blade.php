@@ -7,7 +7,9 @@
             <h1>Rent a Car</h1>
         </div>
         <div class="section-body">
-            <map-component></map-component>
+            <map-component
+                :vehicle-models='{!! $vehicleModels !!}'
+            />
         </div>
     </section>
 

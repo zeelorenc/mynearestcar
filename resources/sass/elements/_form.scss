@@ -1,5 +1,7 @@
-.col-form-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    @extend .text-muted;
+.glow-border {
+    box-shadow: 0px 0px 8px map_get($theme-colors, 'danger');
+    z-index: 9999;
+    &:hover {
+        z-index: 99999;
+    }
 }

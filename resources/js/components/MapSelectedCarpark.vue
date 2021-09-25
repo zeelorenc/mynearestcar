@@ -16,6 +16,7 @@
                 :key="index"
                 v-for="(vehicle, index) in this.carpark.vehicles"
                 class="list-group-item list-group-item-action"
+                v-bind:class="filter.vehicleModel === vehicle.model ? 'glow-border' : ''"
             >
                 <div class="d-flex w-100 align-items-start justify-content-between">
                     <h6 class="mb-2">
@@ -53,7 +54,7 @@
 
 <script>
 export default {
-    props: ['carpark'],
+    props: ['carpark', 'filter'],
 
     computed: {
         distanceKm: function () {

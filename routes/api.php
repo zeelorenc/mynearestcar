@@ -22,11 +22,14 @@ use App\Http\Controllers\Api\CarparkController;
 
 Route::apiResource('carparks', CarparkController::class, [
     'as' => 'api',
+    'except' => 'show',
 ]);
 
 Route::group(['prefix' => 'carparks'], function() {
     Route::post('nearest', [CarparkController::class, 'nearest'])
         ->name('api.carparks.nearest');
+    Route::any('filter', [CarparkController::class, 'filter'])
+        ->name('api.carparks.filter');
     Route::get('/{carpark}/vehicles', [CarparkController::class, 'vehicles'])
         ->name('api.carparks.vehicles');
 });
