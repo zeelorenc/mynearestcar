@@ -33,11 +33,11 @@
                             <table class="table table-striped mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Vehicle</th>
-                                        <th>Start Date</th>
-                                        <th>Rental Due</th>
-                                        <th>Status</th>
-                                        <th>Total</th>
+                                        <th>@sortablelink('vehicle.name', 'Vehicle')</th>
+                                        <th>@sortablelink('from_date', 'Start Date')</th>
+                                        <th>@sortablelink('to_date', 'Rental Due')</th>
+                                        <th>@sortablelink('status', 'Status')</th>
+                                        <th>@sortablelink('total', 'Total')</th>
                                         <th></th>
                                     </tr>
                                 </thead>

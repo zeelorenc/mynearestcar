@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Vehicle extends Model
 {
     use HasFactory;
+    use Sortable;
 
     protected $fillable = [
         'name',
@@ -18,6 +20,10 @@ class Vehicle extends Model
         'price',
         'status',
         'carpark_id',
+    ];
+
+    protected $sortable = [
+        'name',
     ];
 
     /**
