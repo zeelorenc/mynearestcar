@@ -5,10 +5,12 @@ namespace App\Models;
 use App\Schemas\OrderStatusSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Order extends Model
 {
     use HasFactory;
+    use Sortable;
 
     protected $fillable = [
         'user_id',
@@ -31,6 +33,13 @@ class Order extends Model
 
     protected $appends = [
         'grand_total',
+    ];
+
+    protected $sortable = [
+        'from_date',
+        'to_date',
+        'total',
+        'status',
     ];
 
     public function getGrandTotalAttribute(): float

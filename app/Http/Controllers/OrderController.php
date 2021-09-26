@@ -19,7 +19,7 @@ class OrderController extends Controller
 
     public function history()
     {
-        $orders = auth()->user()->orders()
+        $orders = auth()->user()->orders()->sortable()
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('order.history')
