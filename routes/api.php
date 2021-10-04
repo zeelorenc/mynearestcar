@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\UserFavouriteController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\CarparkController;
@@ -39,4 +40,11 @@ Route::group(['prefix' => 'order'], function() { // @todo auth api
         ->name('api.order.create');
     Route::post('{order}/payment', [OrderController::class, 'payment'])
         ->name('api.order.payment');
+});
+
+Route::group(['prefix' => 'favourite'], function() { // @todo auth api
+    Route::get('{user}', [UserFavouriteController::class, 'index'])
+        ->name('api.favourite.vehicle.index');
+    Route::post('{user}/vehicle/{vehicle}', [UserFavouriteController::class, 'store'])
+        ->name('api.favourite.vehicle.store');
 });
