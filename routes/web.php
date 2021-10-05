@@ -61,6 +61,8 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
         ->name('order.show');
     Route::get('/order/current', [OrderController::class, 'current'])
         ->name('order.current');
+    Route::get('{order}/return', [OrderController::class, 'return'])
+        ->name('order.return');
 });
 
 /**
