@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\HomeController;
@@ -27,7 +28,15 @@ use \App\Http\Controllers\Admin\OrderController as AdminOrderController;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+
+//Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    print_r(111);
+//    $request->fulfill();
+//    return redirect('/home');
+})->name('verification.verify');
+//Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
 Route::get('/', function () {
     return view('index');
