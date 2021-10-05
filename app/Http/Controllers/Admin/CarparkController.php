@@ -22,9 +22,10 @@ class CarparkController extends Controller
         return view('admin.carpark.create');
     }
 
-    public function edit()
+    public function edit(Carpark $carpark)
     {
-        // @todo create edit page and handling
+        return view('admin.carpark.edit')
+            ->with('carpark', $carpark);
     }
 
     public function destroy(Carpark $carpark)
@@ -48,5 +49,20 @@ class CarparkController extends Controller
             'lng' => $request->get('longitude'),
         ]);
         return back()->with('message', 'Added carpark location successfully!');
+    }
+
+    public function update(Carpark $carpark, Request $request){
+        $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'latitude' => ['required', 'numeric'],
+            'longitude' => ['required', 'numeric']
+        ]);
+
+        $carpark->name = $request->get('name');
+        $carpark->lat = $request->get('latitude');
+        $carpark->lng = $request->get('longitude');
+        $carpark->save();
+
+        return back()->with('message', 'Changed information successfully!');
     }
 }
