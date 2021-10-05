@@ -83,8 +83,12 @@
                                     Total: <b>${{ number_format($order->grand_total, 2) }}</b>
                                 </div>
 
-                                @if ($order->paid())
+                                @if ($order->paid()  && $order->vehicle->returned())
                                     <small class="text-info">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                    <span>Waiting for confirmation.</span>
+                                @elseif ($order->paid() && !$order->vehicle->returned())
+                                    <small class="text-info d-block">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                    <a href="{{ route('order.return', $order->id) }}" class="btn btn-primary">Return</a>
                                 @else
                                     <order-payment :order="{{ $order }}"/>
                                 @endif

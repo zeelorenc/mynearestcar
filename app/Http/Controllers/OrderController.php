@@ -32,4 +32,11 @@ class OrderController extends Controller
         return view('order.show')
             ->with('order', $order);
     }
+
+    public function return(Order $order){
+        $order->vehicle->update([
+            'status' => VehicleStatusSchema::RETURNED,
+        ]);
+        return back()->with('message', 'Vehicle returned, wait for manager\'s response.');
+    }
 }
