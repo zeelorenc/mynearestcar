@@ -33,7 +33,8 @@ class OrderController extends Controller
             ->with('order', $order);
     }
 
-    public function return(Order $order){
+    public function return(Order $order)
+    {
         $order->vehicle->update([
             'status' => VehicleStatusSchema::RETURNED,
         ]);
