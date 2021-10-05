@@ -69,6 +69,23 @@ class CarparkControllerTest extends TestCase
         $this->assertEmpty(Vehicle::all());
     }
 
+    /** @test */
+    public function it_can_edit_a_carpark(): void
+    {
+        $carpark = Carpark::factory()->create();
+
+        $this->put(route('admin.carpark.update', $carpark->id), [
+            'name' => 'Changed Name',
+            'latitude' => 1,
+            'longitude' => 1,
+        ]);
+        $carpark->refresh();
+
+        $this->assertEquals('Changed Name', $carpark->name);
+        $this->assertEquals(1, $carpark->lat);
+        $this->assertEquals(1, $carpark->lng);
+    }
+
     /**
      * Mocks an admin user and logs in as one
      *

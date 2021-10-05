@@ -51,18 +51,19 @@ class CarparkController extends Controller
         return back()->with('message', 'Added carpark location successfully!');
     }
 
-    public function update(Carpark $carpark, Request $request){
+    public function update(Carpark $carpark, Request $request)
+    {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric']
         ]);
 
-        $carpark->name = $request->get('name');
-        $carpark->lat = $request->get('latitude');
-        $carpark->lng = $request->get('longitude');
-        $carpark->save();
-
+        $carpark->update([
+            'name' => $request->get('name'),
+            'lat' => $request->get('latitude'),
+            'lng' => $request->get('longitude'),
+        ]);
         return back()->with('message', 'Changed information successfully!');
     }
 }
