@@ -14,7 +14,7 @@ use \App\Http\Controllers\Admin\ProfileController;
 use \App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
 use \App\Http\Controllers\Admin\CarparkController as AdminCarparkController;
 use \App\Http\Controllers\Admin\OrderController as AdminOrderController;
-
+use \App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +127,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
     });
+
+    //admin user management
+    Route::group(['prefix' => 'user', 'middleware' => ['auth', 'auth.admin']], function() {
+        Route::get('search', [AdminUserController::class, 'search'])
+            ->name('admin.user.search');
+    });
 });
 
 
@@ -136,8 +142,4 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 /* Those are just template links. They can be changed if you are develop those feature. */
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-    Route::get('/user/search', function () {
-        return view('admin.user.search');
-    })->name('admin.user.search');
-});
+
