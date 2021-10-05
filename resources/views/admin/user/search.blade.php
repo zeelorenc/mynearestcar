@@ -16,11 +16,10 @@
 
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('admin.order.search') }}" method="POST">
+                    <form action="{{ route('admin.user.search') }}" method="GET">
                         <div class="form-group mb-0">
                             <div class="input-group">
-                                @csrf
-                                <input type="text" name="user_id" class="form-control form-control-lg" placeholder="Enter the user id you want to search">
+                                <input type="text" name="query" class="form-control form-control-lg" placeholder="Enter the user name or email you want to search">
                                 <div class="input-group-append">
                                     <button class="btn btn-lg btn-primary">
                                         <i class="fas fa-search"></i> {{ __('Search') }}
@@ -33,7 +32,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-xl-6">
+                {{-- <div class="col-12 col-xl-6">
                     <div class="card">
                         <form method="post" class="needs-validation" novalidate="">
                             <div class="card-header">
@@ -66,10 +65,10 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="col-12 col-xl-6">
-                    @if (count($orders))
+                <div class="col-12">
+                    @if (count($users))
 
                     <div class="card">
                         <div class="card-header">
@@ -85,39 +84,16 @@
                                 <table class="table table-bordered table-md">
                                     <tbody><tr>
                                         <th>ID</th>
-                                        <th>User id</th>
-                                        <th>Vehicle id</th>
-                                        <th>From date</th>
-                                        <th>To date</th>
-                                        <th>Uber pickup</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Driver Licence</th>
                                     </tr>
-                                    @foreach ($orders as $order)
+                                    @foreach ($users as $user)
                                     <tr>
-                                        <td>{{ $order->id }}</td>
-                                        <td>{{ $order->user_id }}</td>
-                                        <td>{{ $order->vehicle_id }}</td>
-                                        <td>{{ $order->from_date->toFormattedDateString() }}</td>
-                                        <td>{{ $order->to_date->toFormattedDateString() }}</td>
-                                        <td>{{ $order->uber_pickup ? 'Yes' : 'No' }}</td>
-                                        <td>${{ $order->total }}</td>
-                                        <td>{{ ucfirst($order->status) }}</td>
-                                        <td>
-                                            <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
-                                                @csrf
-                                                {{ method_field('put') }}
-                                                <button
-                                                    class="btn btn-primary btn-block"
-                                                    @if ($order->vehicle->status !== \App\Schemas\VehicleStatusSchema::RETURNED)
-                                                        disabled="disabled"
-                                                    @endif
-                                                >
-                                                    Confirm Return
-                                                </button>
-                                            </form>
-                                        </td>
+                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->driver_licence }}</td>
                                     </tr>
                                 @endforeach
                                     </tbody></table>
@@ -125,7 +101,7 @@
                         </div>
                         <div class="card-footer text-right">
                             <nav class="d-inline-block">
-                                {{ $orders->links() }}
+                                {{ $users->links() }}
                             </nav>
                         </div>
                     </div>
