@@ -62,6 +62,12 @@
 
             <div class="dropdown-divider"></div>
 
+            <a href="{{ route('favourites.index') }}" class="dropdown-item has-icon">
+                <i class="fas fa-heart"></i> {{ __('My Favourites') }}
+            </a>
+
+            <div class="dropdown-divider"></div>
+
             <a href="{{ route('order.history') }}" class="dropdown-item has-icon">
                 <i class="fas fa-history"></i> {{ __('Rental History') }}
             </a>
