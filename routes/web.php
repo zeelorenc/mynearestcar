@@ -8,6 +8,7 @@ use \App\Http\Controllers\VehicleController;
 use \App\Http\Controllers\OrderController;
 use \App\Http\Controllers\OrderExportController;
 use \App\Http\Controllers\RentController;
+use \App\Http\Controllers\FavouritesController;
 
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\Admin\ProfileController;
@@ -39,6 +40,10 @@ Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
 
 Route::group(['prefix' => 'vehicle', 'middleware' => 'auth'], function() {
     Route::get('search', [VehicleController::class, 'search'])->name('vehicle.search');
+});
+
+Route::group(['prefix' => 'favourites', 'middleware' => 'auth'], function() {
+    Route::get('/', [FavouritesController::class, 'index'])->name('favourites.index');
 });
 
 Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() {
