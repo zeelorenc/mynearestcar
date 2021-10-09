@@ -38,9 +38,6 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
 
-/*Route::group(['prefix' => 'vehicle', 'middleware' => 'auth'], function() {
-    Route::get('search', [VehicleController::class, 'search'])->name('vehicle.search');
-});*/
 
 Route::group(['prefix' => 'favourites', 'middleware' => 'auth'], function() {
     Route::get('/', [FavouritesController::class, 'index'])->name('favourites.index');
