@@ -21,6 +21,10 @@
                     <form action="">
                         <table class="table table-striped">
                             <tr>
+                                <td><i class="fas fa-map-pin mr-2"></i> Order Location</td>
+                                <td>{!! $orderOrigin ?? '<i>Order origin unknown</i>' !!}</td>
+                            </tr>
+                            <tr>
                                 <td><i class="fas fa-parking mr-2"></i> Carpark</td>
                                 <td>{{ $order->vehicle->carpark->name }}</td>
                             </tr>
