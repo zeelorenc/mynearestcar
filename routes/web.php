@@ -62,10 +62,10 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
         ->name('order.history');
     Route::get('export', [OrderExportController::class, 'export'])
         ->name('order.export');
+    Route::get('current', [OrderController::class, 'current'])
+        ->name('order.current');
     Route::get('{order}', [OrderController::class, 'show'])
         ->name('order.show');
-    Route::get('/order/current', [OrderController::class, 'current'])
-        ->name('order.current');
     Route::get('{order}/return', [OrderController::class, 'return'])
         ->name('order.return');
 });
@@ -149,6 +149,3 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
 
 /* Those are just template links. They can be changed if you are develop those feature. */
-
-
-

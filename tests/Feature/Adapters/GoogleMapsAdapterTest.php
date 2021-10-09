@@ -35,8 +35,7 @@ class GoogleMapsAdapterTest extends TestCase
     public function it_can_return_the_location_of_a_coordinate(): void
     {
         $location = GoogleMapsAdapter::make(-33.86820, 151.1945860)
-            ->search()
-            ->first();
+            ->search();
 
         $this->assertEquals('Sydney', Arr::get($location, 'name'));
         $this->assertEquals('Sydney', Arr::get($location, 'vicinity'));
@@ -50,9 +49,24 @@ class GoogleMapsAdapterTest extends TestCase
     public function it_can_return_the_details_of_the_location(): void
     {
         $location = GoogleMapsAdapter::make(-33.86820, 151.1945860)
-            ->searchWithDetails()
-            ->first();
+            ->searchWithDetails();
 
         $this->assertEquals('Sydney NSW, Australia', Arr::get($location, 'details.formatted_address'));
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_will_return_empty_if_location_is_invalid(): void
+    {
+        $location = GoogleMapsAdapter::make(-203123.0, -1239013.0)
+            ->search();
+        $this->assertEmpty($location);
+
+        $location = GoogleMapsAdapter::make(null, null)
+            ->search();
+        $this->assertEmpty($location);
     }
 }
