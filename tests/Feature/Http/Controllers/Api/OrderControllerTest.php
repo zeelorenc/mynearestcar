@@ -13,10 +13,12 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
+use Tests\Traits\StripeMockable;
 
 class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use StripeMockable;
 
     /** @var User */
     private $user;
@@ -112,9 +114,7 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_charge_a_stripe_token_and_mark_order_as_paid(): void
     {
-        if (empty(config('services.stripe.secret'))) {
-            $this->markTestSkipped('Skipping test as Stripe secret key is unavailable');
-        }
+        $this->requireStripeToBeConfigured();
 
         Mail::fake();
         $carpark = Carpark::factory()->create();
@@ -203,26 +203,5 @@ class OrderControllerTest extends TestCase
             'total' => 100.00,
             'status' => OrderStatusSchema::UNPAID,
         ]);
-    }
-
-    /**
-     * Mock a stripe token
-     *
-     * @return array
-     * @throws \Stripe\Exception\ApiErrorException
-     */
-    private function mockStripeCardToken(): array
-    {
-        return StripeAdapter::make()
-            ->stripe()
-            ->tokens->create([
-                'card' => [
-                    'number' => '4242424242424242',
-                    'exp_month' => 8,
-                    'exp_year' => 2022,
-                    'cvc' => '314',
-                ],
-            ])
-            ->toArray();
     }
 }
