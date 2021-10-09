@@ -14,6 +14,8 @@ class Order extends Model
     use HasFactory;
     use Sortable;
 
+    public const SECURITY_DEPOSIT_PERCENT = 20;
+
     protected $fillable = [
         'user_id',
         'vehicle_id',
@@ -35,6 +37,7 @@ class Order extends Model
 
     protected $appends = [
         'grand_total',
+        'security_deposit',
     ];
 
     protected $sortable = [
@@ -48,6 +51,11 @@ class Order extends Model
     {
         $uberTotal = optional($this->uber)->total ?? 0;
         return round($this->total + $uberTotal, 2);
+    }
+
+    public function getSecurityDepositAttribute(): float
+    {
+        return $this->grand_total * self::SECURITY_DEPOSIT_PERCENT / 100;
     }
 
     public function user()
