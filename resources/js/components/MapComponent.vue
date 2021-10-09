@@ -1,7 +1,7 @@
 <template>
 
     <div class="row">
-        <div v-bind:class="[selectedCarpark ? 'col-8' : 'col-12']">
+        <div v-bind:class="[selectedCarpark ? 'col-12 col-lg-8' : 'col-12']">
             <div class="card">
                 <div class="card-body p-0 overflow-hidden rounded">
                     <div class="google-map-container">
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div class="col-4" v-show="selectedCarpark">
+        <div class="col-12 col-lg-4" v-show="selectedCarpark">
             <MapSelectedCarpark
                 :carpark="selectedCarpark"
                 :filter="{ vehicleModel: this.filteringVehicleModel }"

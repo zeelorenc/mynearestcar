@@ -9,10 +9,16 @@
         <div class="section-body">
             <div class="card card-warning">
                 <div class="card-header">
-                    <h4><span class="text-warning">Save 50%</span> on rentals near the airport this weekend!</h4>
+                    <h4>
+                        There are
+                        <span class="text-warning">{{ $totalCarparks }} carparks</span>
+                        we offer and right now
+                        <span class="text-warning">{{ $totalAvailableVehicles }} of {{ $totalVehicles }} vehicles</span>
+                        are available to book today!
+                    </h4>
                     <div class="card-header-action">
                         <a href="{{ route('rent.index') }}" class="btn btn-warning">
-                            View Rental Deals
+                            View The Rental Range
                         </a>
                     </div>
                 </div>

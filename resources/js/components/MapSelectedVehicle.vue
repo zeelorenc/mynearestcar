@@ -161,7 +161,9 @@ export default {
                     user_location: this.$root.currentLocation,
                     uber_route: this.uber_route,
                 });
-                window.location.href = `/order/${data.id}`;
+                if (data.id) {
+                    window.location.href = `/order/${data.id}`;
+                }
             } catch (e) {
                 this.errors = e.response.data.errors || {}
             }

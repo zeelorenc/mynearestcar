@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class="mt-5 text-muted text-center">
-        Already have an account? <a href="{{ route('admin.login') }}">Go to login</a>
+        <p>Already have an account? <a href="{{ route('admin.login') }}">Go to login</a></p>
     </div>
 
 @endsection
