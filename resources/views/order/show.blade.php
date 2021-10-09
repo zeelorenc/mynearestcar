@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <form action="">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive">
                             <tr>
                                 <td><i class="fas fa-map-pin mr-2"></i> Order Location</td>
                                 <td>{!! $orderOrigin ?? '<i>Order origin unknown</i>' !!}</td>
@@ -93,7 +93,9 @@
                                     Total: <b>${{ number_format($order->grand_total + $order->security_deposit, 2) }}</b>
                                 </div>
 
-                                @if ($order->paid()  && $order->vehicle->returned())
+                                @if ($order->status === \App\Schemas\OrderStatusSchema::COMPLETED)
+                                    <small class="text-info">Fully paid and completed on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                @elseif ($order->paid()  && $order->vehicle->returned())
                                     <small class="text-info">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
                                     <div class="mt-3">Waiting for confirmation.</div>
                                 @elseif ($order->paid() && !$order->vehicle->returned())
