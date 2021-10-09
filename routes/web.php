@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 use \App\Http\Controllers\HomeController;
@@ -28,33 +29,36 @@ use \App\Http\Controllers\Admin\UserController as AdminUserController;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/', function () {
     return view('index');
 })->name('index');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
-Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
 
+Route::get('/contact', [HomeController::class, 'contact'])
+    ->middleware(['auth', 'verified'])
+    ->name('contact');
 
-Route::group(['prefix' => 'favourites', 'middleware' => 'auth'], function() {
+Route::get('/rent', [RentController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('rent.index');
+
+Route::group(['prefix' => 'favourites', 'middleware' => ['auth', 'verified']], function() {
     Route::get('/', [FavouritesController::class, 'index'])->name('favourites.index');
 });
 
-Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'profile/{user}', 'middleware' => ['auth', 'verified']], function() {
     Route::get('/', [UserController::class, 'index'])
         ->name('profile.index');
     Route::put('/', [UserController::class, 'update'])
         ->name('profile.update');
-//    Route::get('edit', [UserController::class, 'edit'])
-//        ->name('profile.index');
     Route::put('password', [UserController::class, 'password'])
         ->name('profile.password');
 });
 
-Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'order', 'middleware' => ['auth', 'verified']], function() {
     Route::get('history', [OrderController::class, 'history'])
         ->name('order.history');
     Route::get('export', [OrderExportController::class, 'export'])
@@ -78,7 +82,7 @@ Route::get('admin/login', [AdminController::class, 'login'])
 Route::get('admin/register', [AdminController::class, 'register'])
     ->name('admin.register');
 
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin', 'verified']], function() {
     Route::get('/', [AdminController::class, 'index'])
         ->name('admin.index');
 
