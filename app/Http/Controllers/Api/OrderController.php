@@ -62,7 +62,7 @@ class OrderController extends \Illuminate\Routing\Controller
     public function payment(Order $order, Request $request)
     {
         $charge = StripeAdapter::make()
-            ->customer([
+            ->withCustomer([
                 'email' => $order->user->email,
                 'source' => Arr::get($request->get('stripe'), 'id'),
             ])
