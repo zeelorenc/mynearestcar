@@ -14,7 +14,7 @@
         <div class="list-group list-group-flush">
             <a
                 :key="index"
-                v-for="(vehicle, index) in this.carpark.vehicles"
+                v-for="(vehicle, index) in this.sortedCarparkVehicles"
                 class="list-group-item list-group-item-action"
                 v-bind:class="filter.vehicleModel === vehicle.model ? 'glow-border' : ''"
             >
@@ -49,7 +49,13 @@
                             }"
                                 @click="favourite(vehicle)"
                             >
-                                <i class="fas fa-heart"></i>
+                                <i
+                                    class="fas"
+                                    v-bind:class="{
+                                        'fa-check': favourites && favourites.includes(vehicle.id),
+                                        'fa-heart': !favourites || !favourites.includes(vehicle.id)
+                                    }"
+                                ></i>
                             </button>
                         </div>
                         <MapSelectedVehicle
@@ -79,6 +85,14 @@ export default {
     },
 
     computed: {
+        sortedCarparkVehicles: function () {
+            return this.carpark.vehicles.sort((a, b) => {
+                return !this.favourites || this.favourites.includes(a.id) === this.favourites.includes(b.id)
+                    ? 0
+                    : (this.favourites.includes(b.id) ? 1 : -1);
+            })
+        },
+
         distanceKm: function () {
             return (this.carpark.distance / 1000).toFixed(0) + ' km';
         },
