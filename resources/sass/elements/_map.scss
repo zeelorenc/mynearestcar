@@ -28,3 +28,17 @@
         max-width: 250px;
     }
 }
+
+.btn-favourite {
+    text-decoration: none;
+    color: black;
+
+    &.active {
+        color: red;
+    }
+
+    &:hover {
+        opacity: 0.5;
+        color: red;
+    }
+}

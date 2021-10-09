@@ -18,7 +18,7 @@
             </div>
 
             <form @submit.prevent="createOrder">
-                <div class="mb-4">
+                <div class="mb-3">
                     <div class="form-group mb-2">
                         <label>From Date</label>
                         <input
@@ -51,6 +51,20 @@
                     </div>
                 </div>
 
+                <div class="form-group mb-3">
+                    <label class="form-check-label w-100 d-flex align-items-center justify-content-between">
+                        Grand Total (${{ vehicle.price }} per day)
+                        <span>{{ grandTotal > 0 ? `$${grandTotal}` : '?' }}</span>
+                    </label>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-check-label w-100 d-flex align-items-center justify-content-between">
+                        Security Deposit ({{ this.securityDepositPercentage }}%)
+                        <span>{{ securityDeposit > 0 ? `$${securityDeposit}` : '?' }}</span>
+                    </label>
+                </div>
+
                 <div class="form-check mb-3">
                     <input class="form-check-input"
                            style="margin-top:0.4rem"
@@ -75,8 +89,12 @@
                     @calculated="calculatedUber"
                 />
 
-                <button type="submit" class="btn btn-primary btn-shadow btn-block" :disabled="uber_pickup === true && uber_route === null">
-                    ORDER ({{ uber_pickup === true ? `$${vehicle.price} PER DAY + $${uberCost} UBER` : `$${vehicle.price} PER DAY` }})
+                <button type="submit" class="btn btn-primary btn-shadow btn-block"
+                        :disabled="uber_pickup === true && uber_route === null || this.grandTotal <= 0">
+                    ORDER NOW
+                    <span v-show="this.grandTotal > 0">
+                        ${{ (parseFloat(this.grandTotal) + parseFloat(this.securityDeposit)).toFixed(2) }}
+                    </span>
                 </button>
             </form>
         </b-modal>
@@ -93,6 +111,7 @@ export default {
             uber_pickup: false,
             uber_route: null,
             errors: {},
+            securityDepositPercentage: 20,
         }
     },
 
@@ -102,6 +121,28 @@ export default {
             const kilometers = distance / 1000;
             return (5 + kilometers * 2.5).toFixed(2);
         },
+        grandTotal: function () {
+            try {
+                const ONE_DAY = 1000 * 60 * 60 * 24;
+                const differenceMs = new Date(this.to_date) - new Date(this.from_date);
+                const rentalPeriod = differenceMs / ONE_DAY;
+                if (rentalPeriod < 0 || rentalPeriod > 1000) {
+                    throw 'Both dates not valid'
+                }
+                const uber = this.uber_pickup === true ? parseFloat(this.uberCost) : 0.0;
+                return (parseFloat(this.vehicle.price * rentalPeriod) + uber).toFixed(2);
+            } catch (e) {
+                console.log(e);
+                return 0
+            }
+        },
+        securityDeposit: function () {
+            try {
+                return parseFloat(this.grandTotal * this.securityDepositPercentage / 100).toFixed(2);
+            } catch (e) {
+                return 0
+            }
+        }
     },
 
     methods: {
@@ -111,7 +152,7 @@ export default {
 
         createOrder: async function (e) {
             try {
-                const { data } = await axios.post(`/api/order/create`, {
+                const {data} = await axios.post(`/api/order/create`, {
                     user_id: this.$root.currentUser.id,
                     vehicle_id: this.vehicle.id,
                     from_date: new Date(this.from_date),
@@ -120,7 +161,9 @@ export default {
                     user_location: this.$root.currentLocation,
                     uber_route: this.uber_route,
                 });
-                window.location.href = `/order/${data.id}`;
+                if (data.id) {
+                    window.location.href = `/order/${data.id}`;
+                }
             } catch (e) {
                 this.errors = e.response.data.errors || {}
             }

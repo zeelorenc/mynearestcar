@@ -28,4 +28,15 @@ class StripeAdapterTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         StripeAdapter::make('test_secret_key')->charge(10, 'test');
     }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_throws_an_exception_when_refunding_null_charge_id(): void
+    {
+        $this->expectException(UnexpectedValueException::class);
+        StripeAdapter::make('test_secret_key')->refund(10);
+    }
 }

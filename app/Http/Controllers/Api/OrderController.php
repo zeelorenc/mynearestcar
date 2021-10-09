@@ -62,11 +62,11 @@ class OrderController extends \Illuminate\Routing\Controller
     public function payment(Order $order, Request $request)
     {
         $charge = StripeAdapter::make()
-            ->customer([
+            ->withCustomer([
                 'email' => $order->user->email,
                 'source' => Arr::get($request->get('stripe'), 'id'),
             ])
-            ->charge($order->grand_total, "Rental Order {$order->id}");
+            ->charge($order->grand_total + $order->security_deposit, "Rental Order {$order->id}");
         if ($charge['status'] !== 'succeeded') {
             return ['success' => false, 'message' => 'Payment failed'];
         }

@@ -51,13 +51,18 @@
 
     <li class="dropdown">
         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <!--<img alt="image" src="{{ asset('assets/img/avatar/avatar-4.png') }}" class="rounded-circle mr-1">-->
-            <div class="d-sm-none d-lg-inline-block">Hi, {{ $currentUser->name }}</div>
+            <div class="d-inline-block">Hi, {{ $currentUser->name }}</div>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right">
             <a href="{{ route($currentUser->role === 'admin' ? 'admin.profile.index' : 'profile.index', $currentUser->id) }}" class="dropdown-item has-icon">
                 <i class="fas fa-user"></i> {{ __('My Profile') }}
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+            <a href="{{ route('favourites.index') }}" class="dropdown-item has-icon">
+                <i class="fas fa-heart"></i> {{ __('My Favourites') }}
             </a>
 
             <div class="dropdown-divider"></div>

@@ -68,18 +68,29 @@
                                 <td>${{ $order->grand_total }}</td>
                                 <td>{{ ucfirst($order->status) }}</td>
                                 <td>
-                                    <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('put') }}
-                                        <button
-                                            class="btn btn-primary btn-block"
-                                            @if ($order->vehicle->status !== \App\Schemas\VehicleStatusSchema::RETURNED)
-                                                disabled="disabled"
-                                            @endif
-                                        >
-                                            Confirm Return
-                                        </button>
-                                    </form>
+                                    @if ($order->status !== \App\Schemas\OrderStatusSchema::COMPLETED)
+                                        <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
+                                            @csrf
+                                            {{ method_field('put') }}
+                                            <button
+                                                class="btn btn-primary btn-block"
+                                                @if ($order->vehicle->status !== \App\Schemas\VehicleStatusSchema::RETURNED)
+                                                    disabled="disabled"
+                                                @endif
+                                            >
+                                                Confirm Return
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('admin.order.complete', $order->id) }}" method="POST" class="mt-2">
+                                            @csrf
+                                            {{ method_field('put') }}
+                                            <button
+                                                    class="btn btn-primary btn-block"
+                                            >
+                                                Force Complete
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
