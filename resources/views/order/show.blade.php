@@ -95,7 +95,7 @@
 
                                 @if ($order->paid()  && $order->vehicle->returned())
                                     <small class="text-info">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
-                                    <span>Waiting for confirmation.</span>
+                                    <div class="mt-3">Waiting for confirmation.</div>
                                 @elseif ($order->paid() && !$order->vehicle->returned())
                                     <small class="text-info d-block">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
                                     <a href="{{ route('order.return', $order->id) }}" class="btn mt-3 btn-primary">Return Vehicle</a>

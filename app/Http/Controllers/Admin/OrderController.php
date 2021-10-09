@@ -21,6 +21,7 @@ class OrderController extends Controller
             $orders->orWhereHas('user', function ($user) use ($query) {
                 $user->where('name', 'like', "%{$query}%");
             });
+            $orders->orWhere('id', 'like', "%{$query}%");
         }
 
         $orders = $orders
