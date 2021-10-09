@@ -14,7 +14,7 @@
         <div class="list-group list-group-flush">
             <a
                 :key="index"
-                v-for="(vehicle, index) in this.carpark.vehicles"
+                v-for="(vehicle, index) in this.sortedCarparkVehicles"
                 class="list-group-item list-group-item-action"
                 v-bind:class="filter.vehicleModel === vehicle.model ? 'glow-border' : ''"
             >
@@ -40,19 +40,27 @@
                         <small class="mr-2">{{ vehicle.model }}</small>
                     </div>
                     <div class="d-flex">
-                        <button
-                            class="btn btn-sm mr-2"
-                            v-bind:class="{
+                        <div>
+                            <button
+                                class="btn btn-sm"
+                                v-bind:class="{
                                 'btn-outline-dark': favourites && favourites.includes(vehicle.id),
                                 'btn-outline-danger': !favourites || !favourites.includes(vehicle.id)
                             }"
-                            @click="favourite(vehicle)"
-                        >
-                            <i class="fas fa-heart"></i>
-                        </button>
+                                @click="favourite(vehicle)"
+                            >
+                                <i
+                                    class="fas"
+                                    v-bind:class="{
+                                        'fa-check': favourites && favourites.includes(vehicle.id),
+                                        'fa-heart': !favourites || !favourites.includes(vehicle.id)
+                                    }"
+                                ></i>
+                            </button>
+                        </div>
                         <MapSelectedVehicle
                             v-if="vehicle.status === 'available'"
-                            class="ml-auto"
+                            class="ml-2"
                             :vehicle="vehicle"
                             :carpark="carpark"
                         />
@@ -77,6 +85,14 @@ export default {
     },
 
     computed: {
+        sortedCarparkVehicles: function () {
+            return this.carpark.vehicles.sort((a, b) => {
+                return !this.favourites || this.favourites.includes(a.id) === this.favourites.includes(b.id)
+                    ? 0
+                    : (this.favourites.includes(b.id) ? 1 : -1);
+            })
+        },
+
         distanceKm: function () {
             return (this.carpark.distance / 1000).toFixed(0) + ' km';
         },

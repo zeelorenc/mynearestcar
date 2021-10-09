@@ -87,7 +87,8 @@
         </div>
     </div>
     <div class="mt-5 text-muted text-center">
-        Already have an account? <a href="{{ route('login') }}">Go to login</a>
+        <p>Already have an account? <a href="{{ route('login') }}">Go to login</a></p>
+        <p>Need to register a staff account? <a href="{{ route('admin.register') }}">Go to staff register</a></p>
     </div>
 
 @endsection
