@@ -52,13 +52,30 @@ const app = new Vue({
 /**
  * Sidebar fix
  */
-const toggleSidebar = () => {
+
+const openSidebar = () => {
+    document.body.className = 'sidebar-show';
+};
+
+const closeSidebar = (e) => {
+    if (e.target.className === 'sidebar-show')
+        document.body.className = 'sidebar-gone';
+}
+
+const responsiveSidebar = () => {
+    const newWidth = window.outerWidth;
     document.body.className = (
-        document.body.className === 'sidebar-gone'
+        newWidth > 1024
             ? ''
             : 'sidebar-gone'
     );
-};
+}
 
 const sideBarButton = document.querySelector('[data-toggle="sidebar"]');
-sideBarButton.addEventListener('click', toggleSidebar);
+sideBarButton.addEventListener('click', openSidebar);
+
+const sidebarBg = document.querySelector('body');
+sidebarBg.addEventListener('click', closeSidebar);
+
+window.addEventListener('load', responsiveSidebar);
+window.addEventListener('resize', responsiveSidebar);
