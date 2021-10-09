@@ -16,10 +16,14 @@ class StripeAdapter
     /** @var Customer */
     protected $customer;
 
+    /** @var string */
+    protected $chargeId;
+
     public function __construct(?string $secretKey = null)
     {
         $this->stripe = new StripeClient($secretKey ?? config('services.stripe.secret'));
         $this->customer = null;
+        $this->chargeId = null;
     }
 
     /**
@@ -48,9 +52,21 @@ class StripeAdapter
      * @return $this
      * @throws ApiErrorException
      */
-    public function customer(array $info): self
+    public function withCustomer(array $info): self
     {
         $this->customer = $this->stripe->customers->create($info);
+        return $this;
+    }
+
+    /**
+     * Attach a charge id to the request
+     *
+     * @param string $chargeId
+     * @return $this
+     */
+    public function withChargeId(string $chargeId): self
+    {
+        $this->chargeId = $chargeId;
         return $this;
     }
 
@@ -67,9 +83,28 @@ class StripeAdapter
         return $this->stripe->charges
             ->create([
                 'customer' => $this->customer->id,
-                'amount' => $amount * 100,
+                'amount' => round($amount * 100),
                 'currency' => 'aud',
                 'description' => $description,
+            ])
+            ->toArray();
+    }
+
+    /**
+     * Refund a payment based on a prior charge id
+     *
+     * @param float $amount
+     * @return array
+     * @throws ApiErrorException|Throwable
+     */
+    public function refund(float $amount): array
+    {
+        throw_if($this->chargeId === null, UnexpectedValueException::class);
+        return $this->stripe->refunds
+            ->create([
+                'charge' => $this->chargeId,
+                'amount' => round($amount * 100),
+                'reason' => 'requested_by_customer',
             ])
             ->toArray();
     }

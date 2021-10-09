@@ -10,16 +10,6 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function index()
-    {
-
-    }
-
-    public function create()
-    {
-        //
-    }
-
     public function search(Request $request)
     {
         $orders = Order::query();
@@ -50,19 +40,10 @@ class OrderController extends Controller
             $order->vehicle->update([
                 'status' => VehicleStatusSchema::AVAILABLE,
             ]);
+            $order->refund();
             return back()->with('message', 'The vehicle return processed successfully and order is now completed!');
         } else {
             return back()->with('error', 'Order has not been marked as confirmed as its vehicle is not returned.');
         }
-    }
-
-    public function edit()
-    {
-        // @todo create edit page and handling
-    }
-
-    public function store(Request $request)
-    {
-        //
     }
 }

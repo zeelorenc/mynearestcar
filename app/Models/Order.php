@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Adapters\GoogleMapsAdapter;
+use App\Adapters\StripeAdapter;
 use App\Schemas\OrderStatusSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,7 @@ class Order extends Model
         'total',
         'status',
         'stripe_charge_id',
+        'stripe_refund_id',
         'user_location',
         'created_at',
         'updated_at',
@@ -90,6 +92,33 @@ class Order extends Model
             Arr::get($this->user_location, 'lng')
         );
         return $instance->searchWithDetails();
+    }
+
+    /**
+     * Refunds the security deposit and any unused time
+     *
+     * @return array|null
+     */
+    public function refund(): ?array
+    {
+        if (filled($this->stripe_refund_id)) {
+            return null;
+        }
+
+        /** @var float $daysTillDue */
+        $daysTillDue = round(now()->floatDiffInDays($this->to_date, false), 3);
+        if ($daysTillDue < 0) {
+            return null;
+        }
+
+        $unusedDollars = round($this->vehicle->price * $daysTillDue, 2);
+        $refund = StripeAdapter::make()
+            ->withChargeId($this->stripe_charge_id)
+            ->refund($this->security_deposit + $unusedDollars);
+
+        return $this->update(['stripe_refund_id' => $refund['id']])
+            ? $refund
+            : null;
     }
 
 }
