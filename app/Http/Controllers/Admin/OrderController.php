@@ -48,7 +48,7 @@ class OrderController extends Controller
         }
     }
 
-    public function forceUpdate(Order $order, Request $request)
+    public function complete(Order $order, Request $request)
     {
         $order->update([
             'status' => OrderStatusSchema::COMPLETED,
@@ -56,6 +56,6 @@ class OrderController extends Controller
         $order->vehicle->update([
             'status' => VehicleStatusSchema::AVAILABLE,
         ]);
-        return back()->with('message', 'The vehicle return processed successfully and order is now completed!');
+        return back()->with('message', 'The vehicle is now marked available and order is now completed!');
     }
 }

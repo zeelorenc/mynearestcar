@@ -15,12 +15,8 @@ class AdminController extends Controller
     public function index()
     {
         $orders = Order::query()
-        ->where('to_date', '<', date('Y-m-d', time()))
-        ->Where(function($query) {
-            $query->where('status', OrderStatusSchema::PAID)
-                  ->orWhere('status', OrderStatusSchema::UNPAID);
-        });
-
+            ->where('to_date', '<', now())
+            ->where('status', '!=', OrderStatusSchema::COMPLETED);
 
         $orders = $orders
             ->orderBy('created_at', 'desc')

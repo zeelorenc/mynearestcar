@@ -132,8 +132,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.order.search');
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
-        Route::put('{order}/forceUpdate', [AdminOrderController::class, 'forceUpdate'])
-            ->name('admin.order.forceUpdate');
+        Route::put('{order}/complete', [AdminOrderController::class, 'complete'])
+            ->name('admin.order.complete');
     });
 
     //admin user management
