@@ -107,23 +107,19 @@
                                 <td>${{ $order->grand_total }}</td>
                                 <td>{{ ucfirst($order->status) }}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-exclamation-circle"></i></a>
-                                    <a class="btn btn-danger btn-action trigger--fire-modal-1" data-toggle="tooltip" title="" data-confirm="Are You Sure to ban this user?" data-confirm-yes="alert('Banned')" data-original-title="Ban"><i class="fas fa-ban"></i></a>
-                                </td>
-                                {{-- <td>
-                                    <form action="{{ route('admin.order.update', $order->id) }}" method="POST">
+                                    <form action="{{ route('admin.order.forceUpdate', $order->id) }}" method="POST">
                                         @csrf
                                         {{ method_field('put') }}
                                         <button
                                             class="btn btn-primary btn-block"
-                                            @if ($order->vehicle->status !== \App\Schemas\VehicleStatusSchema::RETURNED)
+                                            @if ($order->status == \App\Schemas\OrderStatusSchema::UNPAID)
                                                 disabled="disabled"
                                             @endif
                                         >
-                                            Confirm Return
+                                        Confirm Return
                                         </button>
                                     </form>
-                                </td> --}}
+                                </td>
                             </tr>
                         @endforeach
                             </tbody></table>
