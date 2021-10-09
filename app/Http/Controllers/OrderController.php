@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Adapters\GoogleMapsAdapter;
 use App\Models\Order;
-use App\Schemas\OrderStatusSchema;
 
 use App\Schemas\VehicleStatusSchema;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class OrderController extends Controller
 {
     public function show(Order $order)
     {
+        $originOrigin = GoogleMapsAdapter::make(
+            Arr::get($order->user_location, 'lat'),
+            Arr::get($order->user_location, 'lng')
+        )->searchWithDetails();
         return view('order.show')
+            ->with('orderOrigin', Arr::get($originOrigin, 'details.formatted_address'))
             ->with('order', $order);
     }
 
@@ -29,8 +33,7 @@ class OrderController extends Controller
     public function current()
     {
         $order = auth()->user()->orders()->where('status', 'paid')->first();
-        return view('order.show')
-            ->with('order', $order);
+        return $this->show($order);
     }
 
     public function return(Order $order)

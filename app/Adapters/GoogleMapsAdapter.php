@@ -11,7 +11,7 @@ class GoogleMapsAdapter
     /** @var GooglePlaces */
     protected $google;
 
-    public function __construct(?float $latitude, ?float $longitude, float $radius = 1.0)
+    public function __construct(?float $latitude, ?float $longitude, float $radius = 0.1)
     {
         $this->google = new GooglePlaces(config('services.google.key'));
         $this->google->location = [$latitude, $longitude];
@@ -34,20 +34,23 @@ class GoogleMapsAdapter
     /**
      * Search the location provided and return a collection
      *
-     * @return Collection
+     * @return array
      */
-    public function search(): Collection
+    public function search(): array
     {
-        return collect(Arr::get($this->google->nearbySearch(), 'results', []));
+        return Arr::get($this->google->nearbySearch(), 'results.0', []);
     }
 
-    public function searchWithDetails(): Collection
+    /**
+     * Search a location and fetch their details too
+     *
+     * @return array
+     */
+    public function searchWithDetails(): array
     {
-        return $this->search()
-            ->map(function ($result) {
-                $this->google->placeid = Arr::get($result, 'place_id');
-                $result['details'] = Arr::get($this->google->details(), 'result', []);
-                return $result;
-            });
+        $result = $this->search();
+        $this->google->placeid = Arr::get($result, 'place_id');
+        $result['details'] = Arr::get($this->google->details(), 'result', []);
+        return $result;
     }
 }
