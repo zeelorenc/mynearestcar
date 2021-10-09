@@ -79,12 +79,18 @@
                                     @ ${{ $order->vehicle->price }} per day
                                 </td>
                             </tr>
+                            <tr>
+                                <td><i class="fas fa-file-contract mr-2"></i> Security Deposit</td>
+                                <td>
+                                    ${{ number_format($order->security_deposit, 2) }}
+                                </td>
+                            </tr>
                         </table>
 
                         <div class="row mt-5">
                             <div class="col-8 offset-4 text-right">
                                 <div class="text-dark h5">
-                                    Total: <b>${{ number_format($order->grand_total, 2) }}</b>
+                                    Total: <b>${{ number_format($order->grand_total + $order->security_deposit, 2) }}</b>
                                 </div>
 
                                 @if ($order->paid()  && $order->vehicle->returned())
@@ -92,7 +98,7 @@
                                     <span>Waiting for confirmation.</span>
                                 @elseif ($order->paid() && !$order->vehicle->returned())
                                     <small class="text-info d-block">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
-                                    <a href="{{ route('order.return', $order->id) }}" class="btn btn-primary">Return</a>
+                                    <a href="{{ route('order.return', $order->id) }}" class="btn mt-3 btn-primary">Return Vehicle</a>
                                 @else
                                     <order-payment :order="{{ $order }}"/>
                                 @endif
