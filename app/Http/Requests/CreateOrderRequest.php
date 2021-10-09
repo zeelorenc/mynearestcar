@@ -20,6 +20,21 @@ class CreateOrderRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $hasUberPickup = $this->has('uber_pickup')
+            && $this->get('uber_pickup') === true;
+        $this->merge([
+            'uber_pickup' => $hasUberPickup,
+            'uber_route' => $hasUberPickup ? $this->get('uber_route') : null,
+        ]);
+    }
+
+    /**
      * Handle a failed validation attempt.
      *
      * @param \Illuminate\Contracts\Validation\Validator $validator
@@ -50,7 +65,18 @@ class CreateOrderRequest extends FormRequest
             'from_date' => ['required', 'date', 'before:to_date', 'after_or_equal:today'],
             'to_date' => ['required', 'date', 'after:from_date', 'after:from_date', 'min_date_diff:to_date,from_date,1,days'],
             'uber_pickup' => ['required', 'boolean'],
-            'uber_route' => ['required_if:uber_pickup,true', 'array']
         ];
+    }
+
+    /**
+     * Optional rules
+     *
+     * @param Validator $validator
+     */
+    public function withValidator(Validator $validator)
+    {
+        $validator->sometimes('uber_route', ['required', 'array'], function ($input) {
+            return $this->uber_pickup === true;
+        });
     }
 }

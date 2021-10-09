@@ -40,19 +40,21 @@
                         <small class="mr-2">{{ vehicle.model }}</small>
                     </div>
                     <div class="d-flex">
-                        <button
-                            class="btn btn-sm mr-2"
-                            v-bind:class="{
+                        <div>
+                            <button
+                                class="btn btn-sm"
+                                v-bind:class="{
                                 'btn-outline-dark': favourites && favourites.includes(vehicle.id),
                                 'btn-outline-danger': !favourites || !favourites.includes(vehicle.id)
                             }"
-                            @click="favourite(vehicle)"
-                        >
-                            <i class="fas fa-heart"></i>
-                        </button>
+                                @click="favourite(vehicle)"
+                            >
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
                         <MapSelectedVehicle
                             v-if="vehicle.status === 'available'"
-                            class="ml-auto"
+                            class="ml-2"
                             :vehicle="vehicle"
                             :carpark="carpark"
                         />
