@@ -81,6 +81,15 @@
                                                 Confirm Return
                                             </button>
                                         </form>
+                                        <form action="{{ route('admin.order.complete', $order->id) }}" method="POST" class="mt-2">
+                                            @csrf
+                                            {{ method_field('put') }}
+                                            <button
+                                                    class="btn btn-primary btn-block"
+                                            >
+                                                Force Complete
+                                            </button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>

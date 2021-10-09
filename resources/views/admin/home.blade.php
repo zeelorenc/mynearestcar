@@ -76,37 +76,63 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4>Latest Rentals</h4>
+                    <h4>Overdue Rentals</h4>
                     <div class="card-header-action">
-                        <a href="#" class="btn btn-primary">View All</a>
+                        <a href="{{ route('admin.order.search') }}" class="btn btn-primary">Search Orders</a>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-striped mb-0">
+                        <table class="table">
                             <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Duration</th>
-                                <th>Rental Due</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>User</th>
+                                    <th>Vehicle</th>
+                                    <th>Rental Started</th>
+                                    <th>Rental Due</th>
+                                    <th>Uber pickup</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        Rented a Ferrari 458
-                                    </td>
-                                    <td>Paid</td>
-                                    <td>Ends in 2 days</td>
-                                    <td>
-                                        <a class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a class="btn btn-danger btn-action trigger--fire-modal-1" data-toggle="tooltip" title="" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')" data-original-title="Delete"><i class="fas fa-trash"></i></a>
-                                    </td>
-                                </tr>
+                                @forelse($delayedOrders as $order)
+                                    <tr>
+                                        <td>{{ $order->id }}</td>
+                                        <td>{{ $order->user->name }}</td>
+                                        <td>{{ $order->vehicle->name }}</td>
+                                        <td>{{ $order->from_date->toFormattedDateString() }}</td>
+                                        <td>{{ $order->to_date->toFormattedDateString() }}</td>
+                                        <td>{{ $order->uber_pickup ? 'Yes' : 'No' }}</td>
+                                        <td>${{ $order->grand_total }}</td>
+                                        <td>{{ ucfirst($order->status) }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.order.complete', $order->id) }}" method="POST">
+                                                @csrf
+                                                {{ method_field('put') }}
+                                                <button
+                                                    class="btn btn-primary btn-block"
+                                                >
+                                                    Force Complete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center">Nothing overdue yet</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="card-footer text-right">
+                    <nav class="d-inline-block">
+                        {{ $delayedOrders->links() }}
+                    </nav>
                 </div>
             </div>
         </div>
