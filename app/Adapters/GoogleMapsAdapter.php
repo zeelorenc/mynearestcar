@@ -38,6 +38,9 @@ class GoogleMapsAdapter
      */
     public function search(): array
     {
+        if (!$this->google->location[0] || !$this->google->location[1]) {
+            return [];
+        }
         return Arr::get($this->google->nearbySearch(), 'results.0', []);
     }
 
@@ -48,9 +51,10 @@ class GoogleMapsAdapter
      */
     public function searchWithDetails(): array
     {
-        $result = $this->search();
-        $this->google->placeid = Arr::get($result, 'place_id');
-        $result['details'] = Arr::get($this->google->details(), 'result', []);
+        if (!empty($result = $this->search())) {
+            $this->google->placeid = Arr::get($result, 'place_id');
+            $result['details'] = Arr::get($this->google->details(), 'result', []);
+        }
         return $result;
     }
 }

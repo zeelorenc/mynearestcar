@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Adapters\GoogleMapsAdapter;
 use App\Schemas\OrderStatusSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Kyslik\ColumnSortable\Sortable;
 
 class Order extends Model
@@ -66,6 +68,20 @@ class Order extends Model
     public function uber()
     {
         return $this->hasOne(OrderUber::class);
+    }
+
+    /**
+     * Return google location information of the order origin
+     *
+     * @return array|null
+     */
+    public function origin(): ?array
+    {
+        $instance = new GoogleMapsAdapter(
+            Arr::get($this->user_location, 'lat'),
+            Arr::get($this->user_location, 'lng')
+        );
+        return $instance->searchWithDetails();
     }
 
 }
