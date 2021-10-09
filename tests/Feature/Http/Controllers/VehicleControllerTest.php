@@ -18,7 +18,7 @@ class VehicleControllerTest extends TestCase
      *
      * @return void
      */
-    public function it_can_render_the_vehicle_search_page()
+    /*public function it_can_render_the_vehicle_search_page()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -26,7 +26,7 @@ class VehicleControllerTest extends TestCase
         $response = $this->get(route('vehicle.search'));
         $response->assertViewIs('vehicle.search');
         $response->assertSeeText('Search');
-    }
+    }*/
 
     /**
      * @test
