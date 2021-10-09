@@ -11,11 +11,11 @@
         </a>
     </li>
 
-    <li class="{{ Request::route()->getName() == 'vehicle.search' ? ' active' : '' }}">
+<!--    <li class="{{ Request::route()->getName() == 'vehicle.search' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('vehicle.search') }}">
             <i class="fas fa-search"></i> <span>Car Search</span>
         </a>
-    </li>
+    </li>-->
 
     <li class="{{ Request::route()->getName() == 'contact' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('contact') }}">
