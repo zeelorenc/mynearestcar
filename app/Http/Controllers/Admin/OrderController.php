@@ -47,4 +47,15 @@ class OrderController extends Controller
             return back()->with('error', 'Order has not been marked as confirmed as its vehicle is not returned.');
         }
     }
+
+    public function complete(Order $order, Request $request)
+    {
+        $order->update([
+            'status' => OrderStatusSchema::COMPLETED,
+        ]);
+        $order->vehicle->update([
+            'status' => VehicleStatusSchema::AVAILABLE,
+        ]);
+        return back()->with('message', 'The vehicle is now marked available and order is now completed!');
+    }
 }
