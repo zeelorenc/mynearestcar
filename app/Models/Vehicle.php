@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Schemas\VehicleStatusSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
@@ -35,4 +36,10 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Carpark::class);
     }
+
+    public function returned()
+    {
+        return $this->status === VehicleStatusSchema::RETURNED;
+    }
+
 }

@@ -19,7 +19,11 @@
                 </div>
                 <div class="card-body">
                     <form action="">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive">
+                            <tr>
+                                <td><i class="fas fa-map-pin mr-2"></i> Order Location</td>
+                                <td>{!! $orderOrigin ?? '<i>Order origin unknown</i>' !!}</td>
+                            </tr>
                             <tr>
                                 <td><i class="fas fa-parking mr-2"></i> Carpark</td>
                                 <td>{{ $order->vehicle->carpark->name }}</td>
@@ -75,16 +79,28 @@
                                     @ ${{ $order->vehicle->price }} per day
                                 </td>
                             </tr>
+                            <tr>
+                                <td><i class="fas fa-file-contract mr-2"></i> Security Deposit</td>
+                                <td>
+                                    ${{ number_format($order->security_deposit, 2) }}
+                                </td>
+                            </tr>
                         </table>
 
                         <div class="row mt-5">
                             <div class="col-8 offset-4 text-right">
                                 <div class="text-dark h5">
-                                    Total: <b>${{ number_format($order->grand_total, 2) }}</b>
+                                    Total: <b>${{ number_format($order->grand_total + $order->security_deposit, 2) }}</b>
                                 </div>
 
-                                @if ($order->paid())
+                                @if ($order->status === \App\Schemas\OrderStatusSchema::COMPLETED)
+                                    <small class="text-info">Fully paid and completed on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                @elseif ($order->paid()  && $order->vehicle->returned())
                                     <small class="text-info">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                    <div class="mt-3">Waiting for confirmation.</div>
+                                @elseif ($order->paid() && !$order->vehicle->returned())
+                                    <small class="text-info d-block">Fully paid on {{ $order->updated_at->toDayDateTimeString() }}</small>
+                                    <a href="{{ route('order.return', $order->id) }}" class="btn mt-3 btn-primary">Return Vehicle</a>
                                 @else
                                     <order-payment :order="{{ $order }}"/>
                                 @endif

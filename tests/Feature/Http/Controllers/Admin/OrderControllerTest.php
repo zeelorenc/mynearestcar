@@ -60,6 +60,22 @@ class OrderControllerTest extends TestCase
         $this->assertEquals(VehicleStatusSchema::AVAILABLE, $order->vehicle->status);
     }
 
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_force_complete_an_order(): void
+    {
+        $order = Order::factory()->create(['status' => OrderStatusSchema::UNPAID]);
+
+        $this->put(route('admin.order.complete', $order->id));
+        $order->refresh();
+
+        $this->assertEquals(OrderStatusSchema::COMPLETED, $order->status);
+        $this->assertEquals(VehicleStatusSchema::AVAILABLE, $order->vehicle->status);
+    }
+
     /** @test */
     public function it_can_search_given_vehicle_or_user_names(): void
     {

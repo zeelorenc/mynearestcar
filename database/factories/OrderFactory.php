@@ -27,18 +27,34 @@ class OrderFactory extends Factory
     {
         $fromDate = Carbon::now()->addHours(random_int(1, 24))->addDays(random_int(0, 24));
         $toDate = Carbon::make($fromDate)->addHours(random_int(0, 24))->addDays(random_int(1, 24));
-        $rentalDays = $fromDate->floatDiffInDays($toDate);
         return [
             'user_id' => User::factory(),
             'vehicle_id' => Vehicle::factory(),
             'from_date' => $fromDate,
             'to_date' => $toDate,
-            'total' => $this->faker->randomFloat(2, 20, 120) * $rentalDays,
+            'total' => -1,
             'status' => collect(OrderStatusSchema::all())->random(),
             'user_location' => [
                 'lat' => $this->faker->longitude(-37.73, -37.84),
                 'lng' => $this->faker->latitude(144.70, 145.14),
             ],
         ];
+    }
+
+    /**
+     * Configure the factory.
+     *
+     * @return $this
+     */
+    public function configure(): self
+    {
+        return $this->afterCreating(function (Order $order) {
+            if ($order->total === -1) {
+                $rentalDays = $order->from_date->floatDiffInDays($order->to_date);
+                $order->update([
+                    'total' => $order->vehicle->price * $rentalDays,
+                ]);
+            }
+        });
     }
 }

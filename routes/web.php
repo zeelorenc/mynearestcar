@@ -9,13 +9,14 @@ use \App\Http\Controllers\VehicleController;
 use \App\Http\Controllers\OrderController;
 use \App\Http\Controllers\OrderExportController;
 use \App\Http\Controllers\RentController;
+use \App\Http\Controllers\FavouritesController;
 
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\Admin\ProfileController;
 use \App\Http\Controllers\Admin\VehicleController as AdminVehicleController;
 use \App\Http\Controllers\Admin\CarparkController as AdminCarparkController;
 use \App\Http\Controllers\Admin\OrderController as AdminOrderController;
-
+use \App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,8 +47,9 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/rent', [RentController::class, 'index'])->name('rent.index');
 
-Route::group(['prefix' => 'vehicle', 'middleware' => 'auth'], function() {
-    Route::get('search', [VehicleController::class, 'search'])->name('vehicle.search');
+
+Route::group(['prefix' => 'favourites', 'middleware' => 'auth'], function() {
+    Route::get('/', [FavouritesController::class, 'index'])->name('favourites.index');
 });
 
 Route::group(['prefix' => 'profile/{user}', 'middleware' => 'auth'], function() {
@@ -66,10 +68,12 @@ Route::group(['prefix' => 'order', 'middleware' => 'auth'], function() {
         ->name('order.history');
     Route::get('export', [OrderExportController::class, 'export'])
         ->name('order.export');
+    Route::get('current', [OrderController::class, 'current'])
+        ->name('order.current');
     Route::get('{order}', [OrderController::class, 'show'])
         ->name('order.show');
-    Route::get('/order/current', [OrderController::class, 'current'])
-        ->name('order.current');
+    Route::get('{order}/return', [OrderController::class, 'return'])
+        ->name('order.return');
 });
 
 /**
@@ -111,6 +115,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.carpark.edit');
         Route::delete('{carpark}/destroy', [AdminCarparkController::class, 'destroy'])
             ->name('admin.carpark.destroy');
+        Route::put('{carpark}/update', [AdminCarparkController::class, 'update'])
+            ->name('admin.carpark.update');
     });
 
     // admin vehicle management
@@ -135,6 +141,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
             ->name('admin.order.search');
         Route::put('{order}/update', [AdminOrderController::class, 'update'])
             ->name('admin.order.update');
+        Route::put('{order}/complete', [AdminOrderController::class, 'complete'])
+            ->name('admin.order.complete');
+    });
+
+    //admin user management
+    Route::group(['prefix' => 'user', 'middleware' => ['auth', 'auth.admin']], function() {
+        Route::get('search', [AdminUserController::class, 'search'])
+            ->name('admin.user.search');
     });
 });
 
@@ -143,10 +157,3 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], func
 
 
 /* Those are just template links. They can be changed if you are develop those feature. */
-
-
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.admin']], function() {
-    Route::get('/user/search', function () {
-        return view('admin.user.search');
-    })->name('admin.user.search');
-});

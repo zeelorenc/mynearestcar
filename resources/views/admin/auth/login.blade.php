@@ -67,7 +67,8 @@
         </div>
     </div>
     <div class="mt-5 text-muted text-center">
-        Don't have an account? <a href="{{ route('admin.register') }}">Create One</a>
+        <p>Don't have a staff account? <a href="{{ route('admin.register') }}">Create One</a></p>
+        <p>Want to login as customer? <a href="{{ route('login') }}">Click here</a></p>
     </div>
 
 @endsection

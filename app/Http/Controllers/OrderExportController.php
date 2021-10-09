@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class OrderExportController extends Controller
@@ -19,6 +20,8 @@ class OrderExportController extends Controller
             ->map(function ($order) {
                 return [
                     'Vehicle' => $order->vehicle->name,
+                    'Location' => Arr::get($order->origin(), 'details.formatted_address', 'n/a'),
+                    'Carpark' => $order->vehicle->carpark->name,
                     'From Date' => $order->from_date->toDateTimeString(),
                     'To Date' => $order->to_date->toDateTimeString(),
                     'Uber Total' => optional($order->uber)->total ?? 0.0,

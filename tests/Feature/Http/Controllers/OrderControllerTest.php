@@ -24,8 +24,9 @@ class OrderControllerTest extends TestCase
      */
     public function it_can_render_the_order_page(): void
     {
-        // @todo create mock order then see if it loads page
-        $this->assertTrue(true);
+        $order = Order::factory()->create();
+        $this->get(route('order.show', $order->id))
+            ->assertViewIs('order.show');
     }
 
     /**

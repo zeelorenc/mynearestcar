@@ -59,12 +59,14 @@
                                     <td>{{ $carpark->vehicles->count() }}</td>
                                     <td>{{ $carpark->created_at->toFormattedDateString() }}</td>
                                     <td>
-                                        <!-- <a href="{{ route('admin.carpark.edit', $carpark->id) }}" class="btn btn-primary">Edit</a> -->
-                                        <form method="POST" action="{{ route('admin.carpark.destroy', $carpark->id) }}" onsubmit="return confirm('Are you sure want to delete this?')">
-                                            @csrf
-                                            {{ method_field('delete') }}
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                        <div class="btn-group">
+                                            <a href="{{ route('admin.carpark.edit', $carpark->id) }}" class="btn btn-primary">Edit</a>
+                                            <form method="POST" action="{{ route('admin.carpark.destroy', $carpark->id) }}" onsubmit="return confirm('Are you sure want to delete this?')">
+                                                @csrf
+                                                {{ method_field('delete') }}
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
