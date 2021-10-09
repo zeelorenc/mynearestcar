@@ -12,7 +12,7 @@
                     <label for="name" class="col-md-12 col-form-label">{{ __('Name') }}</label>
 
                     <div class="col-md-12">
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                        <input id="name" type="text" placeholder="Your name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                         @error('name')
                             <span class="invalid-feedback" role="alert">
@@ -26,7 +26,7 @@
                     <label for="email" class="col-md-4 col-form-label">{{ __('E-Mail Address') }}</label>
 
                     <div class="col-md-12">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                        <input id="email" type="email" placeholder="john@example.com" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
 
                         @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -44,6 +44,7 @@
                                class="form-control @error('driver_licence') is-invalid @enderror"
                                name="driver_licence"
                                value="{{ old('driver_licence') }}"
+                               placeholder="XX-XX-XXXX"
                                pattern="\d{2}-\d{2}-\d{4}" required autocomplete="driver_licence">
 
                         @error('driver_licence')
