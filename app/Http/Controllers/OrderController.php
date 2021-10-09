@@ -12,12 +12,8 @@ class OrderController extends Controller
 {
     public function show(Order $order)
     {
-        $originOrigin = GoogleMapsAdapter::make(
-            Arr::get($order->user_location, 'lat'),
-            Arr::get($order->user_location, 'lng')
-        )->searchWithDetails();
         return view('order.show')
-            ->with('orderOrigin', Arr::get($originOrigin, 'details.formatted_address'))
+            ->with('orderOrigin', Arr::get($order->origin(), 'details.formatted_address'))
             ->with('order', $order);
     }
 
