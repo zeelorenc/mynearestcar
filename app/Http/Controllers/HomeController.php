@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carpark;
 use App\Models\Vehicle;
 use App\Schemas\OrderStatusSchema;
 use App\Schemas\VehicleStatusSchema;
@@ -33,6 +34,9 @@ class HomeController extends Controller
         })->first();
         return view('home')
             ->with('orders', $user->orders)
+            ->with('totalVehicles', Vehicle::count())
+            ->with('totalAvailableVehicles', Vehicle::where('status', VehicleStatusSchema::AVAILABLE)->count())
+            ->with('totalCarparks', Carpark::count())
             ->with('currentOrder', $currentOrder);
     }
 

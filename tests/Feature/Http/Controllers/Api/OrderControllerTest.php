@@ -102,7 +102,6 @@ class OrderControllerTest extends TestCase
             'vehicle_id',
             'from_date',
             'to_date',
-            'uber_pickup',
         ]]);
         $response->assertUnprocessable();
     }
