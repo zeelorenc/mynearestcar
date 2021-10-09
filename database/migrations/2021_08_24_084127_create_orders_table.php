@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedFloat('total');
             $table->string('status')->default(OrderStatusSchema::UNPAID);
             $table->string('stripe_charge_id')->nullable();
+            $table->string('stripe_refund_id')->nullable();
             $table->json('user_location')->nullable();
             $table->timestamps();
             $table
