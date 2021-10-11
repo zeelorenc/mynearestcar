@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <form action="">
-                        <table class="table table-striped table-responsive">
+                        <table class="table table-striped">
                             <tr>
                                 <td><i class="fas fa-map-pin mr-2"></i> Order Location</td>
                                 <td>{!! $orderOrigin ?? '<i>Order origin unknown</i>' !!}</td>
