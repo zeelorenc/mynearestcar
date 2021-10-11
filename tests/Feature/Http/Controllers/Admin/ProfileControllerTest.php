@@ -1,15 +1,41 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers;
+namespace Tests\Feature\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-class AdminProfileControllerTest extends TestCase
+class ProfileControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_render_the_user_profile_view(): void
+    {
+        $admin = $this->actingAsAdmin();
+        $response = $this->get(route('admin.profile.index', $admin->id));
+        $response->assertViewIs('admin.profile.index');
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_render_the_user_edit_view(): void
+    {
+        $admin = $this->actingAsAdmin();
+        $user = User::factory()->create();
+        $response = $this->get(route('admin.profile.edit', $user->id));
+        $response->assertViewIs('admin.profile.edit');
+    }
 
     /**
      * @test
@@ -77,10 +103,29 @@ class AdminProfileControllerTest extends TestCase
     {
         $admin = $this->actingAsAdmin();
 
-        $response = $this->get(route('admin.profile', $admin->id));
+        $response = $this->get(route('admin.profile.index', $admin->id));
 
         $response->assertSeeText($admin->email);
         $response->assertSeeText($admin->name);
+    }
+
+    /**
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_change_the_user_password(): void
+    {
+        $this->actingAsAdmin();
+        $user = User::factory()->create();
+
+        $response = $this->put(route('admin.profile.password', $user->id), [
+            'password' => 'NewPassword123',
+            'password_confirmation' => 'NewPassword123',
+        ]);
+
+        $response->assertSessionHasNoErrors();
+        $this->assertTrue(Hash::check('NewPassword123', $user->refresh()->password));
     }
 
     /**

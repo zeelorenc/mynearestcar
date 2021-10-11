@@ -1,5 +1,44 @@
-.vue-map-container {
-    position: absolute !important;
-    width: 100%;
-    height: calc(100vh - 55px);
+.google-map-container {
+    height: 500px;
+    position: relative;
+
+    &.map-modal {
+        height: 200px;
+    }
+
+    .vue-map-container {
+        width: 100%;
+        height: inherit;
+    }
+}
+
+.modal-backdrop {
+    opacity: 0.75;
+}
+
+.car-filter {
+    z-index: 9999;
+    width: calc(100% - 20px);
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    margin: 10px;
+
+    select {
+        max-width: 250px;
+    }
+}
+
+.btn-favourite {
+    text-decoration: none;
+    color: black;
+
+    &.active {
+        color: red;
+    }
+
+    &:hover {
+        opacity: 0.5;
+        color: red;
+    }
 }

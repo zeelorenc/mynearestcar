@@ -2,12 +2,23 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
-@import 'variables';
+//@import 'variables';
+
+// Fontawesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Add stilsa theme
+@import '~stisla-theme/dist/scss/style';
+@import '~stisla-theme/dist/scss/components';
+
 // Design
-@import 'elements/nav';
+//@import 'elements/nav';
 @import 'elements/form';
 @import 'elements/map';
+@import 'elements/sidebar';
+@import 'elements/order';
