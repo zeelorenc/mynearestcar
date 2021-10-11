@@ -12,8 +12,8 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "postinstall": "npm run production",
         "heroku-postbuild": "npm run prod",
+        "postinstall": "npm run production",
         "test": "jest"
     },
     "devDependencies": {
@@ -38,6 +38,7 @@
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@vue-stripe/vue-stripe": "^4.2.5",
         "bootstrap-vue": "^2.21.2",
+        "cross-env": "^7.0.3",
         "jest": "^27.0.6",
         "stisla-theme": "^1.0.6",
         "vue2-google-maps": "^0.10.7"
