@@ -8,52 +8,24 @@
         </div>
         <div class="section-body">
 
-            <div class="row">
-                <div class="col-12 col-lg-4">
+            <div class="jumbotron text-center">
+                <h2>{{ __('How can we help?') }}</h2>
+                <p class="lead text-muted mt-3">{{ __('To contact us, using the following information if you have any question.') }}</p>
 
-                    <div class="jumbotron text-center">
-                        <h2>{{ __('How can we help?') }}</h2>
-                        <p class="lead text-muted mt-3">{{ __('Please fill out our contact form if you have any question.') }}</p>
-                    </div>
-
-                </div>
-
-                <div class="col-12 col-lg-8">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Contact Form</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="firstname">{{ __('First Name') }}</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="First Name">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="lastname">{{ __('Last Name') }}</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Last Name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">{{ __('Email') }}</label>
-                                <input type="email" class="form-control" id="email" placeholder="What's your email?">
-                            </div>
-                            <div class="form-group">
-                                <label for="title">{{ __('Message Title') }}</label>
-                                <input type="text" class="form-control" id="title" placeholder="What's your question about?">
-                            </div>
-                            <div class="form-group">
-                                <label for="content">{{ __('Message Content') }}</label>
-                                <textarea name="content" id="content" class="form-control h-25" placeholder="What's your question?"></textarea>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-primary">{{ __('Send Message') }}</button>
-                        </div>
-                    </div>
-
-                </div>
+                <ul class="nav mx-auto row mt-5">
+                    <li class="col-12 col-md-4">
+                        <i class="fas fa-map-pin mb-3" style="font-size: 2.5rem;"></i>
+                        <p>124 La Trobe St, Melbourne VIC 3000</p>
+                    </li>
+                    <li class="col-12 col-md-4">
+                        <i class="fas fa-phone mb-3" style="font-size: 2.5rem;"></i>
+                        <p>+61 412 345 678</p>
+                    </li>
+                    <li class="col-12 col-md-4">
+                        <i class="fas fa-envelope mb-3" style="font-size: 2.5rem;"></i>
+                        <p>info@mynearestcar.com/</p>
+                    </li>
+                </ul>
             </div>
 
         </div>
