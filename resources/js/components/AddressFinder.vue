@@ -23,10 +23,11 @@
 export default {
     props: ['errorClass'],
 
-mounted(){
-console.log(this.errorClass);
-},
-    data(){
+    mounted() {
+        console.log(this.errorClass);
+    },
+
+    data() {
         return {
             latitude: null,
             longitude: null

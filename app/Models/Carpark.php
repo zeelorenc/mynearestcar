@@ -18,6 +18,11 @@ class Carpark extends Model
         'lng',
     ];
 
+    protected $casts = [
+        'lat' => 'float',
+        'lng' => 'float',
+    ];
+
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
